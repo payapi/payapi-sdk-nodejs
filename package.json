@@ -22,7 +22,8 @@
   "author": "PayApi DevTeam <devteam@payapi.io> (https://payapi.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/payapi-clients/nodejs/issues"
+    "url": "https://github.com/payapi/nodejs/issues"
   },
-  "homepage": "https://gitlab.com/payapi-clients/nodejs#README"
+  "homepage": "https://github.com/payapi/nodejs#README",
+  "dependencies": {}
 }
