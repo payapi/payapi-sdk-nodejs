@@ -1,0 +1,28 @@
+{
+  "name": "payapi-client",
+  "version": "0.0.1",
+  "description": "NodeJS client for PayApi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/payapi-clients/nodejs.git"
+  },
+  "keywords": [
+    "online",
+    "payments",
+    "fraud",
+    "detection",
+    "credit",
+    "cards",
+    "cryptocurrencies"
+  ],
+  "author": "PayApi DevTeam <devteam@payapi.io> (https://payapi.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/payapi-clients/nodejs/issues"
+  },
+  "homepage": "https://gitlab.com/payapi-clients/nodejs#README"
+}
