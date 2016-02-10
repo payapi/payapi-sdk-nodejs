@@ -25,5 +25,7 @@
     "url": "https://github.com/payapi/nodejs/issues"
   },
   "homepage": "https://github.com/payapi/nodejs#README",
-  "dependencies": {}
+  "dependencies": {
+    "promise": "^7.1.1"
+  }
 }

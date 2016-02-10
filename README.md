@@ -5,6 +5,10 @@ A node.js client library for https://payapi.io/. Runtime depends on
 * https://www.npmjs.com/package/request-promise
 * https://www.npmjs.com/package/jwt-simple
 
+## Promise
+
+The client uses Promises only.
+
 ## Quick PoC
 
 package.json
