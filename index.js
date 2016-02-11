@@ -1,6 +1,7 @@
 'use strict';
 var jwt = require('jwt-simple');
 var Promise = require('promise');
+var rp = require('request-promise');
 var apiKey;
 var secret;
 var payment;
@@ -17,16 +18,18 @@ module.exports = function PayapiClient(params) {
     console.log(key + ':' + JSON.stringify(value, null, 2));
   }
 
-  this.apiKey = params.apiKey;
-  this.secret = params.secret;
-  this.payment = params.payment;
-  this.consumer = params.consumer;
-  this.delivery = params.delivery;
-  this.payment = params.payment;
-  this.products = params.products;
-  this.callbacks = params.callbacks;
-  this.authenticationToken = params.authenticationToken;
-  this.paymentToken = params.paymentToken;
+  if(params) {
+    this.apiKey = params.apiKey;
+    this.secret = params.secret;
+    this.payment = params.payment;
+    this.consumer = params.consumer;
+    this.delivery = params.delivery;
+    this.payment = params.payment;
+    this.products = params.products;
+    this.callbacks = params.callbacks;
+    this.authenticationToken = params.authenticationToken;
+    this.paymentToken = params.paymentToken;
+  }
 
   function validateApiKey(params) {
     return new Promise(function(resolve, reject) {
@@ -101,7 +104,18 @@ module.exports = function PayapiClient(params) {
 
   function doRestCall(params) {
     return new Promise(function(resolve, reject) {
-      resolve(params);
+      console.log('doRestCall');
+      print('authenticationToken', params.authenticationToken);
+      print('paymentToken', params.paymentToken);
+      rp({
+        method: 'POST',
+        uri: 'http://localhost:3000/v1/api/authorized/payments',
+        body: {
+          authenticationToken: params.authenticationToken,
+          paymentToken: params.paymentToken
+        },
+        json: true
+      }).then(resolve(params));
     });
   }
 
@@ -112,12 +126,9 @@ module.exports = function PayapiClient(params) {
   }
 
   return {
-    call: function(token) {
-      if(token) {
-        var params = {paymentToken: token};
-        return validateOrCreateToken(params)
-          .then(doRestCall)
-          .catch(handleError);
+    call: function(params) {
+      if(params) {
+        return doRestCall(params).catch(handleError);
       } else {
         return validateApiKey(params)
           .then(validateSecret)
