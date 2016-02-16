@@ -9,6 +9,7 @@ var consumer;
 var delivery;
 var payment;
 var callbacks;
+var order;
 var paymentToken;
 var authenticationToken;
 
@@ -26,6 +27,7 @@ module.exports = function PayapiClient(params) {
     this.delivery = params.delivery;
     this.payment = params.payment;
     this.products = params.products;
+    this.order = params.order;
     this.callbacks = params.callbacks;
     this.authenticationToken = params.authenticationToken;
     this.paymentToken = params.paymentToken;
@@ -53,6 +55,9 @@ module.exports = function PayapiClient(params) {
     return new Promise(function(resolve, reject) {
       if(!payment) {
         reject('payment must not be empty');
+      }
+      if(!payment.ip) {
+        reject('payment.ip must not be empty');
       }
       resolve(params);
     });
@@ -92,6 +97,7 @@ module.exports = function PayapiClient(params) {
           payment: params.payment,
           consumer: params.consumer,
           delivery: params.delivery,
+          order: params.order,
           products: params.products,
           payment: params.payment,
           callbacks: params.callbacks
