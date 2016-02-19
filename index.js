@@ -121,7 +121,11 @@ module.exports = function PayapiClient(params) {
           paymentToken: params.paymentToken
         },
         json: true
-      }).then(resolve(params));
+      }).then(function(params) {
+        resolve(params);
+      }).catch(function(err) {
+        reject(err);
+      });
     });
   }
 
