@@ -25,8 +25,8 @@
         postalCode: "00100",
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
-        country: "",
-        locale: ""
+        country: "Finland",
+        locale: "en-US"
       },
     };
   });
@@ -194,6 +194,66 @@
           expect(validationError.message).to.equal("Invalid consumer city");
           expect(validationError.translationKey).to.equal("invalid.consumer.city");
           expect(validationError.value).to.equal(params.consumer.city);
+        });
+      });
+
+      describe("State or province", function() {
+        it("should succeed when left empty", function() {
+          delete params.consumer.stateOrProvince;
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should fail with stateOrProvince longer than 53 characters", function() {
+          params.consumer.stateOrProvince = "123456789012345678901234567890123456789012345678901234";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer state or province");
+          expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
+          expect(validationError.value).to.equal(params.consumer.stateOrProvince);
+        });
+      });
+
+      describe("Country", function() {
+        it("should fail when left empty", function() {
+          delete params.consumer.country;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer country");
+          expect(validationError.translationKey).to.equal("invalid.consumer.country");
+          expect(validationError.value).to.equal(params.consumer.country);
+        });
+        it("should fail with country longer than 53 characters", function() {
+          params.consumer.country = "123456789012345678901234567890123456789012345678901234";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer country");
+          expect(validationError.translationKey).to.equal("invalid.consumer.country");
+          expect(validationError.value).to.equal(params.consumer.country);
+        });
+      });
+
+      describe("Locale", function() {
+        it("should fall back to en-US when left empty", function() {
+          delete params.consumer.locale;
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+    });
+
+    describe("Order", function() {
+      describe("xxx", function() {
+        it("should succeed with ip 8.8.8.8", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+
+        it("should fail with ip ::1:127.0.0.1.ö", function() {
+          params.payment.ip = "::1:127.0.0.1.ö";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment IP address");
+          expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+          expect(validationError.value).to.equal(params.payment.ip);
         });
       });
     });
