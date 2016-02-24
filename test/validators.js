@@ -14,10 +14,10 @@
     params = {
       payment: {
         ip: "8.8.8.8",
+        cardHolderEmail: 'nosuchemailaddress@payapi.io'
       },
       consumer: {
         name: "consumer name",
-        email: "nosuchemailaddress@payapi.io",
         locale: "en-US",
         co: "Care of someone",
         streetAddress: "Mannerheimintie 12",
@@ -33,6 +33,23 @@
 
   describe("InputDataValidator", function() {
     describe("Payment", function() {
+      describe("Email address", function() {
+        it("should succeed with email nosuchemailaddress@payapi.io", function() {
+          params.payment.cardHolderEmail = "nosuchemailaddress@payapi.io";
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+
+        it("should fail with email diiba", function() {
+          params.payment.cardHolderEmail = "diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment card holder email");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
+          expect(validationError.value).to.equal(params.payment.cardHolderEmail);
+        });
+      });
+
       describe("IP address", function() {
         it("should succeed with ip 8.8.8.8", function() {
           return expect(
@@ -68,6 +85,19 @@
     describe("Consumer", function() {
 
       describe("Name", function() {
+        it("should succeed with a western name", function() {
+          params.consumer.name = "Matti Meikäläinen";
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should succeed with a chinese name", function() {
+          params.consumer.name = "王 秀英";
+          params.consumer.locale = "zh_CN";
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
         it("should fail with empty name", function() {
           delete params.consumer.name;
           var validationError = new InputDataValidator(params).validate()[0];
@@ -75,13 +105,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
           expect(validationError.value).to.equal(params.consumer.name);
         });
-        it("should fail with non alphanumeric name", function() {
-          params.consumer.name = "### diiba";
-          var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer name");
-          expect(validationError.translationKey).to.equal("invalid.consumer.name");
-          expect(validationError.value).to.equal(params.consumer.name);
-        });
+        //it("should fail with <", function() {
+        //  params.consumer.name = "< diiba";
+        //  var validationError = new InputDataValidator(params).validate()[0];
+        //  expect(validationError.message).to.equal("Invalid consumer name");
+        //  expect(validationError.translationKey).to.equal("invalid.consumer.name");
+        //  expect(validationError.value).to.equal(params.consumer.name);
+        //});
         it("should fail with name shorter than 2 characters", function() {
           params.consumer.name = "x";
           var validationError = new InputDataValidator(params).validate()[0];
@@ -95,23 +125,6 @@
           expect(validationError.message).to.equal("Invalid consumer name");
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
           expect(validationError.value).to.equal(params.consumer.name);
-        });
-      });
-
-      describe("Email address", function() {
-        it("should succeed with email nosuchemailaddress@payapi.io", function() {
-          params.consumer.email = "nosuchemailaddress@payapi.io";
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-
-        it("should fail with email diiba", function() {
-          params.consumer.email = "diiba";
-          var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer email address");
-          expect(validationError.translationKey).to.equal("invalid.consumer.email.address");
-          expect(validationError.value).to.equal(params.consumer.email);
         });
       });
 
@@ -257,5 +270,88 @@
         });
       });
     });
+
+    describe("Full payload", function() {
+      var fullPayload =
+        {
+          "payment": {
+            "cardHolderEmail": "marko@payapi.io",
+            "cardHolderName": "Marko",
+            "paymentMethod": "mastercard",
+            "creditCardNumber": "4242 4242 4242 4242",
+            "ccv": "1234",
+            "expiresMonth": "2",
+            "expiresYear": "2016",
+            "locale": "en-US",
+            "ip": "::ffff:127.0.0.1"
+          },
+          "consumer": {
+            "name": "Marko",
+            "co": "",
+            "streetAddress": "Calle Andalucia 32",
+            "streetAddress2": "",
+            "postalCode": "90210",
+            "city": "Fuengirola",
+            "stateOrProvince": "",
+            "country": "Spain"
+          },
+          "order": {
+            "sumInCentsIncVat": 322,
+            "sumInCentsExcVat": 300,
+            "vatInCents": 22,
+            "currency": "EUR",
+            "referenceId": "ref123",
+            "sumIncludingVat": "€3.22",
+            "sumExcludingVat": "€3.00",
+            "vat": "€0.22"
+          },
+          "products": [
+            {
+              "id": "bbc123456",
+              "quantity": 1,
+              "title": "Black bling cap",
+              "description": "Flashy fine cap",
+              "imageUrl": "https://blingcaps.org/black_bling_cap.png",
+              "category": "Caps and hats",
+              "priceInCentsIncVat": 122,
+              "priceInCentsExcVat": 100,
+              "vatInCents": 22,
+              "vatPercentage": "22%",
+              "priceIncludingVat": "€1.22",
+              "priceExcludingVat": "€1.00",
+              "vat": "€0.22"
+            },
+            {
+              "id": "pbc123456",
+              "quantity": 1,
+              "title": "Pink bling cap",
+              "description": "Flashy fine cap",
+              "imageUrl": "https://blingcaps.org/pink_bling_cap.png",
+              "category": "Caps and hats",
+              "priceInCentsIncVat": 222,
+              "priceInCentsExcVat": 200,
+              "vatInCents": 22,
+              "vatPercentage": "22%",
+              "priceIncludingVat": "€2.22",
+              "priceExcludingVat": "€2.00",
+              "vat": "€0.22"
+            }
+          ],
+          "callbacks": {
+            "success": "https://api.multimerchantshop.io/payments/success",
+            "failed": "https://api.multimerchantshop.io/payments/failed",
+            "chargeback": "https://api.multimerchantshop.io/payments/chargeback"
+          }
+        };
+
+
+      it("should succeed", function() {
+        return expect(
+            new InputDataValidator(fullPayload).validate()
+            ).to.be.empty;
+      });
+    });
+
+
   });
 }());
