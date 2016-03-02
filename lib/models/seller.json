@@ -1,7 +1,7 @@
 {
   "companyName": "",
-  "addressLine1": "",
-  "addressLine2": "",
+  "streetAddress": "",
+  "streetAddress2": "",
   "postalCode": "",
   "city": "",
   "country": "",

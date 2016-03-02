@@ -102,6 +102,61 @@
           ).to.be.empty;
         });
       });
+
+      describe("cardHolderName", function() {
+        it("should ", function() {
+          console.log("TBD cardHolderName");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("paymentMethod", function() {
+        it("should ", function() {
+          console.log("TBD paymentMethod");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("creditCardNumber", function() {
+        it("should ", function() {
+          console.log("TBD creditCardNumber");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("ccv", function() {
+        it("should ", function() {
+          console.log("TBD ccv");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("expiresMonth", function() {
+        it("should ", function() {
+          console.log("TBD expiresMonth");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("expiresYear", function() {
+        it("should ", function() {
+          console.log("TBD expiresYear");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
     });
 
     describe("Consumer", function() {
@@ -453,7 +508,7 @@
         it("should fail when longer than 255 characters", function() {
           params.order.referenceId = new Array(257).join('x');
           var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid reference ID");
+          expect(validationError.message).to.equal("Invalid order reference ID");
           expect(validationError.translationKey).to.equal("invalid.order.referenceId");
           expect(validationError.value).to.equal(params.order.referenceId);
         });
@@ -461,11 +516,84 @@
         it("should fail when not alphanumeric", function() {
           params.order.referenceId = "!";
           var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid reference ID");
+          expect(validationError.message).to.equal("Invalid order reference ID");
           expect(validationError.translationKey).to.equal("invalid.order.referenceId");
           expect(validationError.value).to.equal(params.order.referenceId);
         });
 
+        it("should fail with blacklisted characters", function() {
+          params.order.referenceId = "<iiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid order reference ID");
+          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
+          expect(validationError.value).to.equal(params.order.referenceId);
+        });
+
+      });
+    });
+
+    describe("Seller", function() {
+      describe("companyName", function() {
+        it("should ", function() {
+          console.log("TBD companyName");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("streetAddress", function() {
+        it("should ", function() {
+          console.log("TBD streetAddress");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("streetAddress2", function() {
+        it("should ", function() {
+          console.log("TBD streetAddress2");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("postalCode", function() {
+        it("should ", function() {
+          console.log("TBD postalCode");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("city", function() {
+        it("should ", function() {
+          console.log("TBD city");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("country", function() {
+        it("should ", function() {
+          console.log("TBD country");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+      });
+
+      describe("businessVatId", function() {
+        it("should ", function() {
+          console.log("TBD businessVatId");
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
       });
     });
 
