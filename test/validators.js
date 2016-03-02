@@ -18,6 +18,7 @@
         cardHolderName: "card holder name",
         paymentMethod: "visa",
         creditCardNumber: "4242 4242 4242 4242",
+        ccv: "123"
       },
       consumer: {
         name: "consumer name",
@@ -183,11 +184,32 @@
       });
 
       describe("ccv", function() {
-        it("should ", function() {
-          console.log("TBD ccv");
+        it("should be valid with a valid ccv number of 3 integers", function() {
+          // note: american express: 4 digits, everyone else: 3 digits
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
+        });
+        it("should fail with an invalid ccv number of 2 integers", function() {
+          params.payment.ccv = "12";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+          expect(validationError.value).to.equal(params.payment.ccv);
+        });
+        it("should fail with an invalid ccv number of 5 integers", function() {
+          params.payment.ccv = "12345";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+          expect(validationError.value).to.equal(params.payment.ccv);
+        });
+        it("should fail with an invalid ccv other than integers", function() {
+          params.payment.ccv = "12a";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+          expect(validationError.value).to.equal(params.payment.ccv);
         });
       });
 
