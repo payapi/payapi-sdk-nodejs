@@ -187,6 +187,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
           expect(validationError.value).to.equal(params.consumer.streetAddress);
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.streetAddress = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer street address");
+          expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+          expect(validationError.value).to.equal(params.consumer.streetAddress);
+        });
       });
 
       describe("Street address 2", function() {
