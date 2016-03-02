@@ -16,6 +16,7 @@
         ip: "8.8.8.8",
         cardHolderEmail: "nosuchemailaddress@payapi.io",
         cardHolderName: "card holder name",
+        paymentMethod: "visa",
       },
       consumer: {
         name: "consumer name",
@@ -149,11 +150,18 @@
       });
 
       describe("paymentMethod", function() {
-        it("should ", function() {
-          console.log("TBD paymentMethod");
+        it("should be valid with ascii characters", function() {
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
+        });
+
+        it("should fail with non-ascii characters", function() {
+          params.payment.paymentMethod = "visa2";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment method");
+          expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
+          expect(validationError.value).to.equal(params.payment.paymentMethod);
         });
       });
 
