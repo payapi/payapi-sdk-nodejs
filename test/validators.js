@@ -28,6 +28,9 @@
         country: "Finland",
         locale: "en-US"
       },
+      order: {
+        sumInCentsIncVat: 1
+      }
     };
   });
 
@@ -254,20 +257,37 @@
     });
 
     describe("Order", function() {
-      describe("xxx", function() {
-        it("should succeed with ip 8.8.8.8", function() {
+      describe("sumInCentsIncVat", function() {
+        it("should succeed with integer 1", function() {
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
         });
 
-        it("should fail with ip ::1:127.0.0.1.ö", function() {
-          params.payment.ip = "::1:127.0.0.1.ö";
+        it("should fail with fractional 0.1", function() {
+          params.order.sumInCentsIncVat = 0.1;
           var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid payment IP address");
-          expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
-          expect(validationError.value).to.equal(params.payment.ip);
+          expect(validationError.message).to.equal("Invalid sum in cents including VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsIncVat");
+          expect(validationError.value).to.equal(params.order.sumInCentsIncVat);
         });
+
+        it("should fail with negative 1", function() {
+          params.order.sumInCentsIncVat = -1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid sum in cents including VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsIncVat");
+          expect(validationError.value).to.equal(params.order.sumInCentsIncVat);
+        });
+
+        it("should fail with Number.MAX_SAFE_INTEGER + 1", function() {
+          params.order.sumInCentsIncVat = Number.MAX_SAFE_INTEGER + 1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid sum in cents including VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsIncVat");
+          expect(validationError.value).to.equal(params.order.sumInCentsIncVat);
+        });
+
       });
     });
 

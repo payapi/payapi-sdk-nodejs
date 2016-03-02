@@ -1,0 +1,18 @@
+"rules" : {
+  "quotes": [1, "double"],
+  "semi": [1, "always"],
+  "indent": [2, 2, {"SwitchCase": 1}],
+  "eqeqeq": [2, "smart"],
+  "no-multi-str": 1,
+  "max-depth":[1, 4],
+  "camelcase": [1, {"properties": "always"}],
+  "max-statements": [1, 30, {"ignoreTopLevelFunctions": true}],
+  "semi-spacing": [1, {"before": false, "after": true}],
+  "space-before-blocks": [1, "always"],
+  "no-trailing-spaces": 2,
+  "no-mixed-spaces-and-tabs": [2, "smart-tabs"],
+  "max-len": [2, 120, 4, {"ignoreUrls": true, "ignoreComments": true}],
+  "curly": 1,
+  "new-cap": 1,
+  "no-eval": 2
+}

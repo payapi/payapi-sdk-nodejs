@@ -5,6 +5,7 @@ var nodemon = require('gulp-nodemon');
 var stubby = require('gulp-stubby-server');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
+var eslint = require('gulp-eslint');
 
 const fs = require('fs');
 
@@ -30,8 +31,14 @@ gulp.task('hint', function () {
   });
 });
 
+gulp.task('lint', function () {
+  return gulp.src(['lib/**/*.js']).pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
+});
+
 gulp.task('watch', function() {
-  gulp.watch(['lib/**', 'test/**'], ['mocha','hint']);
+  gulp.watch(['lib/**', 'test/**'], ['mocha','hint','lint']);
 });
 
 // TODO: configure for integration tests

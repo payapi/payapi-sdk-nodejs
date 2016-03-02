@@ -1,3 +1,9 @@
 {
-  "quotmark": "double"
+  "quotmark": "double",
+  "strict": true, // Require `use strict` pragma in every file.
+  "unused": false, // Warn unused variables.
+  "latedef": true, // Prohibit variable use before definition.
+  "camelcase": true, // Permit only camelcase for `var` and `object indexes`.
+  "node": true, // Enable globals available when code is running inside of the NodeJS runtime environment.
+  "noempty": true // Prohibit use of empty blocks.
 }
