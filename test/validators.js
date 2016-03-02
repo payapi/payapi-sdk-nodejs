@@ -29,7 +29,8 @@
         locale: "en-US"
       },
       order: {
-        sumInCentsIncVat: 1
+        sumInCentsIncVat: 1,
+        sumInCentsExcVat: 1,
       }
     };
   });
@@ -286,6 +287,39 @@
           expect(validationError.message).to.equal("Invalid sum in cents including VAT");
           expect(validationError.translationKey).to.equal("invalid.order.sumInCentsIncVat");
           expect(validationError.value).to.equal(params.order.sumInCentsIncVat);
+        });
+
+      });
+
+      describe("sumInCentsExcVat", function() {
+        it("should succeed with integer 1", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+
+        it("should fail with fractional 0.1", function() {
+          params.order.sumInCentsExcVat = 0.1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid sum in cents excluding VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsExcVat");
+          expect(validationError.value).to.equal(params.order.sumInCentsExcVat);
+        });
+
+        it("should fail with negative 1", function() {
+          params.order.sumInCentsExcVat = -1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid sum in cents excluding VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsExcVat");
+          expect(validationError.value).to.equal(params.order.sumInCentsExcVat);
+        });
+
+        it("should fail with Number.MAX_SAFE_INTEGER + 1", function() {
+          params.order.sumInCentsExcVat = Number.MAX_SAFE_INTEGER + 1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid sum in cents excluding VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsExcVat");
+          expect(validationError.value).to.equal(params.order.sumInCentsExcVat);
         });
 
       });
