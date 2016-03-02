@@ -18,7 +18,8 @@
         cardHolderName: "card holder name",
         paymentMethod: "visa",
         creditCardNumber: "4242 4242 4242 4242",
-        ccv: "123"
+        ccv: "123",
+        expiresMonth: "3"
       },
       consumer: {
         name: "consumer name",
@@ -214,11 +215,24 @@
       });
 
       describe("expiresMonth", function() {
-        it("should ", function() {
-          console.log("TBD expiresMonth");
+        it("should be valid with a valid month", function() {
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
+        });
+        it("should be invalid with a zero month", function() {
+          params.payment.expiresMonth = "0";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expires month");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+          expect(validationError.value).to.equal(params.payment.expiresMonth);
+        });
+        it("should be invalid with a month larger than 12", function() {
+          params.payment.expiresMonth = "13";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expires month");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+          expect(validationError.value).to.equal(params.payment.expiresMonth);
         });
       });
 
