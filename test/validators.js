@@ -258,6 +258,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.city");
           expect(validationError.value).to.equal(params.consumer.city);
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.city = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer city");
+          expect(validationError.translationKey).to.equal("invalid.consumer.city");
+          expect(validationError.value).to.equal(params.consumer.city);
+        });
       });
 
       describe("State or province", function() {
@@ -269,6 +276,13 @@
         });
         it("should fail with stateOrProvince longer than 53 characters", function() {
           params.consumer.stateOrProvince = "123456789012345678901234567890123456789012345678901234";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer state or province");
+          expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
+          expect(validationError.value).to.equal(params.consumer.stateOrProvince);
+        });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.stateOrProvince = "< diiba";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer state or province");
           expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
