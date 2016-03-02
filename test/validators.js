@@ -234,6 +234,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
           expect(validationError.value).to.equal(params.consumer.postalCode);
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.postalCode = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer postal code");
+          expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
+          expect(validationError.value).to.equal(params.consumer.postalCode);
+        });
       });
 
       describe("City", function() {
