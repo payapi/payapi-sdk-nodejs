@@ -163,6 +163,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.co");
           expect(validationError.value).to.equal(params.consumer.co);
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.co = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer c/o");
+          expect(validationError.translationKey).to.equal("invalid.consumer.co");
+          expect(validationError.value).to.equal(params.consumer.co);
+        });
       });
 
       describe("Street address", function() {
