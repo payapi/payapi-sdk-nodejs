@@ -321,6 +321,13 @@
             new InputDataValidator(params).validate()
           ).to.be.empty;
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.locale = "<iiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer locale");
+          expect(validationError.translationKey).to.equal("invalid.consumer.locale");
+          expect(validationError.value).to.equal(params.consumer.locale);
+        });
       });
     });
 
