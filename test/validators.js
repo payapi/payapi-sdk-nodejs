@@ -54,6 +54,14 @@
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
           expect(validationError.value).to.equal(params.payment.cardHolderEmail);
         });
+
+        it("should fail with blacklisted characters", function() {
+          params.payment.cardHolderEmail = "diiba;@example.com";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment card holder email");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
+          expect(validationError.value).to.equal(params.payment.cardHolderEmail);
+        });
       });
 
       describe("IP address", function() {
@@ -73,6 +81,14 @@
 
         it("should fail with ip :", function() {
           params.payment.ip = ":";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment IP address");
+          expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+          expect(validationError.value).to.equal(params.payment.ip);
+        });
+
+        it("should fail with ip that contains blacklisted characters", function() {
+          params.payment.ip = "::1;:127.0.0.1";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment IP address");
           expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
@@ -111,13 +127,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
           expect(validationError.value).to.equal(params.consumer.name);
         });
-        //it("should fail with <", function() {
-        //  params.consumer.name = "< diiba";
-        //  var validationError = new InputDataValidator(params).validate()[0];
-        //  expect(validationError.message).to.equal("Invalid consumer name");
-        //  expect(validationError.translationKey).to.equal("invalid.consumer.name");
-        //  expect(validationError.value).to.equal(params.consumer.name);
-        //});
+        it("should fail with blacklisted characters", function() {
+          params.consumer.name = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer name");
+          expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.value).to.equal(params.consumer.name);
+        });
         it("should fail with name shorter than 2 characters", function() {
           params.consumer.name = "x";
           var validationError = new InputDataValidator(params).validate()[0];
