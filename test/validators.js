@@ -32,6 +32,7 @@
         sumInCentsIncVat: 1,
         sumInCentsExcVat: 1,
         vatInCents: 1,
+        referenceId: 'x'
       }
     };
   });
@@ -353,6 +354,22 @@
           expect(validationError.message).to.equal("Invalid VAT in cents excluding VAT");
           expect(validationError.translationKey).to.equal("invalid.order.vatInCents");
           expect(validationError.value).to.equal(params.order.vatInCents);
+        });
+      });
+
+      describe("referenceId", function() {
+        it("should succeed with x", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+
+        it("should fail when longer than 255 characters", function() {
+          params.order.referenceId = new Array(257).join('x');
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid reference ID");
+          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
+          expect(validationError.value).to.equal(params.order.referenceId);
         });
 
       });
