@@ -305,6 +305,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.country");
           expect(validationError.value).to.equal(params.consumer.country);
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.country = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer country");
+          expect(validationError.translationKey).to.equal("invalid.consumer.country");
+          expect(validationError.value).to.equal(params.consumer.country);
+        });
       });
 
       describe("Locale", function() {
