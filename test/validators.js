@@ -14,7 +14,8 @@
     params = {
       payment: {
         ip: "8.8.8.8",
-        cardHolderEmail: 'nosuchemailaddress@payapi.io'
+        cardHolderEmail: "nosuchemailaddress@payapi.io",
+        cardHolderName: "card holder name",
       },
       consumer: {
         name: "consumer name",
@@ -104,11 +105,46 @@
       });
 
       describe("cardHolderName", function() {
-        it("should ", function() {
-          console.log("TBD cardHolderName");
+        it("should succeed with a western cardHolderName", function() {
+          params.payment.cardHolderName = "Matti Meikäläinen";
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
+        });
+        it("should succeed with a chinese cardHolderName", function() {
+          params.payment.cardHolderName = "王 秀英";
+          params.payment.locale = "zh_CN";
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should fail with empty cardHolderName", function() {
+          delete params.payment.cardHolderName;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.value).to.equal(params.payment.cardHolderName);
+        });
+        it("should fail with blacklisted characters", function() {
+          params.payment.cardHolderName = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.value).to.equal(params.payment.cardHolderName);
+        });
+        it("should fail with cardHolderName shorter than 2 characters", function() {
+          params.payment.cardHolderName = "x";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.value).to.equal(params.payment.cardHolderName);
+        });
+        it("should fail with cardHolderName longer than 53 characters", function() {
+          params.payment.cardHolderName = "Bithurasdinhournimlousgon Kleslinfarjilpourginjdesher2";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.value).to.equal(params.payment.cardHolderName);
         });
       });
 
