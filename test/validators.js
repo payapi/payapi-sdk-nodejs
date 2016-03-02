@@ -372,6 +372,14 @@
           expect(validationError.value).to.equal(params.order.referenceId);
         });
 
+        it("should fail when not alphanumeric", function() {
+          params.order.referenceId = "!";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid reference ID");
+          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
+          expect(validationError.value).to.equal(params.order.referenceId);
+        });
+
       });
     });
 
