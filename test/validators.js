@@ -328,6 +328,20 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal(params.consumer.locale);
         });
+        it("should fail when being under 5 characters long", function() {
+          params.consumer.locale = "fi-F";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer locale");
+          expect(validationError.translationKey).to.equal("invalid.consumer.locale");
+          expect(validationError.value).to.equal(params.consumer.locale);
+        });
+        it("should fail when being over 10 characters long", function() {
+          params.consumer.locale = "12345678901";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer locale");
+          expect(validationError.translationKey).to.equal("invalid.consumer.locale");
+          expect(validationError.value).to.equal(params.consumer.locale);
+        });
       });
     });
 
