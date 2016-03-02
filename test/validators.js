@@ -210,6 +210,13 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
           expect(validationError.value).to.equal(params.consumer.streetAddress2);
         });
+        it("should fail with blacklisted characters", function() {
+          params.consumer.streetAddress2 = "< diiba";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer street address 2");
+          expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
+          expect(validationError.value).to.equal(params.consumer.streetAddress2);
+        });
       });
 
       describe("Postal code", function() {
