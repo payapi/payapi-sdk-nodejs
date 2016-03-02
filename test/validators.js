@@ -19,7 +19,8 @@
         paymentMethod: "visa",
         creditCardNumber: "4242 4242 4242 4242",
         ccv: "123",
-        expiresMonth: "3"
+        expiresMonth: moment().month() + "",
+        expiresYear: moment().year() + ""
       },
       consumer: {
         name: "consumer name",
@@ -233,6 +234,21 @@
           expect(validationError.message).to.equal("Invalid payment expires month");
           expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
           expect(validationError.value).to.equal(params.payment.expiresMonth);
+        });
+      });
+
+      describe("expiresYear", function() {
+        it("should be valid with a valid year", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should be invalid with a year smaller than current", function() {
+          params.payment.expiresYear = moment().year() - 1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expires year");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+          expect(validationError.value).to.equal(params.payment.expiresYear);
         });
       });
 
