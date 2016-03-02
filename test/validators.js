@@ -17,6 +17,7 @@
         cardHolderEmail: "nosuchemailaddress@payapi.io",
         cardHolderName: "card holder name",
         paymentMethod: "visa",
+        creditCardNumber: "4242 4242 4242 4242",
       },
       consumer: {
         name: "consumer name",
@@ -150,13 +151,13 @@
       });
 
       describe("paymentMethod", function() {
-        it("should be valid with ascii characters", function() {
+        it("should be valid with alpha characters", function() {
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
         });
 
-        it("should fail with non-ascii characters", function() {
+        it("should fail with non-alpha characters", function() {
           params.payment.paymentMethod = "visa2";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment method");
@@ -166,11 +167,18 @@
       });
 
       describe("creditCardNumber", function() {
-        it("should ", function() {
-          console.log("TBD creditCardNumber");
+        it("should be valid with a valid cc number of 16 integers", function() {
           return expect(
             new InputDataValidator(params).validate()
           ).to.be.empty;
+        });
+
+        it("should fail with an invalid cc number of 15 integers", function() {
+          params.payment.creditCardNumber = "123456789012345";
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment credit card number");
+          expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
+          expect(validationError.value).to.equal(params.payment.creditCardNumber);
         });
       });
 
@@ -204,7 +212,6 @@
     });
 
     describe("Consumer", function() {
-
       describe("Name", function() {
         it("should succeed with a western name", function() {
           params.consumer.name = "Matti Meikäläinen";
