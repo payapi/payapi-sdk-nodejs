@@ -638,70 +638,70 @@
       });
     });
 
-    describe("Seller", function() {
-      describe("companyName", function() {
-        it("should ", function() {
-          console.log("TBD companyName");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-
-      describe("streetAddress", function() {
-        it("should ", function() {
-          console.log("TBD streetAddress");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-
-      describe("streetAddress2", function() {
-        it("should ", function() {
-          console.log("TBD streetAddress2");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-
-      describe("postalCode", function() {
-        it("should ", function() {
-          console.log("TBD postalCode");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-
-      describe("city", function() {
-        it("should ", function() {
-          console.log("TBD city");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-
-      describe("country", function() {
-        it("should ", function() {
-          console.log("TBD country");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-
-      describe("businessVatId", function() {
-        it("should ", function() {
-          console.log("TBD businessVatId");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
-        });
-      });
-    });
+//    describe("Seller", function() {
+//      describe("companyName", function() {
+//        it("should ", function() {
+//          console.log("TBD companyName");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//
+//      describe("streetAddress", function() {
+//        it("should ", function() {
+//          console.log("TBD streetAddress");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//
+//      describe("streetAddress2", function() {
+//        it("should ", function() {
+//          console.log("TBD streetAddress2");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//
+//      describe("postalCode", function() {
+//        it("should ", function() {
+//          console.log("TBD postalCode");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//
+//      describe("city", function() {
+//        it("should ", function() {
+//          console.log("TBD city");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//
+//      describe("country", function() {
+//        it("should ", function() {
+//          console.log("TBD country");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//
+//      describe("businessVatId", function() {
+//        it("should ", function() {
+//          console.log("TBD businessVatId");
+//          return expect(
+//            new InputDataValidator(params).validate()
+//          ).to.be.empty;
+//        });
+//      });
+//    });
 
     describe("Full payload", function() {
       var fullPayload =
