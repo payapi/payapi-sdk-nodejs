@@ -19,7 +19,7 @@
         paymentMethod: "visa",
         creditCardNumber: "4242 4242 4242 4242",
         ccv: "123",
-        expiresMonth: moment().month() + "",
+        expiresMonth: moment().month() + 1 + "",
         expiresYear: moment().year() + ""
       },
       consumer: {
@@ -252,12 +252,15 @@
         });
       });
 
-      describe("expiresYear", function() {
-        it("should ", function() {
-          console.log("TBD expiresYear");
-          return expect(
-            new InputDataValidator(params).validate()
-          ).to.be.empty;
+      describe("Expiration month and year", function() {
+        it("should be current month or later", function() {
+          var expiredDate = moment().subtract(1, 'month');
+          params.payment.expiresMonth = expiredDate.month() + 1;
+          params.payment.expiresYear = expiredDate.year();
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Card has expired");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
+          expect(validationError.value).to.equal(params.payment.expiresMonth + "/" + params.payment.expiresYear);
         });
       });
 
@@ -710,7 +713,7 @@
             "creditCardNumber": "4242 4242 4242 4242",
             "ccv": "1234",
             "expiresMonth": "2",
-            "expiresYear": "2016",
+            "expiresYear": "3016",
             "locale": "en-US",
             "ip": "::ffff:127.0.0.1"
           },
