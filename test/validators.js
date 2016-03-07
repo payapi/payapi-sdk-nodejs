@@ -7,7 +7,7 @@
   const expect = chai.expect;
   const moment = require("moment");
   chai.use(chaiAsPromised);
-  var InputDataValidator = require("../lib/validators").InputDataValidator;
+  var InputDataValidator = require("../lib/validators");
   var params;
 
   beforeEach(function() {
