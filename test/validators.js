@@ -58,6 +58,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment card holder email");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
+          expect(validationError.elementName).to.equal("payment[cardHolderEmail]");
           expect(validationError.value).to.equal(params.payment.cardHolderEmail);
         });
 
@@ -66,6 +67,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment card holder email");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
+          expect(validationError.elementName).to.equal("payment[cardHolderEmail]");
           expect(validationError.value).to.equal(params.payment.cardHolderEmail);
         });
       });
@@ -82,6 +84,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment IP address");
           expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+          expect(validationError.elementName).to.equal("payment[ip]");
           expect(validationError.value).to.equal(params.payment.ip);
         });
 
@@ -90,6 +93,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment IP address");
           expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+          expect(validationError.elementName).to.equal("payment[ip]");
           expect(validationError.value).to.equal(params.payment.ip);
         });
 
@@ -98,6 +102,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment IP address");
           expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+          expect(validationError.elementName).to.equal("payment[ip]");
           expect(validationError.value).to.equal(params.payment.ip);
         });
 
@@ -128,12 +133,14 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment cardHolderName");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.elementName).to.equal("payment[cardHolderName]");
           expect(validationError.value).to.equal(params.payment.cardHolderName);
         });
         it("should fail with blacklisted characters", function() {
           params.payment.cardHolderName = "< diiba";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.elementName).to.equal("payment[cardHolderName]");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
           expect(validationError.value).to.equal(params.payment.cardHolderName);
         });
@@ -141,6 +148,7 @@
           params.payment.cardHolderName = "x";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.elementName).to.equal("payment[cardHolderName]");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
           expect(validationError.value).to.equal(params.payment.cardHolderName);
         });
@@ -148,6 +156,7 @@
           params.payment.cardHolderName = "Bithurasdinhournimlousgon Kleslinfarjilpourginjdesher2";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.elementName).to.equal("payment[cardHolderName]");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
           expect(validationError.value).to.equal(params.payment.cardHolderName);
         });
@@ -164,6 +173,7 @@
           params.payment.paymentMethod = "visa2";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment method");
+          expect(validationError.elementName).to.equal("payment[paymentMethod]");
           expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
           expect(validationError.value).to.equal(params.payment.paymentMethod);
         });
@@ -180,6 +190,7 @@
           params.payment.creditCardNumber = "123456789012345";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment credit card number");
+          expect(validationError.elementName).to.equal("payment[creditCardNumber]");
           expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
           expect(validationError.value).to.equal(params.payment.creditCardNumber);
         });
@@ -196,6 +207,7 @@
           params.payment.ccv = "12";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.elementName).to.equal("payment[ccv]");
           expect(validationError.translationKey).to.equal("invalid.payment.ccv");
           expect(validationError.value).to.equal(params.payment.ccv);
         });
@@ -203,6 +215,7 @@
           params.payment.ccv = "12345";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.elementName).to.equal("payment[ccv]");
           expect(validationError.translationKey).to.equal("invalid.payment.ccv");
           expect(validationError.value).to.equal(params.payment.ccv);
         });
@@ -210,6 +223,7 @@
           params.payment.ccv = "12a";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.elementName).to.equal("payment[ccv]");
           expect(validationError.translationKey).to.equal("invalid.payment.ccv");
           expect(validationError.value).to.equal(params.payment.ccv);
         });
@@ -225,6 +239,7 @@
           params.payment.expiresMonth = "0";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment expires month");
+          expect(validationError.elementName).to.equal("payment[expiresMonth]");
           expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
           expect(validationError.value).to.equal(params.payment.expiresMonth);
         });
@@ -232,6 +247,7 @@
           params.payment.expiresMonth = "13";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid payment expires month");
+          expect(validationError.elementName).to.equal("payment[expiresMonth]");
           expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
           expect(validationError.value).to.equal(params.payment.expiresMonth);
         });
@@ -286,6 +302,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer name");
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.elementName).to.equal("consumer[name]");
           expect(validationError.value).to.equal(params.consumer.name);
         });
         it("should fail with blacklisted characters", function() {
@@ -293,6 +310,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer name");
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.elementName).to.equal("consumer[name]");
           expect(validationError.value).to.equal(params.consumer.name);
         });
         it("should fail with name shorter than 2 characters", function() {
@@ -300,6 +318,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer name");
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.elementName).to.equal("consumer[name]");
           expect(validationError.value).to.equal(params.consumer.name);
         });
         it("should fail with name longer than 53 characters", function() {
@@ -307,6 +326,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer name");
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.elementName).to.equal("consumer[name]");
           expect(validationError.value).to.equal(params.consumer.name);
         });
       });
@@ -322,12 +342,14 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer c/o");
           expect(validationError.translationKey).to.equal("invalid.consumer.co");
+          expect(validationError.elementName).to.equal("consumer[co]");
           expect(validationError.value).to.equal(params.consumer.co);
         });
         it("should fail with blacklisted characters", function() {
           params.consumer.co = "< diiba";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer c/o");
+          expect(validationError.elementName).to.equal("consumer[co]");
           expect(validationError.translationKey).to.equal("invalid.consumer.co");
           expect(validationError.value).to.equal(params.consumer.co);
         });
@@ -346,6 +368,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer street address");
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+          expect(validationError.elementName).to.equal("consumer[streetAddress]");
           expect(validationError.value).to.equal(params.consumer.streetAddress);
         });
         it("should fail with blacklisted characters", function() {
@@ -353,6 +376,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer street address");
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+          expect(validationError.elementName).to.equal("consumer[streetAddress]");
           expect(validationError.value).to.equal(params.consumer.streetAddress);
         });
       });
@@ -369,12 +393,14 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer street address 2");
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
+          expect(validationError.elementName).to.equal("consumer[streetAddress2]");
           expect(validationError.value).to.equal(params.consumer.streetAddress2);
         });
         it("should fail with blacklisted characters", function() {
           params.consumer.streetAddress2 = "< diiba";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer street address 2");
+          expect(validationError.elementName).to.equal("consumer[streetAddress2]");
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
           expect(validationError.value).to.equal(params.consumer.streetAddress2);
         });
@@ -385,6 +411,7 @@
           delete params.consumer.postalCode;
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer postal code");
+          expect(validationError.elementName).to.equal("consumer[postalCode]");
           expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
           expect(validationError.value).to.equal(params.consumer.postalCode);
         });
@@ -392,6 +419,7 @@
           params.consumer.postalCode = "12345678901";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer postal code");
+          expect(validationError.elementName).to.equal("consumer[postalCode]");
           expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
           expect(validationError.value).to.equal(params.consumer.postalCode);
         });
@@ -399,6 +427,7 @@
           params.consumer.postalCode = "< diiba";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer postal code");
+          expect(validationError.elementName).to.equal("consumer[postalCode]");
           expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
           expect(validationError.value).to.equal(params.consumer.postalCode);
         });
@@ -410,6 +439,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer city");
           expect(validationError.translationKey).to.equal("invalid.consumer.city");
+          expect(validationError.elementName).to.equal("consumer[city]");
           expect(validationError.value).to.equal(params.consumer.city);
         });
         it("should fail with city longer than 53 characters", function() {
@@ -417,6 +447,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer city");
           expect(validationError.translationKey).to.equal("invalid.consumer.city");
+          expect(validationError.elementName).to.equal("consumer[city]");
           expect(validationError.value).to.equal(params.consumer.city);
         });
         it("should fail with blacklisted characters", function() {
@@ -424,6 +455,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer city");
           expect(validationError.translationKey).to.equal("invalid.consumer.city");
+          expect(validationError.elementName).to.equal("consumer[city]");
           expect(validationError.value).to.equal(params.consumer.city);
         });
       });
@@ -440,12 +472,14 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer state or province");
           expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
+          expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
           expect(validationError.value).to.equal(params.consumer.stateOrProvince);
         });
         it("should fail with blacklisted characters", function() {
           params.consumer.stateOrProvince = "< diiba";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer state or province");
+          expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
           expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
           expect(validationError.value).to.equal(params.consumer.stateOrProvince);
         });
@@ -457,6 +491,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer country");
           expect(validationError.translationKey).to.equal("invalid.consumer.country");
+          expect(validationError.elementName).to.equal("consumer[country]");
           expect(validationError.value).to.equal(params.consumer.country);
         });
         it("should fail with country longer than 53 characters", function() {
@@ -464,6 +499,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer country");
           expect(validationError.translationKey).to.equal("invalid.consumer.country");
+          expect(validationError.elementName).to.equal("consumer[country]");
           expect(validationError.value).to.equal(params.consumer.country);
         });
         it("should fail with blacklisted characters", function() {
@@ -471,6 +507,7 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer country");
           expect(validationError.translationKey).to.equal("invalid.consumer.country");
+          expect(validationError.elementName).to.equal("consumer[country]");
           expect(validationError.value).to.equal(params.consumer.country);
         });
       });
@@ -487,12 +524,14 @@
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer locale");
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
+          expect(validationError.elementName).to.equal("consumer[locale]");
           expect(validationError.value).to.equal(params.consumer.locale);
         });
         it("should fail when being under 5 characters long", function() {
           params.consumer.locale = "fi-F";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer locale");
+          expect(validationError.elementName).to.equal("consumer[locale]");
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal(params.consumer.locale);
         });
@@ -500,6 +539,7 @@
           params.consumer.locale = "12345678901";
           var validationError = new InputDataValidator(params).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer locale");
+          expect(validationError.elementName).to.equal("consumer[locale]");
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal(params.consumer.locale);
         });
