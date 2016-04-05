@@ -24,3 +24,9 @@ Execute
 ```javascript
 npm i
 ```
+### Generate browser validator
+
+Execute
+```javascript
+browserify node_modules/payapi-client/lib/validators.js -o public/payapi.client.validator.js
+```
