@@ -26,6 +26,11 @@ npm i
 ```
 ### Generate browser validator
 
+Install browserify
+```javascript
+npm i -g browserify
+```
+
 Execute
 ```javascript
 browserify node_modules/payapi-client/lib/validators.js -o public/payapi.client.validator.js
