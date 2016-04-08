@@ -60,3 +60,5 @@ gulp.task('mock-server', function(cb) {
     };
     stubby(options, cb);
 });
+
+gulp.task('pre-push', ['lint', 'hint', 'mocha']);

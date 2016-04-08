@@ -659,22 +659,6 @@
           expect(validationError.value).to.equal(params.order.referenceId);
         });
 
-        it("should fail when not alphanumeric", function() {
-          params.order.referenceId = "!";
-          var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid order reference ID");
-          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
-          expect(validationError.value).to.equal(params.order.referenceId);
-        });
-
-        it("should fail with blacklisted characters", function() {
-          params.order.referenceId = "<iiba";
-          var validationError = new InputDataValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid order reference ID");
-          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
-          expect(validationError.value).to.equal(params.order.referenceId);
-        });
-
       });
     });
 
