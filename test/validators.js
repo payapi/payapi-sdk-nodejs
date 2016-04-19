@@ -39,7 +39,13 @@
         sumInCentsExcVat: 1,
         vatInCents: 1,
         referenceId: 'x'
-      }
+      },
+      products: [{
+        priceInCentsIncVat: 1,
+        priceInCentsExcVat: 1,
+        vatInCents: 1,
+        quantity: 1
+      }]
     };
   });
 
@@ -542,6 +548,69 @@
           expect(validationError.elementName).to.equal("consumer[locale]");
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal(params.consumer.locale);
+        });
+      });
+    });
+
+    describe("Product", function() {
+      describe("priceInCentsIncVat", function() {
+        it("should succeed with integer 1", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should succeed with string '1'", function() {
+          params.products[0].priceInCentsIncVat = '1';
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should fail with fractional 0.1", function() {
+          params.products[0].priceInCentsIncVat = 0.1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product price in cents including VAT");
+          expect(validationError.translationKey).to.equal("invalid.product.priceInCentsIncVat");
+          expect(validationError.value).to.equal('' + params.products[0].priceInCentsIncVat);
+        });
+      });
+      describe("priceInCentsExcVat", function() {
+        it("should succeed with integer 1", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should succeed with string '1'", function() {
+          params.products[0].priceInCentsExcVat = '1';
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should fail with fractional 0.1", function() {
+          params.products[0].priceInCentsExcVat = 0.1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product price in cents excluding VAT");
+          expect(validationError.translationKey).to.equal("invalid.product.priceInCentsExcVat");
+          expect(validationError.value).to.equal('' + params.products[0].priceInCentsExcVat);
+        });
+      });
+      describe("quantity", function() {
+        it("should succeed with integer 1", function() {
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should succeed with string '1'", function() {
+          params.products[0].quantity = '1';
+          return expect(
+            new InputDataValidator(params).validate()
+          ).to.be.empty;
+        });
+        it("should fail with fractional 0.1", function() {
+          params.products[0].quantity = 0.1;
+          var validationError = new InputDataValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product quantity");
+          expect(validationError.translationKey).to.equal("invalid.product.quantity");
+          expect(validationError.value).to.equal('' + params.products[0].quantity);
         });
       });
     });
