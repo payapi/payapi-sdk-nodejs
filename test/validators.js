@@ -44,7 +44,8 @@
         sumInCentsIncVat: 1,
         sumInCentsExcVat: 1,
         vatInCents: 1,
-        referenceId: 'x'
+        referenceId: "x",
+        currency: "EUR"
       },
       products: [{
         priceInCentsIncVat: 1,
@@ -53,7 +54,7 @@
         quantity: 1
       }]
     };
-    paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNCIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5IjoiRmlubGFuZCJ9LCJvcmRlciI6eyJzdW1JbkNlbnRzSW5jVmF0IjoxLCJzdW1JbkNlbnRzRXhjVmF0IjoxLCJ2YXRJbkNlbnRzIjoxLCJyZWZlcmVuY2VJZCI6IngifSwicHJvZHVjdHMiOlt7InByaWNlSW5DZW50c0luY1ZhdCI6MSwicHJpY2VJbkNlbnRzRXhjVmF0IjoxLCJ2YXRJbkNlbnRzIjoxLCJxdWFudGl0eSI6MX1dfQ.mWsbaAV_SEtaBnTbDXxHFKp1eSmXiu2LNtm5yg2oguryUyIO9vsERlDHQAoaojad7Vv5FrYkczHH5OKnmsXLAw";
+    paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNCIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5IjoiRmlubGFuZCJ9LCJvcmRlciI6eyJzdW1JbkNlbnRzSW5jVmF0IjoxLCJzdW1JbkNlbnRzRXhjVmF0IjoxLCJ2YXRJbkNlbnRzIjoxLCJyZWZlcmVuY2VJZCI6IngiLCJjdXJyZW5jeSI6IkVVUiJ9LCJwcm9kdWN0cyI6W3sicHJpY2VJbkNlbnRzSW5jVmF0IjoxLCJwcmljZUluQ2VudHNFeGNWYXQiOjEsInZhdEluQ2VudHMiOjEsInF1YW50aXR5IjoxfV19.YZjYifMVnfkh0KO3ggmWsZuWb7YGXe3jVxD9CcEvsLZWKPBmrhsHv4ExBFnV6LTeXkpnc2d8SseLbSWSw9RUXA";
   });
 
   describe("InputDataValidator", function() {
@@ -61,6 +62,14 @@
       describe("Email address", function() {
         it("should succeed with email nosuchemailaddress@payapi.io", function() {
           paymentObject.payment.cardHolderEmail = "nosuchemailaddress@payapi.io";
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
+        });
+
+        it("can be optional", function() {
+          delete paymentObject.payment.cardHolderEmail;
+          paymentObject.optionalFields = ['payment.cardHolderEmail'];
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
@@ -87,6 +96,14 @@
 
       describe("IP address", function() {
         it("should succeed with ip 8.8.8.8", function() {
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
+        });
+
+        it("can be optional", function() {
+          delete paymentObject.payment.ip;
+          paymentObject.optionalFields = ['payment.ip'];
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
@@ -134,6 +151,7 @@
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
         });
+
         it("should succeed with a chinese cardHolderName", function() {
           paymentObject.payment.cardHolderName = "王 秀英";
           paymentObject.payment.locale = "zh_CN";
@@ -141,6 +159,17 @@
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
         });
+
+        it("cannot be optional", function() {
+          delete paymentObject.payment.cardHolderName;
+          paymentObject.optionalFields = ['payment.cardHolderName'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.elementName).to.equal("payment[cardHolderName]");
+          expect(validationError.value).to.equal(paymentObject.payment.cardHolderName);
+        });
+
         it("should fail with empty cardHolderName", function() {
           delete paymentObject.payment.cardHolderName;
           var validationError = new InputDataValidator(paymentObject).validate()[0];
@@ -182,6 +211,16 @@
           ).to.be.empty;
         });
 
+        it("cannot be optional", function() {
+          delete paymentObject.payment.paymentMethod;
+          paymentObject.optionalFields = ['payment.paymentMethod'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment method");
+          expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
+          expect(validationError.elementName).to.equal("payment[paymentMethod]");
+          expect(validationError.value).to.equal(paymentObject.payment.paymentMethod);
+        });
+
         it("should fail with non-alpha characters", function() {
           paymentObject.payment.paymentMethod = "visa2";
           var validationError = new InputDataValidator(paymentObject).validate()[0];
@@ -197,6 +236,16 @@
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
+        });
+
+        it("cannot be optional", function() {
+          delete paymentObject.payment.creditCardNumber;
+          paymentObject.optionalFields = ['payment.creditCardNumber'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment credit card number");
+          expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
+          expect(validationError.elementName).to.equal("payment[creditCardNumber]");
+          expect(validationError.value).to.equal(paymentObject.payment.creditCardNumber);
         });
 
         it("should fail with an invalid cc number of 15 integers", function() {
@@ -215,6 +264,15 @@
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
+        });
+        it("cannot be optional", function() {
+          delete paymentObject.payment.ccv;
+          paymentObject.optionalFields = ['payment.ccv'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+          expect(validationError.elementName).to.equal("payment[ccv]");
+          expect(validationError.value).to.equal(paymentObject.payment.ccv);
         });
         it("should fail with an invalid ccv number of 2 integers", function() {
           paymentObject.payment.ccv = "12";
@@ -248,6 +306,15 @@
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
         });
+        it("cannot be optional", function() {
+          delete paymentObject.payment.expiresMonth;
+          paymentObject.optionalFields = ['payment.expiresMonth'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expires month");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+          expect(validationError.elementName).to.equal("payment[expiresMonth]");
+          expect(validationError.value).to.equal(paymentObject.payment.expiresMonth);
+        });
         it("should be invalid with a zero month", function() {
           paymentObject.payment.expiresMonth = "0";
           var validationError = new InputDataValidator(paymentObject).validate()[0];
@@ -271,6 +338,15 @@
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
+        });
+        it("cannot be optional", function() {
+          delete paymentObject.payment.expiresYear;
+          paymentObject.optionalFields = ['payment.expiresYear'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expires year");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+          expect(validationError.elementName).to.equal("payment[expiresYear]");
+          expect(validationError.value).to.equal(paymentObject.payment.expiresYear);
         });
         it("should be invalid with a year smaller than current", function() {
           paymentObject.payment.expiresYear = moment().year() - 1;
@@ -296,7 +372,22 @@
     });
 
     describe("Consumer", function() {
+      it("can be optional", function() {
+        delete paymentObject.consumer;
+        paymentObject.optionalFields = ['consumer'];
+        return expect(
+          new InputDataValidator(paymentObject).validate()
+        ).to.be.empty;
+      });
+
       describe("Name", function() {
+        it("can be optional", function() {
+          delete paymentObject.consumer.name;
+          paymentObject.optionalFields = ['consumer.name'];
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
+        });
         it("should succeed with a western name", function() {
           paymentObject.consumer.name = "Matti Meikäläinen";
           return expect(
@@ -309,14 +400,6 @@
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
-        });
-        it("should fail with empty name", function() {
-          delete paymentObject.consumer.name;
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer name");
-          expect(validationError.translationKey).to.equal("invalid.consumer.name");
-          expect(validationError.elementName).to.equal("consumer[name]");
-          expect(validationError.value).to.equal(paymentObject.consumer.name);
         });
         it("should fail with blacklisted characters", function() {
           paymentObject.consumer.name = "< diiba";
@@ -369,12 +452,12 @@
       });
 
       describe("Street address", function() {
-        it("should fail when left empty", function() {
+        it("can be optional", function() {
           delete paymentObject.consumer.streetAddress;
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer street address");
-          expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
-          expect(validationError.value).to.equal(paymentObject.consumer.streetAddress);
+          paymentObject.optionalFields = ['consumer.streetAddress'];
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
         });
         it("should fail with streetAddress longer than 53 characters", function() {
           paymentObject.consumer.streetAddress = "123456789012345678901234567890123456789012345678901234";
@@ -420,13 +503,12 @@
       });
 
       describe("Postal code", function() {
-        it("should fail when left empty", function() {
+        it("can be optional", function() {
           delete paymentObject.consumer.postalCode;
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer postal code");
-          expect(validationError.elementName).to.equal("consumer[postalCode]");
-          expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
-          expect(validationError.value).to.equal(paymentObject.consumer.postalCode);
+          paymentObject.optionalFields = ['consumer.postalCode'];
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
         });
         it("should fail with postalCode longer than 10 characters", function() {
           paymentObject.consumer.postalCode = "12345678901";
@@ -447,13 +529,12 @@
       });
 
       describe("City", function() {
-        it("should fail when left empty", function() {
+        it("can be optional", function() {
           delete paymentObject.consumer.city;
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer city");
-          expect(validationError.translationKey).to.equal("invalid.consumer.city");
-          expect(validationError.elementName).to.equal("consumer[city]");
-          expect(validationError.value).to.equal(paymentObject.consumer.city);
+          paymentObject.optionalFields = ['consumer.city'];
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
         });
         it("should fail with city longer than 53 characters", function() {
           paymentObject.consumer.city = "123456789012345678901234567890123456789012345678901234";
@@ -499,13 +580,12 @@
       });
 
       describe("Country", function() {
-        it("should fail when left empty", function() {
+        it("can be optional", function() {
           delete paymentObject.consumer.country;
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer country");
-          expect(validationError.translationKey).to.equal("invalid.consumer.country");
-          expect(validationError.elementName).to.equal("consumer[country]");
-          expect(validationError.value).to.equal(paymentObject.consumer.country);
+          paymentObject.optionalFields = ['consumer.country'];
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
         });
         it("should fail with country longer than 53 characters", function() {
           paymentObject.consumer.country = "123456789012345678901234567890123456789012345678901234";
@@ -560,7 +640,22 @@
     });
 
     describe("Product", function() {
+      it("can be optional", function() {
+        delete paymentObject.products;
+        paymentObject.optionalFields = ['products'];
+        return expect(
+          new InputDataValidator(paymentObject).validate()
+        ).to.be.empty;
+      });
       describe("priceInCentsIncVat", function() {
+        it("cannot be optional", function() {
+          delete paymentObject.products[0].priceInCentsIncVat;
+          paymentObject.optionalFields = ['product.priceInCentsIncVat'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid product price in cents including VAT");
+          expect(validationError.translationKey).to.equal("invalid.product.priceInCentsIncVat");
+          expect(validationError.value).to.equal('' + paymentObject.products[0].priceInCentsIncVat);
+        });
         it("should succeed with integer 1", function() {
           return expect(
             new InputDataValidator(paymentObject).validate()
@@ -581,6 +676,14 @@
         });
       });
       describe("priceInCentsExcVat", function() {
+        it("cannot be optional", function() {
+          delete paymentObject.products[0].priceInCentsExcVat;
+          paymentObject.optionalFields = ['product.priceInCentsExcVat'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid product price in cents excluding VAT");
+          expect(validationError.translationKey).to.equal("invalid.product.priceInCentsExcVat");
+          expect(validationError.value).to.equal('' + paymentObject.products[0].priceInCentsExcVat);
+        });
         it("should succeed with integer 1", function() {
           return expect(
             new InputDataValidator(paymentObject).validate()
@@ -601,6 +704,14 @@
         });
       });
       describe("quantity", function() {
+        it("cannot be optional", function() {
+          delete paymentObject.products[0].quantity;
+          paymentObject.optionalFields = ['product.quantity'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid product quantity");
+          expect(validationError.translationKey).to.equal("invalid.product.quantity");
+          expect(validationError.value).to.equal('' + paymentObject.products[0].quantity);
+        });
         it("should succeed with integer 1", function() {
           return expect(
             new InputDataValidator(paymentObject).validate()
@@ -623,7 +734,25 @@
     });
 
     describe("Order", function() {
+      it("cannot be optional", function() {
+        delete paymentObject.order;
+        paymentObject.optionalFields = ['order'];
+        var validationError = new InputDataValidator(paymentObject).validate()[0];
+        expect(validationError.message).to.equal("Invalid order");
+        expect(validationError.translationKey).to.equal("invalid.order");
+        expect(validationError.value).to.equal("Order is mandatory");
+      });
+
       describe("sumInCentsIncVat", function() {
+        it("cannot be optional", function() {
+          delete paymentObject.order.sumInCentsIncVat;
+          paymentObject.optionalFields = ['order.sumInCentsIncVat'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid sum in cents including VAT");
+          expect(validationError.translationKey).to.equal("invalid.order.sumInCentsIncVat");
+          expect(validationError.value).to.equal("Order sum in cents including VAT is mandatory");
+        });
+
         it("should succeed with integer 1", function() {
           return expect(
             new InputDataValidator(paymentObject).validate()
@@ -721,6 +850,15 @@
       });
 
       describe("referenceId", function() {
+        it("cannot be optional", function() {
+          delete paymentObject.order.referenceId;
+          paymentObject.optionalFields = ['order.referenceId'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid order reference ID");
+          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
+          expect(validationError.value).to.equal("Order reference id is mandatory");
+        });
+
         it("should succeed with x", function() {
           return expect(
             new InputDataValidator(paymentObject).validate()
@@ -734,8 +872,33 @@
           expect(validationError.translationKey).to.equal("invalid.order.referenceId");
           expect(validationError.value).to.equal(paymentObject.order.referenceId);
         });
-
       });
+
+      describe("currency", function() {
+        it("cannot be optional", function() {
+          delete paymentObject.order.currency;
+          paymentObject.optionalFields = ['order.currency'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid order currency");
+          expect(validationError.translationKey).to.equal("invalid.order.currency");
+          expect(validationError.value).to.equal("Order currency is mandatory");
+        });
+
+        it("should succeed with EUR", function() {
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
+        });
+
+        it("should fail when not found in currencies list", function() {
+          paymentObject.order.currency = "DIIBA";
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid order currency");
+          expect(validationError.translationKey).to.equal("invalid.order.currency");
+          expect(validationError.value).to.equal(paymentObject.order.currency);
+        });
+      });
+
     });
 
 //    describe("Seller", function() {

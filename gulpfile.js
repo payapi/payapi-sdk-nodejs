@@ -18,7 +18,8 @@ fs.readdirSync(models_path).forEach(function (file) {
 
 gulp.task('mocha', function() {
   return gulp.src(['test/**/*.js'])
-    .pipe(mocha({ reporter: 'nyan' }))
+    .pipe(mocha())
+    //.pipe(mocha({ reporter: 'nyan' }))
     .on('error', gutil.log);
 });
 
