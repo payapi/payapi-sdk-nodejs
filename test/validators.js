@@ -37,7 +37,7 @@
         postalCode: "00100",
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
-        country: "Finland",
+        countryCode: "FI",
         locale: "en-US"
       },
       order: {
@@ -54,7 +54,7 @@
         quantity: 1
       }]
     };
-    paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNCIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5IjoiRmlubGFuZCJ9LCJvcmRlciI6eyJzdW1JbkNlbnRzSW5jVmF0IjoxLCJzdW1JbkNlbnRzRXhjVmF0IjoxLCJ2YXRJbkNlbnRzIjoxLCJyZWZlcmVuY2VJZCI6IngiLCJjdXJyZW5jeSI6IkVVUiJ9LCJwcm9kdWN0cyI6W3sicHJpY2VJbkNlbnRzSW5jVmF0IjoxLCJwcmljZUluQ2VudHNFeGNWYXQiOjEsInZhdEluQ2VudHMiOjEsInF1YW50aXR5IjoxfV19.YZjYifMVnfkh0KO3ggmWsZuWb7YGXe3jVxD9CcEvsLZWKPBmrhsHv4ExBFnV6LTeXkpnc2d8SseLbSWSw9RUXA";
+    paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNCIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5Q29kZSI6IkZJIn0sIm9yZGVyIjp7InN1bUluQ2VudHNJbmNWYXQiOjEsInN1bUluQ2VudHNFeGNWYXQiOjEsInZhdEluQ2VudHMiOjEsInJlZmVyZW5jZUlkIjoieCIsImN1cnJlbmN5IjoiRVVSIn0sInByb2R1Y3RzIjpbeyJwcmljZUluQ2VudHNJbmNWYXQiOjEsInByaWNlSW5DZW50c0V4Y1ZhdCI6MSwidmF0SW5DZW50cyI6MSwicXVhbnRpdHkiOjF9XX0.3smpTsPW8HSD7uqn58e00hKG15rIRWjDZfxykEgaO2iF4CgCv7Ns_ZOW5HJyABdCkd25NvGzzvEFFBAjwAOXmw";
   });
 
   describe("InputDataValidator", function() {
@@ -579,29 +579,21 @@
         });
       });
 
-      describe("Country", function() {
+      describe("Country code", function() {
         it("can be optional", function() {
-          delete paymentObject.consumer.country;
-          paymentObject.optionalFields = ['consumer.country'];
+          delete paymentObject.consumer.countryCode;
+          paymentObject.optionalFields = ["consumer.countryCode"];
           return expect(
             new InputDataValidator(paymentObject).validate()
           ).to.be.empty;
         });
-        it("should fail with country longer than 53 characters", function() {
-          paymentObject.consumer.country = "123456789012345678901234567890123456789012345678901234";
+        it("should fail if it doesn't exist in list of country codes", function() {
+          paymentObject.consumer.countryCode = "foo";
           var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer country");
-          expect(validationError.translationKey).to.equal("invalid.consumer.country");
-          expect(validationError.elementName).to.equal("consumer[country]");
-          expect(validationError.value).to.equal(paymentObject.consumer.country);
-        });
-        it("should fail with blacklisted characters", function() {
-          paymentObject.consumer.country = "< diiba";
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer country");
-          expect(validationError.translationKey).to.equal("invalid.consumer.country");
-          expect(validationError.elementName).to.equal("consumer[country]");
-          expect(validationError.value).to.equal(paymentObject.consumer.country);
+          expect(validationError.message).to.equal("Invalid consumer country code");
+          expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
+          expect(validationError.elementName).to.equal("consumer[countryCode]");
+          expect(validationError.value).to.equal(paymentObject.consumer.countryCode);
         });
       });
 
@@ -988,7 +980,7 @@
             "postalCode": "90210",
             "city": "Fuengirola",
             "stateOrProvince": "",
-            "country": "Spain"
+            "countryCode": "ES"
           },
           "order": {
             "sumInCentsIncVat": 322,
