@@ -612,16 +612,16 @@
           expect(validationError.elementName).to.equal("consumer[locale]");
           expect(validationError.value).to.equal(paymentObject.consumer.locale);
         });
-        it("should fail when being under 5 characters long", function() {
-          paymentObject.consumer.locale = "fi-F";
+        it("should fail when being under 2 characters long", function() {
+          paymentObject.consumer.locale = "F";
           var validationError = new InputDataValidator(paymentObject).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer locale");
           expect(validationError.elementName).to.equal("consumer[locale]");
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal(paymentObject.consumer.locale);
         });
-        it("should fail when being over 10 characters long", function() {
-          paymentObject.consumer.locale = "12345678901";
+        it("should fail when being over 7 characters long", function() {
+          paymentObject.consumer.locale = "12345678";
           var validationError = new InputDataValidator(paymentObject).validate()[0];
           expect(validationError.message).to.equal("Invalid consumer locale");
           expect(validationError.elementName).to.equal("consumer[locale]");
@@ -969,7 +969,6 @@
             "ccv": "1234",
             "expiresMonth": "2",
             "expiresYear": "3016",
-            "locale": "en-US",
             "ip": "::ffff:127.0.0.1"
           },
           "consumer": {
@@ -980,7 +979,8 @@
             "postalCode": "90210",
             "city": "Fuengirola",
             "stateOrProvince": "",
-            "countryCode": "ES"
+            "countryCode": "ES",
+            "locale": "en-US"
           },
           "order": {
             "sumInCentsIncVat": 322,
