@@ -51,10 +51,11 @@
         priceInCentsIncVat: 1,
         priceInCentsExcVat: 1,
         vatInCents: 1,
+        vatPercentage: 22.5,
         quantity: 1
       }]
     };
-    paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNCIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5Q29kZSI6IkZJIn0sIm9yZGVyIjp7InN1bUluQ2VudHNJbmNWYXQiOjEsInN1bUluQ2VudHNFeGNWYXQiOjEsInZhdEluQ2VudHMiOjEsInJlZmVyZW5jZUlkIjoieCIsImN1cnJlbmN5IjoiRVVSIn0sInByb2R1Y3RzIjpbeyJwcmljZUluQ2VudHNJbmNWYXQiOjEsInByaWNlSW5DZW50c0V4Y1ZhdCI6MSwidmF0SW5DZW50cyI6MSwicXVhbnRpdHkiOjF9XX0.3smpTsPW8HSD7uqn58e00hKG15rIRWjDZfxykEgaO2iF4CgCv7Ns_ZOW5HJyABdCkd25NvGzzvEFFBAjwAOXmw";
+    paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNSIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5Q29kZSI6IkZJIn0sIm9yZGVyIjp7InN1bUluQ2VudHNJbmNWYXQiOjEsInN1bUluQ2VudHNFeGNWYXQiOjEsInZhdEluQ2VudHMiOjEsInJlZmVyZW5jZUlkIjoieCIsImN1cnJlbmN5IjoiRVVSIn0sInByb2R1Y3RzIjpbeyJwcmljZUluQ2VudHNJbmNWYXQiOjEsInByaWNlSW5DZW50c0V4Y1ZhdCI6MSwidmF0SW5DZW50cyI6MSwidmF0UGVyY2VudGFnZSI6MjIuNSwicXVhbnRpdHkiOjF9XX0.hJN7HDQnPoNM40tpD-Fkja_GjTLpNiPODuoFScmfyCGIYwG4tJjBkuBu1P0uSqVJZl1zhOu6f8jzs7P9TUtKPw";
   });
 
   describe("InputDataValidator", function() {
@@ -695,6 +696,36 @@
           expect(validationError.value).to.equal('' + paymentObject.products[0].priceInCentsExcVat);
         });
       });
+      describe("vatPercentage", function() {
+        it("cannot be optional", function() {
+          var vatPercentage = paymentObject.products[0].vatPercentage;
+          delete paymentObject.products[0].vatPercentage;
+          paymentObject.optionalFields = ['product.vatPercentage'];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid product vatPercentage");
+          expect(validationError.translationKey).to.equal("invalid.product.vatPercentage");
+          expect(validationError.value).to.equal('undefined');
+        });
+        it("should succeed with integer 1", function() {
+          paymentObject.products[0].vatPercentage = 1;
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
+        });
+        it("should fail with string '1'", function() {
+          paymentObject.products[0].vatPercentage = "1";
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid product vatPercentage");
+          expect(validationError.translationKey).to.equal("invalid.product.vatPercentage");
+          expect(validationError.value).to.equal('' + paymentObject.products[0].vatPercentage);
+        });
+        it("should succeed with fractional 0.1", function() {
+          paymentObject.products[0].vatPercentage = 0.1;
+          return expect(
+            new InputDataValidator(paymentObject).validate()
+          ).to.be.empty;
+        });
+      });
       describe("quantity", function() {
         it("cannot be optional", function() {
           delete paymentObject.products[0].quantity;
@@ -1003,7 +1034,7 @@
               "priceInCentsIncVat": 122,
               "priceInCentsExcVat": 100,
               "vatInCents": 22,
-              "vatPercentage": "22%",
+              "vatPercentage": 22.5,
               "priceIncludingVat": "€1.22",
               "priceExcludingVat": "€1.00",
               "vat": "€0.22"
@@ -1018,7 +1049,7 @@
               "priceInCentsIncVat": 222,
               "priceInCentsExcVat": 200,
               "vatInCents": 22,
-              "vatPercentage": "22%",
+              "vatPercentage": 22.5,
               "priceIncludingVat": "€2.22",
               "priceExcludingVat": "€2.00",
               "vat": "€0.22"
