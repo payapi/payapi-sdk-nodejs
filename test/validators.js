@@ -359,4 +359,71 @@
 
     });
   });
+
+  describe("One-click problem with v0.9.4", function() {
+    it("should be fixed", function() {
+      var payload = {
+        "publicId": "multimerchantshop",
+        "order": {
+          "tosUrl": "http://store.multimerchantshop.com/terms",
+          "currency": "EUR",
+          "sumInCentsIncVat": 18200,
+          "sumInCentsExcVat": 15000,
+          "vatInCents": 3200,
+          "referenceId": "multimerchantshop-87c7c6df-e354-493f-9f3d-6dd1a0f092a5"
+        },
+        "products": [
+        {
+          "priceInCentsIncVat": 18200,
+          "priceInCentsExcVat": 15000,
+          "vatInCents": 3200,
+          "vatPercentage": 21,
+          "id": "30",
+          "quantity": "1",
+          "title": "Canon EOS 5D",
+          "description": "Canon's press material for the EOS 5D states that it 'defines (a) new D-SLR category', while we'r..",
+          "imageUrl": "http://store.multimerchantshop.com/image/e3fdad58ef62a70bf356e0042d2e4e51/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
+          "category": "Desktops,Cameras",
+          "extraData": {
+            "quantity": "1",
+            "consumerId": "",
+            "email": "",
+            "Select": "15"
+          }
+        }
+        ],
+        "returnUrls": {
+          "success": "http://store.multimerchantshop.com/index.php?route=payment/payapi_payments/successful",
+          "cancel": "http://store.multimerchantshop.com/index.php?route=payment/payapi_payments/cancelled",
+          "failed": "http://store.multimerchantshop.com/index.php?route=payment/payapi_payments/failed"
+        },
+        "callbacks": {
+          "success": "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+          "failed": "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+          "chargeback": "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+          "processing": "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback"
+        },
+        "consumer": {
+          "locale": "en",
+          "email": "",
+          "consumerId": ""
+        },
+        "optionalFields": [
+          "payment.ip",
+          "payment.cardHolderName",
+          "payment.cardHolderEmail",
+          "payment.paymentMethod",
+          "payment.creditCardNumber",
+          "payment.ccv",
+          "payment.expiresMonth",
+          "payment.expiresYear",
+          "consumer"
+        ]
+      };
+      console.log('new InputDataValidator(payload).validate():' + JSON.stringify(new InputDataValidator(payload).validate(), null, 2));
+      return expect(
+          new InputDataValidator(payload).validate()
+          ).to.be.empty;
+    });
+  });
 }());
