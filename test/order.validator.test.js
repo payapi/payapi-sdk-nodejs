@@ -47,6 +47,17 @@
             ).to.be.empty;
       });
 
+      it("should succeed with integer 0", function() {
+        order.sumInCentsIncVat = 0;
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
       it("should fail with fractional 0.1", function() {
         order.sumInCentsIncVat = 0.1;
         var params = {
@@ -86,6 +97,17 @@
 
     describe("sumInCentsExcVat", function() {
       it("should succeed with integer 1", function() {
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("should succeed with integer 0", function() {
+        order.sumInCentsExcVat = 0;
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -135,6 +157,17 @@
 
     describe("vatInCents", function() {
       it("should succeed with integer 1", function() {
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("should succeed with integer 0", function() {
+        order.vatInCents = 0;
         var params = {
           order: order,
           optionalFields: optionalFields

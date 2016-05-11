@@ -420,7 +420,6 @@
           "consumer"
         ]
       };
-      console.log('new InputDataValidator(payload).validate():' + JSON.stringify(new InputDataValidator(payload).validate(), null, 2));
       return expect(
           new InputDataValidator(payload).validate()
           ).to.be.empty;
