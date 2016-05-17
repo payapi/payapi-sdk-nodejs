@@ -96,6 +96,18 @@
     });
 
     describe("sumInCentsExcVat", function() {
+      it("can be optional", function() {
+        delete order.sumInCentsExcVat;
+        optionalFields = ['sumInCentsExcVat'];
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
       it("should succeed with integer 1", function() {
         var params = {
           order: order,
@@ -166,6 +178,18 @@
             ).to.be.empty;
       });
 
+      it("can be optional", function() {
+        delete order.vatInCents;
+        optionalFields = ['vatInCents'];
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
       it("should succeed with integer 0", function() {
         order.vatInCents = 0;
         var params = {
@@ -184,7 +208,7 @@
           optionalFields: optionalFields
         };
         var validationError = new OrderValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid VAT in cents excluding VAT");
+        expect(validationError.message).to.equal("Invalid VAT in cents");
         expect(validationError.translationKey).to.equal("invalid.order.vatInCents");
         expect(validationError.value).to.equal(order.vatInCents);
       });
@@ -196,7 +220,7 @@
           optionalFields: optionalFields
         };
         var validationError = new OrderValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid VAT in cents excluding VAT");
+        expect(validationError.message).to.equal("Invalid VAT in cents");
         expect(validationError.translationKey).to.equal("invalid.order.vatInCents");
         expect(validationError.value).to.equal(order.vatInCents);
       });
@@ -208,7 +232,7 @@
           optionalFields: optionalFields
         };
         var validationError = new OrderValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid VAT in cents excluding VAT");
+        expect(validationError.message).to.equal("Invalid VAT in cents");
         expect(validationError.translationKey).to.equal("invalid.order.vatInCents");
         expect(validationError.value).to.equal(order.vatInCents);
       });
