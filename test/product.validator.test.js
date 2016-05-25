@@ -132,8 +132,28 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
-      it("should fail with string '1'", function() {
+      it("should succeed with string '1'", function() {
         product.vatPercentage = "1";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string '22.5'", function() {
+        product.vatPercentage = "22.5";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should fail with string '22,5'", function() {
+        product.vatPercentage = "22,5";
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -162,7 +182,6 @@
           product: product,
           optionalFields: optionalFields
         };
-        var validationError = new ProductValidator(params).validate()[0];
         return expect(
           new ProductValidator(params).validate()
         ).to.be.empty;
