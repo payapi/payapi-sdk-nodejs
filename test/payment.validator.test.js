@@ -250,7 +250,18 @@
             ).to.be.empty;
       });
 
-      it("should fail with non-alpha characters", function() {
+      it("should be valid with underscore character", function() {
+        payment.paymentMethod = "visa_prepaid";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("should fail with numeric characters", function() {
         payment.paymentMethod = "visa2";
         var params = {
           payment: payment,
