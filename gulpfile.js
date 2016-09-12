@@ -6,6 +6,7 @@ var stubby = require('gulp-stubby-server');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var eslint = require('gulp-eslint');
+var istanbul = require('gulp-istanbul');
 
 const fs = require('fs');
 
@@ -16,10 +17,17 @@ fs.readdirSync(models_path).forEach(function (file) {
   }
 })
 
-gulp.task('mocha', function() {
+gulp.task('pre-mocha', function() {
+  return gulp.src(['lib/**/*.js'])
+    .pipe(istanbul())
+    .pipe(istanbul.hookRequire());
+});
+
+gulp.task('mocha', ['pre-mocha'], function() {
   return gulp.src(['test/**/*.js'])
     .pipe(mocha())
-    //.pipe(mocha({ reporter: 'nyan' }))
+    .pipe(istanbul.writeReports())
+    .pipe(istanbul.enforceThresholds({thresholds: {global: 70}}))
     .on('error', gutil.log);
 });
 
