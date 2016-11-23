@@ -152,6 +152,16 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
+      it("should succeed with string '22.12345'", function() {
+        product.vatPercentage = "22.12345";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
       it("should fail with string '22,5'", function() {
         product.vatPercentage = "22,5";
         var params = {
