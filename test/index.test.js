@@ -35,8 +35,7 @@
         postalCode: "00100",
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
-        countryCode: "FI",
-        locale: "en-US"
+        countryCode: "FI"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -63,9 +62,11 @@
           apiKey: apiKey
         };
         var token = new PayapiClient(params).encodePaymentToken();
-        return expect(
-            new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken().payment.creditCardNumber
-        ).to.equal('4242424242424242');
+        return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.payment.creditCardNumber).to.equal("4242424242424242");
+          });
       });
     });
     describe("CardBin", function() {
@@ -75,20 +76,54 @@
           apiKey: apiKey
         };
         var token = new PayapiClient(params).encodePaymentToken();
-        return expect(
-            new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken().payment.cardBin
-        ).to.equal('424242');
+
+        return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.payment.cardBin).to.equal("424242");
+          });
       });
     });
-    //describe("Decoding a token", function() {
-    //  it("should convert Product vatPercentage to a number", function() {
-    //    paymentObject.products[0].vatPercentage = "12.12345";
-    //    var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
-    //    return expect(
-    //      new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey})
-    //        .decodePaymentToken().products[0].vatPercentage
-    //    ).to.equal(12.12345);
-    //  });
-    //});
+    describe("Decoding a token", function() {
+      it("should convert Product vatPercentage to a number", function() {
+        paymentObject.products[0].vatPercentage = "12.12345";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].vatPercentage).to.equal(12.12345);
+          });
+      });
+
+      it("should convert Product quantity to a number", function() {
+        paymentObject.products[0].quantity = "3";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].quantity).to.equal(3);
+          });
+      });
+
+      it("should convert Product priceInCentsIncVat to a number", function() {
+        paymentObject.products[0].priceInCentsIncVat = "235";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].priceInCentsIncVat).to.equal(235);
+          });
+      });
+
+      it("should convert Product priceInCentsExcVat to a number", function() {
+        paymentObject.products[0].priceInCentsExcVat = "235";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].priceInCentsExcVat).to.equal(235);
+          });
+      });
+    });
   });
 }());

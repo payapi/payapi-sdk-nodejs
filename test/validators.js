@@ -341,11 +341,13 @@
       it("should succeed", function() {
         var params = {
           apiKey: apiKey,
-          paymentToken: paymentToken
+          paymentToken: jsonwebtoken.sign(paymentObject, apiKey, { algorithm: "HS512" })
         };
-        return expect(
-          new PayapiClient(params).decodePaymentToken().payment.cardHolderName
-        ).to.equal(paymentObject.payment.cardHolderName);
+        return expect(new PayapiClient(params).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.payment.cardHolderName).to.equal(paymentObject.payment.cardHolderName);
+          });
       });
 
       it("should not succeed with a token encoded with other algorithm than HS256, HS384, HS512 and RS256", function() {
