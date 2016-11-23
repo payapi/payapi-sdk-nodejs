@@ -80,5 +80,15 @@
         ).to.equal('424242');
       });
     });
+    //describe("Decoding a token", function() {
+    //  it("should convert Product vatPercentage to a number", function() {
+    //    paymentObject.products[0].vatPercentage = "12.12345";
+    //    var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+    //    return expect(
+    //      new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey})
+    //        .decodePaymentToken().products[0].vatPercentage
+    //    ).to.equal(12.12345);
+    //  });
+    //});
   });
 }());
