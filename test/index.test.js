@@ -214,6 +214,7 @@
           .then(function(decodedPaymentToken) {
             expect(decodedPaymentToken.order).to.not.be.null;
             expect(decodedPaymentToken.order.currency).to.equal("EUR");
+            // expect(decodedPaymentToken.optionalFields).to.equal(optionalFields); // TODO: this expectation fails
           });
       });
     });
