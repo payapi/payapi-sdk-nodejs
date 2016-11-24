@@ -194,7 +194,7 @@
             "chargeback": "https://staging-api.example.com/v1/callback-chargeback"
           }
         };
-        var paymentToken = jwt.encode(paymentObject, apiKey, "HS512");
+        var paymentToken = jwt.encode(fakeDataObject, apiKey, "HS512");
         var optionalFields = [ 'product.id',
           'product.description',
           'product.imageUrl',
@@ -203,7 +203,14 @@
           'consumer',
           'callbacks',
           'returnUrls',
-          'payment' ];
+          'payment.ip',
+          'payment.cardHolderEmail',
+          'payment.cardHolderName',
+          'payment.creditCardNumber',
+          'payment.ccv',
+          'payment.expiresMonth',
+          'payment.expiresYear'
+        ];
         var clientParams = {
           paymentToken: paymentToken,
           apiKey: apiKey,
@@ -214,7 +221,7 @@
           .then(function(decodedPaymentToken) {
             expect(decodedPaymentToken.order).to.not.be.null;
             expect(decodedPaymentToken.order.currency).to.equal("EUR");
-            // expect(decodedPaymentToken.optionalFields).to.equal(optionalFields); // TODO: this expectation fails
+            expect(decodedPaymentToken.optionalFields).to.equal(optionalFields);
           });
       });
     });
