@@ -204,7 +204,12 @@
           'callbacks',
           'returnUrls',
           'payment' ];
-        return expect(new PayapiClient({paymentToken: paymentToken, apiKey: apiKey, optionalFields: optionalFields}).decodePaymentToken())
+        var clientParams = {
+          paymentToken: paymentToken,
+          apiKey: apiKey,
+          optionalFields: optionalFields
+        };
+        return expect(new PayapiClient(clientParams).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
             expect(decodedPaymentToken.order).to.not.be.null;
