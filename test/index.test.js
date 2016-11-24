@@ -124,6 +124,16 @@
             expect(decodedPaymentToken.products[0].priceInCentsExcVat).to.equal(235);
           });
       });
+
+      it("should contain Order", function() {
+        var paymentToken = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: paymentToken, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.order).to.not.be.null;
+            expect(decodedPaymentToken.order.currency).to.equal("EUR");
+          });
+      });
     });
   });
 }());
