@@ -134,6 +134,83 @@
             expect(decodedPaymentToken.order.currency).to.equal("EUR");
           });
       });
+
+      it("should work with secure form's fake data object", function() {
+        var fakeDataObject = {
+          "order": {
+            "sumInCentsIncVat": 344,
+            "sumInCentsExcVat": 300,
+            "vatInCents": 22,
+            "currency": "EUR",
+            "referenceId": "ref123",
+            "tosUrl":"https://payapi.io/terms"
+          },
+          "products": [
+          {
+            "id": "bbc123456",
+            "quantity": 1,
+            "title": "Black bling cap",
+            "description": "Flashy fine cap",
+            "imageUrl": "https://staging-store.example.com/image/c526e8973ba519c35bf391e63fae44db/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
+            "category": "Caps and hats",
+            "priceInCentsIncVat": 122,
+            "priceInCentsExcVat": 100,
+            "vatInCents": 22,
+            "vatPercentage": 22,
+            "extraData": "color=blue&size=M"
+          },
+          {
+            "id": "pbc123456",
+            "quantity": 1,
+            "title": "Pink bling cap",
+            "description": "Flashy fine cap",
+            "imageUrl": "https://staging-store.example.com/image/c526e8973ba519c35bf391e63fae44db/cache/catalog/demo/iphone_1-500x500.jpg",
+            "category": "Caps and hats",
+            "priceInCentsIncVat": 222,
+            "priceInCentsExcVat": 200,
+            "vatInCents": 22,
+            "vatPercentage": 22,
+            "extraData": "color=blue&size=M"
+          }
+          ],
+          "shippingAddress": {
+            "recipientName": "John Doe",
+            "co": "Jane Doe",
+            "streetAddress": "Calle Andalucia 32",
+            "streetAddress2": "Los Boliches",
+            "postalCode": 29640,
+            "city": "Fuengirola",
+            "stateOrProvince": "Malaga",
+            "countryCode": "ES"
+          },
+          "consumer": {
+            "consumerId": "happy88",
+            "email": "happyconsumer@example.com"
+          },
+          "callbacks": {
+            "processing": "https://staging-api.example.com/v1/callback-processing",
+            "success": "https://staging-api.example.com/v1/callback-success",
+            "failed": "https://staging-api.example.com/v1/callback-failed",
+            "chargeback": "https://staging-api.example.com/v1/callback-chargeback"
+          }
+        };
+        var paymentToken = jwt.encode(paymentObject, apiKey, "HS512");
+        var optionalFields = [ 'product.id',
+          'product.description',
+          'product.imageUrl',
+          'product.category',
+          'product.extraData',
+          'consumer',
+          'callbacks',
+          'returnUrls',
+          'payment' ];
+        return expect(new PayapiClient({paymentToken: paymentToken, apiKey: apiKey, optionalFields: optionalFields}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.order).to.not.be.null;
+            expect(decodedPaymentToken.order.currency).to.equal("EUR");
+          });
+      });
     });
   });
 }());
