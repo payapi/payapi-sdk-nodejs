@@ -207,6 +207,7 @@
           'payment.cardHolderEmail',
           'payment.cardHolderName',
           'payment.creditCardNumber',
+          'payment.paymentMethod',
           'payment.ccv',
           'payment.expiresMonth',
           'payment.expiresYear'
