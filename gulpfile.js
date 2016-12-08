@@ -7,6 +7,7 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var eslint = require('gulp-eslint');
 var istanbul = require('gulp-istanbul');
+var lintspaces = require('gulp-lintspaces');
 
 const fs = require('fs');
 
@@ -17,7 +18,7 @@ fs.readdirSync(models_path).forEach(function (file) {
   }
 })
 
-gulp.task('pre-mocha', function() {
+gulp.task('pre-mocha', ['tabpreventer'], function() {
   return gulp.src(['lib/**/*.js'])
     .pipe(istanbul())
     .pipe(istanbul.hookRequire());
@@ -83,4 +84,4 @@ gulp.task('mock-server', function(cb) {
     stubby(options, cb);
 });
 
-gulp.task('pre-push', ['tabpreventer', 'lint', 'hint', 'mocha']);
+gulp.task('pre-push', ['lint', 'hint', 'mocha']);
