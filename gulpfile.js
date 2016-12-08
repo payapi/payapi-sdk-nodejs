@@ -23,10 +23,23 @@ gulp.task('pre-mocha', function() {
     .pipe(istanbul.hookRequire());
 });
 
+gulp.task('tabpreventer', function() {
+  return gulp.src(['app/**/*.js'])
+    .pipe(lintspaces({
+      indentation: 'spaces',
+      spaces: 2,
+      ignores: [
+        'js-comments',
+        'c-comments'
+      ]
+    }))
+    .pipe(lintspaces.reporter());
+});
+
 gulp.task('mocha', ['pre-mocha'], function() {
   return gulp.src(['test/**/*.js'])
     .pipe(mocha())
-    .pipe(istanbul.writeReports())
+    .pipe(istanbul.writeReports({reporters: ['cobertura']}))
     .pipe(istanbul.enforceThresholds({thresholds: {global: 70}}))
     .on('error', gutil.log);
 });
@@ -70,4 +83,4 @@ gulp.task('mock-server', function(cb) {
     stubby(options, cb);
 });
 
-gulp.task('pre-push', ['lint', 'hint', 'mocha']);
+gulp.task('pre-push', ['tabpreventer', 'lint', 'hint', 'mocha']);
