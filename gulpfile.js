@@ -40,7 +40,7 @@ gulp.task('tabpreventer', function() {
 gulp.task('mocha', ['pre-mocha'], function() {
   return gulp.src(['test/**/*.js'])
     .pipe(mocha())
-    .pipe(istanbul.writeReports({reporters: ['cobertura']}))
+    .pipe(istanbul.writeReports({reporters: ['cobertura'], reportOpts: { dir: './reports' }}))
     .pipe(istanbul.enforceThresholds({thresholds: {global: 70}}))
     .on('error', gutil.log);
 });
@@ -56,7 +56,7 @@ gulp.task('hint', function () {
 
 gulp.task('lint', function () {
   return gulp.src(['lib/**/*.js']).pipe(eslint())
-    .pipe(eslint.format())
+    .pipe(eslint.format('checkstyle'))
     .pipe(eslint.failOnError());
 });
 
@@ -85,3 +85,5 @@ gulp.task('mock-server', function(cb) {
 });
 
 gulp.task('pre-push', ['lint', 'hint', 'mocha']);
+
+gulp.task('default', ['pre-push']);
