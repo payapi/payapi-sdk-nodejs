@@ -56,7 +56,7 @@ gulp.task('hint', function () {
 
 gulp.task('lint', function () {
   return gulp.src(['lib/**/*.js']).pipe(eslint())
-    .pipe(eslint.format('checkstyle'))
+    .pipe(eslint.format('checkstyle', fs.createWriteStream('reports/checkstyle.xml')))
     .pipe(eslint.failOnError());
 });
 
