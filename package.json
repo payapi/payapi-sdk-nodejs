@@ -1,6 +1,6 @@
 {
   "name": "payapi-client",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "NodeJS client for PayApi.",
   "main": "lib/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/payapi/nodejs#README",
   "dependencies": {
+    "google-libphonenumber": "^2.0.6",
     "jwt-simple": "^0.5.0",
     "moment": "^2.14.1",
     "promise": "^7.1.1",
@@ -40,6 +41,7 @@
     "gulp-eslint": "^3.0.1",
     "gulp-istanbul": "^1.1.1",
     "gulp-jshint": "^2.0.0",
+    "gulp-lintspaces": "^0.5.0",
     "gulp-mocha": "^2.2.0",
     "gulp-nodemon": "^2.0.6",
     "gulp-stubby-server": "^0.1.6",
