@@ -396,6 +396,7 @@
         expect(validationError.elementName).to.equal("consumer[locale]");
         expect(validationError.translationKey).to.equal("invalid.consumer.locale");
         expect(validationError.value).to.equal(consumer.locale);
+        fail();
       });
     });
 
