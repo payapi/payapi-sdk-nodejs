@@ -39,7 +39,7 @@
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
-        locale: "en-US"
+        phoneNumber: "34615344819"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -173,7 +173,8 @@
           "city": "Fuengirola",
           "stateOrProvince": "Malaga",
           "countryCode": "ES",
-          "name": "John Doe"
+          "name": "John Doe",
+          "phoneNumber": "34615344814"
         },
         "order": {
           "sumInCentsIncVat": 322,
@@ -265,7 +266,8 @@
             "city": "Fuengirola",
             "stateOrProvince": "",
             "countryCode": "ES",
-            "locale": "en-US"
+            "locale": "en-US",
+            "phoneNumber": ""
           },
           "order": {
             "sumInCentsIncVat": 322,

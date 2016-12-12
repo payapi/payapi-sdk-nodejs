@@ -8,5 +8,6 @@
   "city": "",
   "stateOrProvince": "",
   "country": "",
-  "locale": ""
+  "locale": "",
+  "phoneNumber": ""
 }
