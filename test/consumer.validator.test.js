@@ -23,7 +23,7 @@
       city: "Helsinki",
       stateOrProvince: "Uusimaa",
       countryCode: "FI",
-      locale: "en-US"
+      phoneNumber: "34615344819"
     };
     optionalFields = [];
   });
@@ -396,6 +396,40 @@
         expect(validationError.elementName).to.equal("consumer[locale]");
         expect(validationError.translationKey).to.equal("invalid.consumer.locale");
         expect(validationError.value).to.equal(consumer.locale);
+      });
+    });
+
+    describe("Phone number", function() {
+
+      it("should succeed with a valid phone number", function() {
+        consumer.phoneNumber = "34615344819";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(new ConsumerValidator(params).validate()).to.be.empty;
+      });
+
+      it("should fail with an invalid phone number (wrong format)", function() {
+        consumer.phoneNumber = "634341232";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid phone number");
+        expect(validationError.elementName).to.equal("consumer[phoneNumber]");
+        expect(validationError.translationKey).to.equal("invalid.consumer.phoneNumber");
+        expect(validationError.value).to.equal(consumer.phoneNumber);
+      });
+
+      it("should success with a valid phone number if '+' included ", function () {
+        consumer.phoneNumber= "+34615344810";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(new ConsumerValidator(params).validate()).to.be.empty;
       });
     });
   });
