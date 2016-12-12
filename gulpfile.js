@@ -39,7 +39,12 @@ gulp.task('tabpreventer', function() {
 
 gulp.task('mocha', ['pre-mocha'], function() {
   return gulp.src(['test/**/*.js'])
-    .pipe(mocha())
+    .pipe(mocha({
+      'reporter': 'mocha-jenkins-reporter',
+      'reporterOptions':
+        { 'junit_report_path': './reports/test-result.xml'
+      }
+    }))
     .pipe(istanbul.writeReports({reporters: ['cobertura'], reportOpts: { dir: './reports' }}))
     .pipe(istanbul.enforceThresholds({thresholds: {global: 70}}))
     .on('error', gutil.log);
