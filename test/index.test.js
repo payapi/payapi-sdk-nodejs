@@ -57,6 +57,7 @@
   describe("PayapiClient", function() {
     describe("CreditCardNumber", function() {
       it("is sanitized", function() {
+        fail();
         var params = {
           payload: paymentObject,
           apiKey: apiKey
