@@ -28,7 +28,7 @@
   "dependencies": {
     "google-libphonenumber": "^2.0.6",
     "jwt-simple": "^0.5.0",
-    "moment": "^2.14.1",
+    "moment": "^2.15.2",
     "promise": "^7.1.1",
     "request-promise": "^2.0.0",
     "validator": "^5.0.0"
