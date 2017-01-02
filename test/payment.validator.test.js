@@ -461,9 +461,15 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Card has expired");
-        expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
-        expect(validationError.value).to.equal(payment.expiresMonth + "/" + payment.expiresYear);
+        if(payment.expiresYear === moment().year()) {
+          expect(validationError.message).to.equal("Card has expired");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
+          expect(validationError.value).to.equal(payment.expiresMonth + "/" + payment.expiresYear);
+        } else {
+          expect(validationError.message).to.equal("Invalid payment expires year");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+          expect(validationError.value).to.equal(payment.expiresYear);
+        }
       });
     });
   });
