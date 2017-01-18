@@ -413,7 +413,8 @@
           "payment.ccv",
           "payment.expiresMonth",
           "payment.expiresYear",
-          "consumer"
+          "consumer",
+          "consumer.countryCode"
         ]
       };
       return expect(
