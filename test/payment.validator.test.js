@@ -321,6 +321,26 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+      it("should be valid with a valid ccv number of 3 integers, preceding with zeros", function() {
+        payment.ccv = "012";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+      it("should be valid with a valid ccv number of 3 integers, all zeros", function() {
+        payment.ccv = "000";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
       it("can be optional", function() {
         optionalFields = ["ccv"];
         delete payment.ccv;
