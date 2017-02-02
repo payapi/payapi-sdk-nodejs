@@ -36,10 +36,22 @@
           consumer: consumer,
           optionalFields: optionalFields
         };
-        optionalFields = ['consumer.name'];
+        optionalFields = ["consumer.name"];
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("should fail if not optional but is empty", function() {
+        consumer.name = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer name");
+        expect(validationError.translationKey).to.equal("invalid.consumer.name");
+        expect(validationError.elementName).to.equal("consumer[name]");
+        expect(validationError.value).to.equal(consumer.name);
       });
       it("should succeed with a western name", function() {
         consumer.name = "Matti Meikäläinen";
@@ -139,7 +151,7 @@
     describe("Street address", function() {
       it("can be optional", function() {
         delete consumer.streetAddress;
-        optionalFields = ['consumer.streetAddress'];
+        optionalFields = ["consumer.streetAddress"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -147,6 +159,18 @@
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("should fail if not optional but is empty", function() {
+        consumer.streetAddress = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer street address");
+        expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+        expect(validationError.elementName).to.equal("consumer[streetAddress]");
+        expect(validationError.value).to.equal(consumer.streetAddress);
       });
       it("should fail with streetAddress longer than 53 characters", function() {
         consumer.streetAddress = "123456789012345678901234567890123456789012345678901234";
@@ -214,7 +238,7 @@
     describe("Postal code", function() {
       it("can be optional", function() {
         delete consumer.postalCode;
-        optionalFields = ['consumer.postalCode'];
+        optionalFields = ["consumer.postalCode"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -233,6 +257,18 @@
         expect(validationError.message).to.equal("Invalid consumer postal code");
         expect(validationError.elementName).to.equal("consumer[postalCode]");
         expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
+        expect(validationError.value).to.equal(consumer.postalCode);
+      });
+      it("should fail if not optional but is empty", function() {
+        consumer.postalCode = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer postal code");
+        expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
+        expect(validationError.elementName).to.equal("consumer[postalCode]");
         expect(validationError.value).to.equal(consumer.postalCode);
       });
       it("should fail with blacklisted characters", function() {
@@ -256,10 +292,22 @@
           consumer: consumer,
           optionalFields: optionalFields
         };
-        optionalFields = ['consumer.city'];
+        optionalFields = ["city"];
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("should fail if not optional but is empty", function() {
+        consumer.city = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer city");
+        expect(validationError.translationKey).to.equal("invalid.consumer.city");
+        expect(validationError.elementName).to.equal("consumer[city]");
+        expect(validationError.value).to.equal(consumer.city);
       });
       it("should fail with city longer than 53 characters", function() {
         consumer.city = "123456789012345678901234567890123456789012345678901234";
@@ -327,7 +375,7 @@
     describe("Country code", function() {
       it("can be optional", function() {
         delete consumer.countryCode;
-        optionalFields = ["consumer.countryCode"];
+        optionalFields = ["countryCode"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -335,6 +383,18 @@
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("should fail if not optional but is empty", function() {
+        consumer.countryCode = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer country code");
+        expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
+        expect(validationError.elementName).to.equal("consumer[countryCode]");
+        expect(validationError.value).to.equal(consumer.countryCode);
       });
       it("should fail if it doesn't exist in list of country codes", function() {
         consumer.countryCode = "foo";

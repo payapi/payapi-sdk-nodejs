@@ -321,6 +321,26 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+      it("should be valid with a valid ccv number of 3 integers, preceding with zeros", function() {
+        payment.ccv = "012";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+      it("should be valid with a valid ccv number of 3 integers, all zeros", function() {
+        payment.ccv = "000";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
       it("can be optional", function() {
         optionalFields = ["ccv"];
         delete payment.ccv;
@@ -415,6 +435,18 @@
         expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
         expect(validationError.value).to.equal(payment.expiresMonth);
       });
+      it("should be invalid a non numeric", function() {
+        payment.expiresMonth = "diiba";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment expires month");
+        expect(validationError.elementName).to.equal("payment[expiresMonth]");
+        expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+        expect(validationError.value).to.equal(payment.expiresMonth);
+      });
     });
 
     describe("expiresYear", function() {
@@ -449,6 +481,17 @@
         expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
         expect(validationError.value).to.equal(payment.expiresYear);
       });
+      it("should be invalid with a non numeric", function() {
+        payment.expiresYear = "diiba";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment expires year");
+        expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+        expect(validationError.value).to.equal(payment.expiresYear);
+      });
     });
 
     describe("Expiration month and year", function() {
@@ -461,9 +504,15 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Card has expired");
-        expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
-        expect(validationError.value).to.equal(payment.expiresMonth + "/" + payment.expiresYear);
+        if(payment.expiresYear === moment().year()) {
+          expect(validationError.message).to.equal("Card has expired");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
+          expect(validationError.value).to.equal(payment.expiresMonth + "/" + payment.expiresYear);
+        } else {
+          expect(validationError.message).to.equal("Invalid payment expires year");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+          expect(validationError.value).to.equal(payment.expiresYear);
+        }
       });
     });
   });

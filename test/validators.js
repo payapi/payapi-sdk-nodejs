@@ -182,10 +182,7 @@
           "vatInCents": 22,
           "currency": "EUR",
           "referenceId": "ref123",
-          "tosUrl": "https://payapi.io/terms",
-          "sumIncludingVat": "€3.22",
-          "sumExcludingVat": "€3.00",
-          "vat": "€0.22"
+          "tosUrl": "https://payapi.io/terms"
         },
         "products": [
         {
@@ -199,10 +196,7 @@
           "priceInCentsExcVat": 100,
           "vatInCents": 22,
           "vatPercentage": 22,
-          "extraData": "color=blue&size=M",
-          "priceIncludingVat": "€1.22",
-          "priceExcludingVat": "€1.00",
-          "vat": "€0.22"
+          "extraData": "color=blue&size=M"
         },
         {
           "id": "pbc123456",
@@ -215,10 +209,7 @@
           "priceInCentsExcVat": 200,
           "vatInCents": 22,
           "vatPercentage": 22,
-          "extraData": "color=blue&size=M",
-          "priceIncludingVat": "€2.22",
-          "priceExcludingVat": "€2.00",
-          "vat": "€0.22"
+          "extraData": "color=blue&size=M"
         }
         ],
         "callbacks": {
@@ -422,7 +413,8 @@
           "payment.ccv",
           "payment.expiresMonth",
           "payment.expiresYear",
-          "consumer"
+          "consumer",
+          "consumer.countryCode"
         ]
       };
       return expect(

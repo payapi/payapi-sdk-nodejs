@@ -136,6 +136,7 @@
       });
 
       it("should work with secure form's fake data object", function() {
+        // NOTE: in secure form the shipping address fields are merged into consumer.
         var fakeDataObject = {
           "order": {
             "sumInCentsIncVat": 344,
@@ -173,7 +174,7 @@
             "extraData": "color=blue&size=M"
           }
           ],
-          "shippingAddress": {
+          "consumer": {
             "recipientName": "John Doe",
             "co": "Jane Doe",
             "streetAddress": "Calle Andalucia 32",
@@ -181,9 +182,7 @@
             "postalCode": 29640,
             "city": "Fuengirola",
             "stateOrProvince": "Malaga",
-            "countryCode": "ES"
-          },
-          "consumer": {
+            "countryCode": "ES",
             "consumerId": "happy88",
             "email": "happyconsumer@example.com"
           },
