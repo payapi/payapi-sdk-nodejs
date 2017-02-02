@@ -435,6 +435,18 @@
         expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
         expect(validationError.value).to.equal(payment.expiresMonth);
       });
+      it("should be invalid a non numeric", function() {
+        payment.expiresMonth = "diiba";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment expires month");
+        expect(validationError.elementName).to.equal("payment[expiresMonth]");
+        expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+        expect(validationError.value).to.equal(payment.expiresMonth);
+      });
     });
 
     describe("expiresYear", function() {
@@ -460,6 +472,17 @@
       });
       it("should be invalid with a year smaller than current", function() {
         payment.expiresYear = moment().year() - 1;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment expires year");
+        expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+        expect(validationError.value).to.equal(payment.expiresYear);
+      });
+      it("should be invalid with a non numeric", function() {
+        payment.expiresYear = "diiba";
         var params = {
           payment: payment,
           optionalFields: optionalFields
