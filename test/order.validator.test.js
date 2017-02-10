@@ -18,7 +18,8 @@
       sumInCentsExcVat: 1,
       vatInCents: 1,
       referenceId: "x",
-      currency: "EUR"
+      currency: "EUR",
+      tosUrl: "https://payapi.io/terms"
     };
     optionalFields = [];
   });
@@ -32,6 +33,7 @@
           order: order,
           optionalFields: optionalFields
         };
+            console.log(new OrderValidator(params).validate());
         return expect(
             new OrderValidator(params).validate()
             ).to.be.empty;
@@ -310,9 +312,58 @@
         expect(validationError.translationKey).to.equal("invalid.order.currency");
         expect(validationError.value).to.equal(order.currency);
       });
-
     }); // describe currency
 
+    describe("tosUrl", function() {
+      it("can be optional", function() {
+        delete order.tosUrl;
+        optionalFields = ['tosUrl'];
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("must use https protocol", function() {
+        order.tosUrl = "http://payapi.io/terms";
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        var validationError = new OrderValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid order tosUrl. Make sure you are using https protocol.");
+        expect(validationError.translationKey).to.equal("invalid.order.tosUrl");
+        expect(validationError.value).to.equal(order.tosUrl);
+      });
+
+      it("must define a protocol", function() {
+        order.tosUrl = "payapi.io/terms";
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        var validationError = new OrderValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid order tosUrl. Make sure you are using https protocol.");
+        expect(validationError.translationKey).to.equal("invalid.order.tosUrl");
+        expect(validationError.value).to.equal(order.tosUrl);
+      });
+
+      it("must be a valid url", function() {
+        order.tosUrl = "hokkus pokkus, filiokkus";
+        optionalFields = ['tosUrl'];
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        var validationError = new OrderValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid order tosUrl. Make sure you are using https protocol.");
+        expect(validationError.translationKey).to.equal("invalid.order.tosUrl");
+        expect(validationError.value).to.equal(order.tosUrl);
+      });
+    }); // describe tosUrl
   });
 }());
 

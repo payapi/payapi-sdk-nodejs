@@ -26,7 +26,7 @@
     describe("priceInCentsIncVat", function() {
       it("can be optional", function() {
         delete product.priceInCentsIncVat;
-        optionalFields = ['priceInCentsIncVat'];
+        optionalFields = ["priceInCentsIncVat"];
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -34,6 +34,18 @@
         return expect(
           new ProductValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be optional but must be valid anyway", function() {
+        product.priceInCentsIncVat = "diiba";
+        optionalFields = ["priceInCentsIncVat"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        var validationError = new ProductValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid product price in cents including VAT");
+        expect(validationError.translationKey).to.equal("invalid.product.priceInCentsIncVat");
+        expect(validationError.value).to.equal("diiba");
       });
       it("should succeed with integer 1", function() {
         var params = {
@@ -45,7 +57,7 @@
         ).to.be.empty;
       });
       it("should succeed with string '1'", function() {
-        product.priceInCentsIncVat = '1';
+        product.priceInCentsIncVat = "1";
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -63,13 +75,13 @@
         var validationError = new ProductValidator(params).validate()[0];
         expect(validationError.message).to.equal("Invalid product price in cents including VAT");
         expect(validationError.translationKey).to.equal("invalid.product.priceInCentsIncVat");
-        expect(validationError.value).to.equal('' + product.priceInCentsIncVat);
+        expect(validationError.value).to.equal("" + product.priceInCentsIncVat);
       });
     });
     describe("priceInCentsExcVat", function() {
       it("can be optional", function() {
         delete product.priceInCentsExcVat;
-        optionalFields = ['priceInCentsExcVat'];
+        optionalFields = ["priceInCentsExcVat"];
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -77,6 +89,18 @@
         return expect(
           new ProductValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be optional but must be valid anyway", function() {
+        product.priceInCentsExcVat = "diiba";
+        optionalFields = ["priceInCentsExcVat"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        var validationError = new ProductValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid product price in cents excluding VAT");
+        expect(validationError.translationKey).to.equal("invalid.product.priceInCentsExcVat");
+        expect(validationError.value).to.equal("diiba");
       });
       it("should succeed with integer 1", function() {
         var params = {
@@ -88,7 +112,7 @@
         ).to.be.empty;
       });
       it("should succeed with string '1'", function() {
-        product.priceInCentsExcVat = '1';
+        product.priceInCentsExcVat = "1";
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -106,14 +130,14 @@
         var validationError = new ProductValidator(params).validate()[0];
         expect(validationError.message).to.equal("Invalid product price in cents excluding VAT");
         expect(validationError.translationKey).to.equal("invalid.product.priceInCentsExcVat");
-        expect(validationError.value).to.equal('' + product.priceInCentsExcVat);
+        expect(validationError.value).to.equal("" + product.priceInCentsExcVat);
       });
     });
     describe("vatPercentage", function() {
       it("can be optional", function() {
         var vatPercentage = product.vatPercentage;
         delete product.vatPercentage;
-        optionalFields = ['vatPercentage'];
+        optionalFields = ["vatPercentage"];
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -171,7 +195,7 @@
         var validationError = new ProductValidator(params).validate()[0];
         expect(validationError.message).to.equal("Invalid product vatPercentage");
         expect(validationError.translationKey).to.equal("invalid.product.vatPercentage");
-        expect(validationError.value).to.equal('' + product.vatPercentage);
+        expect(validationError.value).to.equal("" + product.vatPercentage);
       });
       it("should succeed with fractional 0.1", function() {
         product.vatPercentage = 0.1;
@@ -187,7 +211,7 @@
     describe("quantity", function() {
       it("can be optional", function() {
         delete product.quantity;
-        optionalFields = ['quantity'];
+        optionalFields = ["quantity"];
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -206,7 +230,7 @@
         ).to.be.empty;
       });
       it("should succeed with string '1'", function() {
-        product.quantity = '1';
+        product.quantity = "1";
         var params = {
           product: product,
           optionalFields: optionalFields
@@ -224,7 +248,7 @@
         var validationError = new ProductValidator(params).validate()[0];
         expect(validationError.message).to.equal("Invalid product quantity");
         expect(validationError.translationKey).to.equal("invalid.product.quantity");
-        expect(validationError.value).to.equal('' + product.quantity);
+        expect(validationError.value).to.equal("" + product.quantity);
       });
     });
   });
