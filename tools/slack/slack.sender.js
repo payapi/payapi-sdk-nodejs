@@ -1,7 +1,7 @@
 "use strict";
 var SlackSender = function(params) {
-  if (!params.webHookUrl || !params.channel) {
-    throw new Error({message: "params.webHookUrl or params.channel is missing"});
+  if (!params.webHookUrl || !params.channel || !params.username) {
+    throw new Error({message: "params.webHookUrl, params.channel or params.username is missing"});
   }
 
   var os = require("os");
@@ -19,7 +19,7 @@ var SlackSender = function(params) {
     // define Slack message
     slack.webhook({
       channel: params.channel,
-      username: "payapi",
+      username: params.username,
       text: message
     }, function(err, response) {
       if (!err) {
@@ -43,10 +43,12 @@ module.exports = SlackSender;
 
 var command = process.argv[2];
 if(command) {
+  var secrets = require("../../config/env/secrets");
   switch(command) {
     case "newClientPublished":
       new SlackSender({
-        webHookUrl: require("../../config/env/secrets").slack.incomingWebhookUrl,
+        username: secrets.slack.username,
+        webHookUrl: secrets.slack.incomingWebhookUrl,
         channel: "#general"
       }).send("v" + require("../../package.json").version + " of PayapiClient published");
   }
