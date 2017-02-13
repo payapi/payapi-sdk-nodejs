@@ -291,6 +291,17 @@
         ).to.be.empty;
       });
       it("should succeed with integer 1", function() {
+        product.quantity = 1;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with integer 0", function() {
+        product.quantity = 0;
         var params = {
           product: product,
           optionalFields: optionalFields
