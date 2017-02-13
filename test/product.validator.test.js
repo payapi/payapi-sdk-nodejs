@@ -66,6 +66,36 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
+      it("should succeed with integer 0", function() {
+        product.priceInCentsIncVat = 0;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string '0'", function() {
+        product.priceInCentsIncVat = "0";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with 150000", function() {
+        product.priceInCentsIncVat = 150000;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
       it("should fail with fractional 0.1", function() {
         product.priceInCentsIncVat = 0.1;
         var params = {
@@ -113,6 +143,36 @@
       });
       it("should succeed with string '1'", function() {
         product.priceInCentsExcVat = "1";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string '0'", function() {
+        product.priceInCentsExcVat = "0";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string 0", function() {
+        product.priceInCentsExcVat = 0;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string '99900'", function() {
+        product.priceInCentsExcVat = "99900";
         var params = {
           product: product,
           optionalFields: optionalFields
