@@ -1,6 +1,7 @@
 "use strict";
 var SlackSender = function(params) {
   if (!params.webHookUrl || !params.channel || !params.username) {
+    console.error(params);
     throw new Error({message: "params.webHookUrl, params.channel or params.username is missing"});
   }
 
