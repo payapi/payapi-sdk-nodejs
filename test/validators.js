@@ -54,7 +54,8 @@
         priceInCentsExcVat: 1,
         vatInCents: 1,
         vatPercentage: 22.5,
-        quantity: 1
+        quantity: 1,
+        imageUrl: "https://example.com/doge.jpg"
       }],
       callbacks: {
         processing: "https://staging-api.loverocksshop.com/v1/callback-processing",
@@ -734,7 +735,6 @@
       var payload = {
         "publicId": "multimerchantshop",
         "order": {
-          "tosUrl": "http://store.multimerchantshop.com/terms",
           "currency": "EUR",
           "sumInCentsIncVat": 18200,
           "sumInCentsExcVat": 15000,
@@ -752,7 +752,7 @@
           "quantity": "1",
           "title": "Canon EOS 5D",
           "description": "Canon's press material for the EOS 5D states that it 'defines (a) new D-SLR category', while we'r..",
-          "imageUrl": "http://store.multimerchantshop.com/image/e3fdad58ef62a70bf356e0042d2e4e51/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
+          "imageUrl": "https://store.multimerchantshop.com/image/e3fdad58ef62a70bf356e0042d2e4e51/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
           "category": "Desktops,Cameras",
           "extraData": {
             "quantity": "1",

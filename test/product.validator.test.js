@@ -17,7 +17,8 @@
       priceInCentsExcVat: 1,
       vatInCents: 1,
       vatPercentage: 22.5,
-      quantity: 1
+      quantity: 1,
+      imageUrl: "https://example.com/doge.jpg"
     };
     optionalFields = [];
   });
@@ -331,7 +332,61 @@
         expect(validationError.translationKey).to.equal("invalid.product.quantity");
         expect(validationError.value).to.equal("" + product.quantity);
       });
-    });
-  });
+    }); // quantity
 
+    describe("imageUrl", function() {
+      it("can be optional", function() {
+        delete product.imageUrl;
+        optionalFields = ["imageUrl"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      //it("should succeed with integer 1", function() {
+      //  product.imageUrl = 1;
+      //  var params = {
+      //    product: product,
+      //    optionalFields: optionalFields
+      //  };
+      //  return expect(
+      //    new ProductValidator(params).validate()
+      //  ).to.be.empty;
+      //});
+      //it("should succeed with integer 0", function() {
+      //  product.imageUrl = 0;
+      //  var params = {
+      //    product: product,
+      //    optionalFields: optionalFields
+      //  };
+      //  return expect(
+      //    new ProductValidator(params).validate()
+      //  ).to.be.empty;
+      //});
+      //it("should succeed with string '1'", function() {
+      //  product.imageUrl = "1";
+      //  var params = {
+      //    product: product,
+      //    optionalFields: optionalFields
+      //  };
+      //  return expect(
+      //    new ProductValidator(params).validate()
+      //  ).to.be.empty;
+      //});
+      //it("should fail with fractional 0.1", function() {
+      //  product.imageUrl = 0.1;
+      //  var params = {
+      //    product: product,
+      //    optionalFields: optionalFields
+      //  };
+      //  var validationError = new ProductValidator(params).validate()[0];
+      //  expect(validationError.message).to.equal("Invalid product imageUrl");
+      //  expect(validationError.translationKey).to.equal("invalid.product.imageUrl");
+      //  expect(validationError.value).to.equal("" + product.imageUrl);
+      //});
+    }); // imageUrl
+  });
 }());
