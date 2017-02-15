@@ -50,18 +50,19 @@
         priceInCentsExcVat: 1,
         vatInCents: 1,
         vatPercentage: 22.5,
-        quantity: 1
+        quantity: 1,
+        imageUrl: "https://example.com/doge.jpg"
       }],
       callbacks: {
-        success: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback',
-        failed: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback',
-        chargeback: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback',
-        processing: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback'
+        success: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        failed: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        chargeback: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        processing: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback"
       },
       returnUrls: {
-        success: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback',
-        cancel: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback',
-        failed: 'https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback',
+        success: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        cancel: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        failed: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
       }
     };
   });
@@ -75,22 +76,6 @@
         };
 
         var token = new PayapiClient(params).encodePaymentToken();
-
-        //// remove from here
-        //console.log("below is from index.test.js XXX");
-        //new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken()
-        //  .then(result =>{
-        //    console.log("result");
-        //    console.log(result);
-        //    console.log("above is from index.test.js");
-        //  })
-        //  .catch(err =>{
-        //    console.log("err");
-        //    console.log(err);
-        //    console.log("above is from index.test.js");
-        //  });
-        //// remove to here
-
         return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
