@@ -796,4 +796,77 @@
           ).to.be.empty;
     });
   });
+  describe("Product.imageUrl problem with v1.2.5", function() {
+    it("is not a client issue", function() {
+      var payload =
+{ publicId: "public_086s4dsbmrn7",
+  order:
+   { currency: "EUR",
+     tosUrl: "https://nets.multimerchantshop.xyz/terms",
+     shippingHandlingFeeInCentsIncVat: 0,
+     shippingHandlingFeeInCentsExcVat: 0,
+     sumInCentsIncVat: 150000,
+     sumInCentsExcVat: 150000,
+     vatInCents: 0,
+     referenceId: "public_086s4dsbmrn7-9bbc76e1-b419-465e-ac7f-6c39330e7d2b" },
+  products:
+   [ { priceInCentsIncVat: 150000,
+       priceInCentsExcVat: 150000,
+       vatInCents: 0,
+       vatPercentage: 0,
+       id: "46",
+       quantity: "1",
+       title: "Sony VAIO",
+       description: "Unprecedented power. The next generation of processing technology has arrived. Built into the new..",
+       imageUrl: "https://nets.multimerchantshop.xyz/media/754ab12ab1ed9620b5c067f44b257066/image/cache/catalog/demo/sony_vaio_1-228x228.jpg",
+       category: "Laptops",
+       model: "SONYVAIO",
+       },
+     { priceInCentsIncVat: 0,
+       priceInCentsExcVat: 0,
+       vatInCents: 0,
+       vatPercentage: 0,
+       id: "shipping_and_handling",
+       quantity: 1,
+       title: "Shipping and Handling",
+       description: "Shipping and handling fees; added automatically to the order with One-Click payment",
+       category: "Shipping" } ],
+  returnUrls:
+   { success: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/successful",
+     cancel: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/cancelled",
+     failed: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/failed" },
+  callbacks:
+   { success: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
+     failed: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
+     chargeback: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
+     processing: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback" },
+  consumer: { locale: "en_US", email: "", consumerId: "" },
+  url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
+  scrapeMoment: "2017-02-20T10:54:47.716Z",
+  optionalFields:
+   [ "products.id",
+     "products.description",
+     "products.imageUrl",
+     "products.category",
+     "products.extraData",
+     "order.tosUrl",
+     "consumer",
+     "callbacks",
+     "returnUrls",
+     "payment.ip",
+     "payment.cardHolderEmail",
+     "payment.cardHolderName",
+     "payment.paymentMethod",
+     "payment.creditCardNumber",
+     "payment.ccv",
+     "payment.expiresMonth",
+     "payment.expiresYear",
+     "consumer",
+     "consumer.countryCode" ]
+};
+      return expect(
+          new InputDataValidator(payload).validate()
+          ).to.be.empty;
+    });
+  });
 }());

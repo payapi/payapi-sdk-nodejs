@@ -346,6 +346,17 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
+      it("is successful with staging image", function() {
+        product.imageUrl = "https://store.multimerchantshop.xyz/media/983ab1519a8b553ec58125a13bf09471/image/cache/catalog/hp_1-228x228.jpg";
+        optionalFields = ["imageUrl"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
     }); // imageUrl
   });
 }());
