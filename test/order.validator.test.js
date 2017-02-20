@@ -182,7 +182,7 @@
 
       it("can be optional", function() {
         delete order.vatInCents;
-        optionalFields = ['vatInCents'];
+        optionalFields = ["vatInCents"];
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -194,6 +194,18 @@
 
       it("should succeed with integer 0", function() {
         order.vatInCents = 0;
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("can be optional and should succeed with integer 0", function() {
+        order.vatInCents = 0;
+        optionalFields = ["vatInCents"];
         var params = {
           order: order,
           optionalFields: optionalFields

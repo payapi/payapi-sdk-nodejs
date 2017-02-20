@@ -346,47 +346,6 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
-      //it("should succeed with integer 1", function() {
-      //  product.imageUrl = 1;
-      //  var params = {
-      //    product: product,
-      //    optionalFields: optionalFields
-      //  };
-      //  return expect(
-      //    new ProductValidator(params).validate()
-      //  ).to.be.empty;
-      //});
-      //it("should succeed with integer 0", function() {
-      //  product.imageUrl = 0;
-      //  var params = {
-      //    product: product,
-      //    optionalFields: optionalFields
-      //  };
-      //  return expect(
-      //    new ProductValidator(params).validate()
-      //  ).to.be.empty;
-      //});
-      //it("should succeed with string '1'", function() {
-      //  product.imageUrl = "1";
-      //  var params = {
-      //    product: product,
-      //    optionalFields: optionalFields
-      //  };
-      //  return expect(
-      //    new ProductValidator(params).validate()
-      //  ).to.be.empty;
-      //});
-      //it("should fail with fractional 0.1", function() {
-      //  product.imageUrl = 0.1;
-      //  var params = {
-      //    product: product,
-      //    optionalFields: optionalFields
-      //  };
-      //  var validationError = new ProductValidator(params).validate()[0];
-      //  expect(validationError.message).to.equal("Invalid product imageUrl");
-      //  expect(validationError.translationKey).to.equal("invalid.product.imageUrl");
-      //  expect(validationError.value).to.equal("" + product.imageUrl);
-      //});
     }); // imageUrl
   });
 }());
