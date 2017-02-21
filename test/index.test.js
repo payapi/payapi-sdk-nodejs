@@ -42,15 +42,28 @@
         sumInCentsExcVat: 1,
         vatInCents: 1,
         referenceId: "x",
-        currency: "EUR"
+        currency: "EUR",
+        tosUrl: "https://payapi.io/terms"
       },
       products: [{
         priceInCentsIncVat: 1,
         priceInCentsExcVat: 1,
         vatInCents: 1,
         vatPercentage: 22.5,
-        quantity: 1
-      }]
+        quantity: 1,
+        imageUrl: "https://example.com/doge.jpg"
+      }],
+      callbacks: {
+        success: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        failed: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        chargeback: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        processing: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback"
+      },
+      returnUrls: {
+        success: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        cancel: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+        failed: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
+      }
     };
   });
 
@@ -61,6 +74,7 @@
           payload: paymentObject,
           apiKey: apiKey
         };
+
         var token = new PayapiClient(params).encodePaymentToken();
         return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
@@ -88,6 +102,7 @@
       it("should convert Product vatPercentage to a number", function() {
         paymentObject.products[0].vatPercentage = "12.12345";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
@@ -191,6 +206,11 @@
             "success": "https://staging-api.example.com/v1/callback-success",
             "failed": "https://staging-api.example.com/v1/callback-failed",
             "chargeback": "https://staging-api.example.com/v1/callback-chargeback"
+          },
+          "returnUrls": {
+            "success": "https://staging-api.example.com/v1/callback-success",
+            "cancel": "https://staging-api.example.com/v1/callback-cancel",
+            "failed": "https://staging-api.example.com/v1/callback-failed"
           }
         };
         var paymentToken = jwt.encode(fakeDataObject, apiKey, "HS512");
