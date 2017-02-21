@@ -112,6 +112,19 @@
           });
       });
 
+      it("should encode payload extra fields", function() {
+        paymentObject.extra = {
+          "diiba ": "daaba "
+        };
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            console.log(decodedPaymentToken.extra);
+            expect(decodedPaymentToken.extra["diiba%20"]).to.equal("daaba%20");
+          });
+      });
+
       it("should convert Product vatPercentage to a number", function() {
         paymentObject.products[0].vatPercentage = "12.12345";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
