@@ -99,6 +99,19 @@
       });
     });
     describe("Decoding a token", function() {
+      it("should encode Product imageUrl", function() {
+        paymentObject.products[0].imageUrl = "https://www.example.com/media/3901fe62872146838fdcafc0b673dbf6/image/cache/catalog/ZALE SS17/9215_11 copy-600x800.jpg";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].imageUrl).to.equal(
+              "https://www.example.com/media/3901fe62872146838fdcafc0b673dbf6/image/cache/catalog/ZALE%20SS17/9215_11%20copy-600x800.jpg"
+            );
+          });
+      });
+
       it("should convert Product vatPercentage to a number", function() {
         paymentObject.products[0].vatPercentage = "12.12345";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
