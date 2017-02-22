@@ -53,6 +53,8 @@
         quantity: 1,
         description: "description",
         title: "title",
+        category: "category",
+        model: "model",
         imageUrl: "https://example.com/doge.jpg"
       }],
       callbacks: {
@@ -206,6 +208,7 @@
             "description": "Flashy fine cap",
             "imageUrl": "https://staging-store.example.com/image/c526e8973ba519c35bf391e63fae44db/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
             "category": "Caps and hats",
+            "model": "xyz",
             "priceInCentsIncVat": 122,
             "priceInCentsExcVat": 100,
             "vatInCents": 22,
@@ -219,6 +222,7 @@
             "description": "Flashy fine cap",
             "imageUrl": "https://staging-store.example.com/image/c526e8973ba519c35bf391e63fae44db/cache/catalog/demo/iphone_1-500x500.jpg",
             "category": "Caps and hats",
+            "model": "xyz",
             "priceInCentsIncVat": 222,
             "priceInCentsExcVat": 200,
             "vatInCents": 22,

@@ -21,6 +21,8 @@
       quantity: 1,
       description: "description",
       title: "title",
+      category: "category",
+      model: "model",
       imageUrl: "https://example.com/doge.jpg"
     };
     optionalFields = [];
@@ -428,5 +430,70 @@
         }
       });
     }); // title
+
+    describe("category", function() {
+      it("can be optional", function() {
+        delete product.category;
+        optionalFields = ["category"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          product.category = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            product: product,
+            optionalFields: optionalFields
+          };
+          var validationError = new ProductValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product category");
+          expect(validationError.translationKey).to.equal("invalid.product.category");
+          expect(validationError.value).to.equal("Product category is not URL encoded");
+        }
+      });
+    }); // category
+
+    describe("model", function() {
+      it("can be optional", function() {
+        delete product.model;
+        optionalFields = ["model"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete product.model;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        var validationError = new ProductValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid product model");
+        expect(validationError.translationKey).to.equal("invalid.product.model");
+        expect(validationError.value).to.equal("Product model is mandatory");
+      });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          product.model = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            product: product,
+            optionalFields: optionalFields
+          };
+          var validationError = new ProductValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product model");
+          expect(validationError.translationKey).to.equal("invalid.product.model");
+          expect(validationError.value).to.equal("Product model is not URL encoded");
+        }
+      });
+    }); // model
   });
 }());
