@@ -55,7 +55,10 @@
         title: "title",
         category: "category",
         model: "model",
-        imageUrl: "https://example.com/doge.jpg"
+        imageUrl: "https://example.com/doge.jpg",
+        extraData: {
+          foo: "bar"
+        }
       }],
       callbacks: {
         success: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
@@ -213,7 +216,9 @@
             "priceInCentsExcVat": 100,
             "vatInCents": 22,
             "vatPercentage": 22,
-            "extraData": "color=blue&size=M"
+            "extraData": {
+              foo: "bar"
+            }
           },
           {
             "id": "pbc123456",
@@ -227,7 +232,9 @@
             "priceInCentsExcVat": 200,
             "vatInCents": 22,
             "vatPercentage": 22,
-            "extraData": "color=blue&size=M"
+            "extraData": {
+              foo: "bar"
+            }
           }
           ],
           "consumer": {

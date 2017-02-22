@@ -59,7 +59,10 @@
         title: "title",
         category: "category",
         model: "model",
-        imageUrl: "https://example.com/doge.jpg"
+        imageUrl: "https://example.com/doge.jpg",
+        extraData: {
+          foo: "bar"
+        }
       }],
       callbacks: {
         processing: "https://staging-api.loverocksshop.com/v1/callback-processing",
@@ -214,7 +217,9 @@
           "priceInCentsExcVat": 100,
           "vatInCents": 22,
           "vatPercentage": 22,
-          "extraData": "color=blue&size=M"
+          "extraData": {
+            "foo": "bar"
+          }
         },
         {
           "id": "pbc123456",
@@ -228,7 +233,9 @@
           "priceInCentsExcVat": 200,
           "vatInCents": 22,
           "vatPercentage": 22,
-          "extraData": "color=blue&size=M"
+          "extraData": {
+            "foo": "bar"
+          }
         }
         ],
         "callbacks": {
@@ -310,7 +317,10 @@
               "vatPercentage": 22.5,
               "priceIncludingVat": "€1.22",
               "priceExcludingVat": "€1.00",
-              "vat": "€0.22"
+              "vat": "€0.22",
+              "extraData": {
+                "foo": "bar"
+              }
             },
             {
               "id": "pbc123456",
@@ -326,7 +336,10 @@
               "vatPercentage": 22.5,
               "priceIncludingVat": "€2.22",
               "priceExcludingVat": "€2.00",
-              "vat": "€0.22"
+              "vat": "€0.22",
+              "extraData": {
+                "foo": "bar"
+              }
             }
           ],
           "callbacks": {
