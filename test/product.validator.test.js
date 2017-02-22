@@ -6,6 +6,7 @@
   const chaiAsPromised = require("chai-as-promised");
   const expect = chai.expect;
   const jwt = require("jwt-simple");
+  const BLACKLISTED_CHARACTERS = [";", "`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var ProductValidator = require("../lib/product.validator");
   var product;
@@ -18,6 +19,8 @@
       vatInCents: 1,
       vatPercentage: 22.5,
       quantity: 1,
+      description: "description",
+      title: "title",
       imageUrl: "https://example.com/doge.jpg"
     };
     optionalFields = [];
@@ -357,6 +360,73 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          product.imageUrl = "https://store.mult" + BLACKLISTED_CHARACTERS[i] + "imerchantshop.xyz/media/983ab1519a8b553ec58125a13bf09471/image/cache/catalog/hp_1-228x228.jpg";
+          var params = {
+            product: product,
+            optionalFields: optionalFields
+          };
+          var validationError = new ProductValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product imageUrl");
+          expect(validationError.translationKey).to.equal("invalid.product.imageUrl");
+          expect(validationError.value).to.equal("Product imageUrl is not URL encoded");
+        }
+      });
     }); // imageUrl
+
+    describe("description", function() {
+      it("can be optional", function() {
+        delete product.description;
+        optionalFields = ["description"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          product.description = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            product: product,
+            optionalFields: optionalFields
+          };
+          var validationError = new ProductValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product description");
+          expect(validationError.translationKey).to.equal("invalid.product.description");
+          expect(validationError.value).to.equal("Product description is not URL encoded");
+        }
+      });
+    }); // description
+
+    describe("title", function() {
+      it("can be optional", function() {
+        delete product.title;
+        optionalFields = ["title"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          product.title = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            product: product,
+            optionalFields: optionalFields
+          };
+          var validationError = new ProductValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid product title");
+          expect(validationError.translationKey).to.equal("invalid.product.title");
+          expect(validationError.value).to.equal("Product title is not URL encoded");
+        }
+      });
+    }); // title
   });
 }());

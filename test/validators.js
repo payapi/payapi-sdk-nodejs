@@ -55,6 +55,8 @@
         vatInCents: 1,
         vatPercentage: 22.5,
         quantity: 1,
+        description: "description",
+        title: "title",
         imageUrl: "https://example.com/doge.jpg"
       }],
       callbacks: {
@@ -829,7 +831,7 @@
        id: "shipping_and_handling",
        quantity: 1,
        title: "Shipping and Handling",
-       description: "Shipping and handling fees; added automatically to the order with One-Click payment",
+       description: "Shipping and handling fees. Added automatically to the order with One-Click payment",
        category: "Shipping" } ],
   returnUrls:
    { success: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/successful",

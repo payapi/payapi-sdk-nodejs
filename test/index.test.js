@@ -51,6 +51,8 @@
         vatInCents: 1,
         vatPercentage: 22.5,
         quantity: 1,
+        description: "description",
+        title: "title",
         imageUrl: "https://example.com/doge.jpg"
       }],
       callbacks: {
@@ -120,7 +122,6 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            console.log(decodedPaymentToken.extra);
             expect(decodedPaymentToken.extra["diiba%20"]).to.equal("daaba%20");
           });
       });
