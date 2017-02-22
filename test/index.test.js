@@ -146,6 +146,16 @@
           });
       });
 
+      it("should encode integer product id to string", function() {
+        paymentObject.products[0].id = 1;
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].id).to.be.a("string");
+          });
+      });
+
       it("should convert Product priceInCentsIncVat to a number", function() {
         paymentObject.products[0].priceInCentsIncVat = "235";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
