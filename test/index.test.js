@@ -239,7 +239,6 @@
           ],
           "consumer": {
             "name": "Peter",
-            "recipientName": "John Doe",
             "co": "Jane Doe",
             "streetAddress": "Calle Andalucia 32",
             "streetAddress2": "Los Boliches",
