@@ -302,7 +302,7 @@
     describe("Postal code", function() {
       it("can be optional", function() {
         delete consumer.postalCode;
-        optionalFields = ["consumer.postalCode"];
+        optionalFields = ["postalCode"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -310,6 +310,18 @@
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.postalCode;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer postal code");
+        expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
+        expect(validationError.elementName).to.equal("consumer[postalCode]");
+        expect(validationError.value).to.equal("Consumer postal code is mandatory");
       });
       it("should fail with postalCode longer than 10 characters", function() {
         consumer.postalCode = "12345678901";
@@ -321,7 +333,7 @@
         expect(validationError.message).to.equal("Invalid consumer postal code");
         expect(validationError.elementName).to.equal("consumer[postalCode]");
         expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
-        expect(validationError.value).to.equal(consumer.postalCode);
+        expect(validationError.value).to.equal("Consumer postal code must be between 2 and 10 characters");
       });
       it("should fail if not optional but is empty", function() {
         consumer.postalCode = "";
@@ -333,19 +345,20 @@
         expect(validationError.message).to.equal("Invalid consumer postal code");
         expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
         expect(validationError.elementName).to.equal("consumer[postalCode]");
-        expect(validationError.value).to.equal(consumer.postalCode);
+        expect(validationError.value).to.equal("Consumer postal code is mandatory");
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.postalCode = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer postal code");
-        expect(validationError.elementName).to.equal("consumer[postalCode]");
-        expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
-        expect(validationError.value).to.equal(consumer.postalCode);
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.postalCode = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer postal code");
+          expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
+          expect(validationError.value).to.equal("Consumer postal code is not URL encoded");
+        }
       });
     });
 

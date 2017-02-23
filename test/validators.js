@@ -799,6 +799,7 @@
           "co": "co",
           "streetAddress": "Kiwi street",
           "streetAddress2": "Main avenue",
+          "postalCode": "29260",
           "locale": "en",
           "email": "",
           "consumerId": ""
@@ -871,6 +872,7 @@
       co: "co",
       streetAddress: "Calle andalucía nº 32",
       streetAddress2: "Escalera 1",
+      postalCode: "29640",
       locale: "en_US",
       email: "",
       consumerId: ""
