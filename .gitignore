@@ -36,3 +36,6 @@ config/env/secrets.js
 
 # reports (checkstyle, coverage, etc.)
 reports
+
+# macos files
+.DS_Store
