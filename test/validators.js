@@ -185,7 +185,6 @@
           "consumerId": "diiba69",
           "email": "diiba69@example.com",
           "locale": "en_US",
-          "recipientName": "John Doe",
           "co": "Jane Doe",
           "streetAddress": "Calle Andalucia 32",
           "streetAddress2": "Los Boliches",
@@ -283,7 +282,7 @@
             "name": "Marko",
             "co": "co",
             "streetAddress": "Calle Andalucia 32",
-            "streetAddress2": "",
+            "streetAddress2": "Escalera 2",
             "postalCode": "90210",
             "city": "Fuengirola",
             "stateOrProvince": "",
@@ -799,6 +798,7 @@
           "name": "Peter",
           "co": "co",
           "streetAddress": "Kiwi street",
+          "streetAddress2": "Main avenue",
           "locale": "en",
           "email": "",
           "consumerId": ""
@@ -870,6 +870,7 @@
       name: "Peter",
       co: "co",
       streetAddress: "Calle andalucía nº 32",
+      streetAddress2: "Escalera 1",
       locale: "en_US",
       email: "",
       consumerId: ""
