@@ -7,6 +7,8 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
+  const BLACKLISTED_CHARACTERS = [";", "`", "´", "\"", "{", "}", "<", ">"];
+
   chai.use(chaiAsPromised);
   var OrderValidator = require("../lib/order.validator");
   var order;
@@ -33,7 +35,6 @@
           order: order,
           optionalFields: optionalFields
         };
-            console.log(new OrderValidator(params).validate());
         return expect(
             new OrderValidator(params).validate()
             ).to.be.empty;
@@ -256,7 +257,19 @@
     describe("referenceId", function() {
       it("can be optional", function() {
         delete order.referenceId;
-        optionalFields = ['referenceId'];
+        optionalFields = ["referenceId"];
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new OrderValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("can be mandatory", function() {
+        delete order.referenceId;
+        optionalFields = ["referenceId"];
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -277,7 +290,7 @@
       });
 
       it("should fail when longer than 255 characters", function() {
-        order.referenceId = new Array(257).join('x');
+        order.referenceId = new Array(257).join("x");
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -286,6 +299,21 @@
         expect(validationError.message).to.equal("Invalid order reference ID");
         expect(validationError.translationKey).to.equal("invalid.order.referenceId");
         expect(validationError.value).to.equal(order.referenceId);
+      });
+
+      it("should fail when it contains blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          order.referenceId = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            order: order,
+            optionalFields: optionalFields
+          };
+          var validationError = new OrderValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid order referenceId");
+          expect(validationError.translationKey).to.equal("invalid.order.referenceId");
+          expect(validationError.elementName).to.equal("order[referenceId]");
+          expect(validationError.value).to.equal("Order referenceId is not URL encoded");
+        }
       });
     }); // describe referenceId
 
@@ -378,4 +406,3 @@
     }); // describe tosUrl
   });
 }());
-
