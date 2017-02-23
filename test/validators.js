@@ -83,7 +83,7 @@
     describe("Consumer", function() {
       it("can be optional", function() {
         delete paymentObject.consumer;
-        paymentObject.optionalFields = ['consumer'];
+        paymentObject.optionalFields = ["consumer"];
         return expect(
           new InputDataValidator(paymentObject).validate()
         ).to.be.empty;
@@ -93,7 +93,7 @@
     describe("Products", function() {
       it("can be optional", function() {
         delete paymentObject.products;
-        paymentObject.optionalFields = ['products'];
+        paymentObject.optionalFields = ["products"];
         return expect(
             new InputDataValidator(paymentObject).validate()
             ).to.be.empty;
@@ -102,7 +102,7 @@
     describe("Order", function() {
       it("can be optional", function() {
         delete paymentObject.order;
-        paymentObject.optionalFields = ['order'];
+        paymentObject.optionalFields = ["order"];
         return expect(
             new InputDataValidator(paymentObject).validate()
             ).to.be.empty;
