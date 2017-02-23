@@ -127,6 +127,17 @@
     }); // name
 
     describe("c/o (care of)", function() {
+      it("can be optional", function() {
+        delete consumer.co;
+        optionalFields = ["co"];
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ConsumerValidator(params).validate()
+        ).to.be.empty;
+      });
       it("should succeed when left empty", function() {
         var params = {
           consumer: consumer,
@@ -135,6 +146,17 @@
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.co;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer c/o");
+        expect(validationError.translationKey).to.equal("invalid.consumer.co");
+        expect(validationError.value).to.equal("Consumer co is mandatory");
       });
       it("should fail with co longer than 53 characters", function() {
         consumer.co = "Bithurasdinhournimlousgon Kleslinfarjilpourginjdesher2";
@@ -146,21 +168,22 @@
         expect(validationError.message).to.equal("Invalid consumer c/o");
         expect(validationError.translationKey).to.equal("invalid.consumer.co");
         expect(validationError.elementName).to.equal("consumer[co]");
-        expect(validationError.value).to.equal(consumer.co);
+        expect(validationError.value).to.equal("Consumer c/o must be between 2 and 52 characters");
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.co = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer c/o");
-        expect(validationError.elementName).to.equal("consumer[co]");
-        expect(validationError.translationKey).to.equal("invalid.consumer.co");
-        expect(validationError.value).to.equal(consumer.co);
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.co = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer c/o");
+          expect(validationError.translationKey).to.equal("invalid.consumer.co");
+          expect(validationError.value).to.equal("Consumer c/o is not URL encoded");
+        }
       });
-    });
+    }); // co
 
     describe("Street address", function() {
       it("can be optional", function() {

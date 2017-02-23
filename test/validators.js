@@ -281,7 +281,7 @@
           },
           "consumer": {
             "name": "Marko",
-            "co": "",
+            "co": "co",
             "streetAddress": "Calle Andalucia 32",
             "streetAddress2": "",
             "postalCode": "90210",
@@ -797,6 +797,7 @@
         },
         "consumer": {
           "name": "Peter",
+          "co": "co",
           "locale": "en",
           "email": "",
           "consumerId": ""
@@ -863,7 +864,7 @@
      failed: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
      chargeback: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
      processing: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback" },
-  consumer: { name: "Peter", locale: "en_US", email: "", consumerId: "" },
+  consumer: { co: "co", name: "Peter", locale: "en_US", email: "", consumerId: "" },
   url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
   scrapeMoment: "2017-02-20T10:54:47.716Z",
   optionalFields:
