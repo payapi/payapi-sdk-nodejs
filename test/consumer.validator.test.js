@@ -188,7 +188,7 @@
     describe("Street address", function() {
       it("can be optional", function() {
         delete consumer.streetAddress;
-        optionalFields = ["consumer.streetAddress"];
+        optionalFields = ["streetAddress"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -207,7 +207,19 @@
         expect(validationError.message).to.equal("Invalid consumer street address");
         expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
         expect(validationError.elementName).to.equal("consumer[streetAddress]");
-        expect(validationError.value).to.equal(consumer.streetAddress);
+        expect(validationError.value).to.equal("Consumer street address is mandatory");
+      });
+      it("can be mandatory", function() {
+        delete consumer.streetAddress;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer street address");
+        expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+        expect(validationError.elementName).to.equal("consumer[streetAddress]");
+        expect(validationError.value).to.equal("Consumer street address is mandatory");
       });
       it("should fail with streetAddress longer than 53 characters", function() {
         consumer.streetAddress = "123456789012345678901234567890123456789012345678901234";
@@ -219,19 +231,20 @@
         expect(validationError.message).to.equal("Invalid consumer street address");
         expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
         expect(validationError.elementName).to.equal("consumer[streetAddress]");
-        expect(validationError.value).to.equal(consumer.streetAddress);
+        expect(validationError.value).to.equal("Consumer street address must be between 2 and 52 characters");
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.streetAddress = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer street address");
-        expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
-        expect(validationError.elementName).to.equal("consumer[streetAddress]");
-        expect(validationError.value).to.equal(consumer.streetAddress);
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.streetAddress = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer street address");
+          expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+          expect(validationError.value).to.equal("Consumer street address is not URL encoded");
+        }
       });
     });
 
