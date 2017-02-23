@@ -7,6 +7,7 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
+  const BLACKLISTED_CHARACTERS = [";", "`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var PaymentValidator = require("../lib/payment.validator");
   var payment;
@@ -197,7 +198,7 @@
         expect(validationError.message).to.equal("Invalid payment cardHolderName");
         expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
         expect(validationError.elementName).to.equal("payment[cardHolderName]");
-        expect(validationError.value).to.equal(payment.cardHolderName);
+        expect(validationError.value).to.equal("Payment cardHolderName is mandatory");
       });
 
       it("should fail with blacklisted characters", function() {
@@ -210,7 +211,7 @@
         expect(validationError.message).to.equal("Invalid payment cardHolderName");
         expect(validationError.elementName).to.equal("payment[cardHolderName]");
         expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
-        expect(validationError.value).to.equal(payment.cardHolderName);
+        expect(validationError.value).to.equal("Payment cardHolderEmail is not URL encoded");
       });
       it("should fail with cardHolderName shorter than 2 characters", function() {
         payment.cardHolderName = "x";
