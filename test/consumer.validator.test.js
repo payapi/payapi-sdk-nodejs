@@ -7,6 +7,8 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
+  const BLACKLISTED_CHARACTERS = [";", "`", "´", "\"", "{", "}", "<", ">"];
+
   chai.use(chaiAsPromised);
   var ConsumerValidator = require("../lib/consumer.validator");
   var consumer;
@@ -32,14 +34,25 @@
     describe("Name", function() {
       it("can be optional", function() {
         delete consumer.name;
+        optionalFields = ["name"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
-        optionalFields = ["consumer.name"];
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.name;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer name");
+        expect(validationError.translationKey).to.equal("invalid.consumer.name");
+        expect(validationError.value).to.equal("Consumer name is mandatory");
       });
       it("should fail if not optional but is empty", function() {
         consumer.name = "";
@@ -51,7 +64,7 @@
         expect(validationError.message).to.equal("Invalid consumer name");
         expect(validationError.translationKey).to.equal("invalid.consumer.name");
         expect(validationError.elementName).to.equal("consumer[name]");
-        expect(validationError.value).to.equal(consumer.name);
+        expect(validationError.value).to.equal("Consumer name is mandatory");
       });
       it("should succeed with a western name", function() {
         consumer.name = "Matti Meikäläinen";
@@ -74,17 +87,18 @@
           new ConsumerValidator(params).validate()
         ).to.be.empty;
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.name = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer name");
-        expect(validationError.translationKey).to.equal("invalid.consumer.name");
-        expect(validationError.elementName).to.equal("consumer[name]");
-        expect(validationError.value).to.equal(consumer.name);
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.name = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer name");
+          expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.value).to.equal("Consumer name is not URL encoded");
+        }
       });
       it("should fail with name shorter than 2 characters", function() {
         consumer.name = "x";
@@ -96,7 +110,7 @@
         expect(validationError.message).to.equal("Invalid consumer name");
         expect(validationError.translationKey).to.equal("invalid.consumer.name");
         expect(validationError.elementName).to.equal("consumer[name]");
-        expect(validationError.value).to.equal(consumer.name);
+        expect(validationError.value).to.equal("Consumer name is must be between 2 and 52 characters");
       });
       it("should fail with name longer than 53 characters", function() {
         consumer.name = "Bithurasdinhournimlousgon Kleslinfarjilpourginjdesher2";
@@ -108,9 +122,9 @@
         expect(validationError.message).to.equal("Invalid consumer name");
         expect(validationError.translationKey).to.equal("invalid.consumer.name");
         expect(validationError.elementName).to.equal("consumer[name]");
-        expect(validationError.value).to.equal(consumer.name);
+        expect(validationError.value).to.equal("Consumer name is must be between 2 and 52 characters");
       });
-    });
+    }); // name
 
     describe("c/o (care of)", function() {
       it("should succeed when left empty", function() {

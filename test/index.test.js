@@ -238,6 +238,7 @@
           }
           ],
           "consumer": {
+            "name": "Peter",
             "recipientName": "John Doe",
             "co": "Jane Doe",
             "streetAddress": "Calle Andalucia 32",
