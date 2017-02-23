@@ -796,6 +796,7 @@
           "processing": "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback"
         },
         "consumer": {
+          "name": "Peter",
           "locale": "en",
           "email": "",
           "consumerId": ""
@@ -862,7 +863,7 @@
      failed: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
      chargeback: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback",
      processing: "https://nets.multimerchantshop.xyz/index.php?route=payment/payapi_payments/callback" },
-  consumer: { locale: "en_US", email: "", consumerId: "" },
+  consumer: { name: "Peter", locale: "en_US", email: "", consumerId: "" },
   url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
   scrapeMoment: "2017-02-20T10:54:47.716Z",
   optionalFields:
