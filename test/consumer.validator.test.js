@@ -43,6 +43,17 @@
           new ConsumerValidator(params).validate()
         ).to.be.empty;
       });
+      it("can be mandatory", function() {
+        delete consumer.name;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer name");
+        expect(validationError.translationKey).to.equal("invalid.consumer.name");
+        expect(validationError.value).to.equal("Consumer name is mandatory");
+      });
       it("should fail if not optional but is empty", function() {
         consumer.name = "";
         var params = {
@@ -76,17 +87,18 @@
           new ConsumerValidator(params).validate()
         ).to.be.empty;
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.name = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer name");
-        expect(validationError.translationKey).to.equal("invalid.consumer.name");
-        expect(validationError.elementName).to.equal("consumer[name]");
-        expect(validationError.value).to.equal("Consumer name is not URL encoded");
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.name = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer name");
+          expect(validationError.translationKey).to.equal("invalid.consumer.name");
+          expect(validationError.value).to.equal("Consumer name is not URL encoded");
+        }
       });
       it("should fail with name shorter than 2 characters", function() {
         consumer.name = "x";
@@ -112,7 +124,7 @@
         expect(validationError.elementName).to.equal("consumer[name]");
         expect(validationError.value).to.equal("Consumer name is must be between 2 and 52 characters");
       });
-    });
+    }); // name
 
     describe("c/o (care of)", function() {
       it("should succeed when left empty", function() {
@@ -494,44 +506,6 @@
         return expect(new ConsumerValidator(params).validate()).to.be.empty;
       });
     });
-
-    describe("name", function() {
-      it("can be optional", function() {
-        delete consumer.name;
-        optionalFields = ["name"];
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        return expect(
-          new ConsumerValidator(params).validate()
-        ).to.be.empty;
-      });
-      it("can be mandatory", function() {
-        delete consumer.name;
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer name");
-        expect(validationError.translationKey).to.equal("invalid.consumer.name");
-        expect(validationError.value).to.equal("Consumer name is mandatory");
-      });
-      it("cannot contain blacklisted characters", function() {
-        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
-          consumer.name = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
-          var params = {
-            consumer: consumer,
-            optionalFields: optionalFields
-          };
-          var validationError = new ConsumerValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid consumer name");
-          expect(validationError.translationKey).to.equal("invalid.consumer.name");
-          expect(validationError.value).to.equal("Consumer name is not URL encoded");
-        }
-      });
-    }); // name
   });
 }());
 
