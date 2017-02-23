@@ -224,7 +224,7 @@
         expect(validationError.message).to.equal("Invalid payment cardHolderName");
         expect(validationError.elementName).to.equal("payment[cardHolderName]");
         expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
-        expect(validationError.value).to.equal("Payment cardHolderEmail is not URL encoded");
+        expect(validationError.value).to.equal("Payment cardHolderName is not URL encoded");
       });
       it("should fail with cardHolderName shorter than 2 characters", function() {
         payment.cardHolderName = "x";
