@@ -800,6 +800,7 @@
           "streetAddress": "Kiwi street",
           "streetAddress2": "Main avenue",
           "postalCode": "29260",
+          "city": "Fuengirola",
           "locale": "en",
           "email": "",
           "consumerId": ""
@@ -873,6 +874,7 @@
       streetAddress: "Calle andalucía nº 32",
       streetAddress2: "Escalera 1",
       postalCode: "29640",
+      city: "Fuengirola",
       locale: "en_US",
       email: "",
       consumerId: ""

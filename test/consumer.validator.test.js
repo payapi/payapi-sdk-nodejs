@@ -365,14 +365,26 @@
     describe("City", function() {
       it("can be optional", function() {
         delete consumer.city;
+        optionalFields = ["city"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
-        optionalFields = ["city"];
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.city;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer city");
+        expect(validationError.translationKey).to.equal("invalid.consumer.city");
+        expect(validationError.elementName).to.equal("consumer[city]");
+        expect(validationError.value).to.equal("Consumer city is mandatory");
       });
       it("should fail if not optional but is empty", function() {
         consumer.city = "";
@@ -384,7 +396,7 @@
         expect(validationError.message).to.equal("Invalid consumer city");
         expect(validationError.translationKey).to.equal("invalid.consumer.city");
         expect(validationError.elementName).to.equal("consumer[city]");
-        expect(validationError.value).to.equal(consumer.city);
+        expect(validationError.value).to.equal("Consumer city is mandatory");
       });
       it("should fail with city longer than 53 characters", function() {
         consumer.city = "123456789012345678901234567890123456789012345678901234";
@@ -396,19 +408,20 @@
         expect(validationError.message).to.equal("Invalid consumer city");
         expect(validationError.translationKey).to.equal("invalid.consumer.city");
         expect(validationError.elementName).to.equal("consumer[city]");
-        expect(validationError.value).to.equal(consumer.city);
+        expect(validationError.value).to.equal("Consumer city must be between 2 and 53 characters");
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.city = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer city");
-        expect(validationError.translationKey).to.equal("invalid.consumer.city");
-        expect(validationError.elementName).to.equal("consumer[city]");
-        expect(validationError.value).to.equal(consumer.city);
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.city = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer city");
+          expect(validationError.translationKey).to.equal("invalid.consumer.city");
+          expect(validationError.value).to.equal("Consumer city is not URL encoded");
+        }
       });
     });
 
