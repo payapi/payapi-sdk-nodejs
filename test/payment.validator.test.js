@@ -201,6 +201,19 @@
         expect(validationError.value).to.equal("Payment cardHolderName is mandatory");
       });
 
+      it("should fail with all spaces cardHolderName", function() {
+        payment.cardHolderName = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment cardHolderName");
+        expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+        expect(validationError.elementName).to.equal("payment[cardHolderName]");
+        expect(validationError.value).to.equal("Payment cardHolderName is mandatory");
+      });
+
       it("should fail with blacklisted characters", function() {
         payment.cardHolderName = "< diiba";
         var params = {
