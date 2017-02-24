@@ -179,7 +179,8 @@
       var errorPayload = {
         "payment": {
           "ip": "::1",
-          "cardHolderEmail": "diiba69@example.com"
+          "cardHolderEmail": "diiba69@example.com",
+          "paymentMethod": "mastercard"
         },
         "consumer": {
           "consumerId": "diiba69",
@@ -813,6 +814,7 @@
           "payment.ccv",
           "payment.expiresMonth",
           "payment.expiresYear",
+          "payment.paymentMethod",
           "consumer",
           "consumer.countryCode"
         ]
@@ -898,6 +900,7 @@
      "payment.ccv",
      "payment.expiresMonth",
      "payment.expiresYear",
+     "payment.paymentMethod",
      "consumer",
      "consumer.countryCode" ]
 };
