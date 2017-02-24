@@ -126,6 +126,18 @@
         expect(validationError.elementName).to.equal("consumer[name]");
         expect(validationError.value).to.equal("Consumer name is must be between 2 and 52 characters");
       });
+      it("should fail with all spaces", function() {
+        consumer.name = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer name");
+        expect(validationError.translationKey).to.equal("invalid.consumer.name");
+        expect(validationError.elementName).to.equal("consumer[name]");
+        expect(validationError.value).to.equal("Consumer name is mandatory");
+      });
     }); // name
 
     describe("c/o (care of)", function() {
@@ -184,6 +196,18 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.co");
           expect(validationError.value).to.equal("Consumer c/o is not URL encoded");
         }
+      });
+      it("should fail with all spaces", function() {
+        consumer.co = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer c/o");
+        expect(validationError.translationKey).to.equal("invalid.consumer.co");
+        expect(validationError.elementName).to.equal("consumer[co]");
+        expect(validationError.value).to.equal("Consumer co is mandatory");
       });
     }); // co
 
@@ -248,6 +272,18 @@
           expect(validationError.value).to.equal("Consumer street address is not URL encoded");
         }
       });
+      it("should fail with all spaces", function() {
+        consumer.streetAddress = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer street address");
+        expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
+        expect(validationError.elementName).to.equal("consumer[streetAddress]");
+        expect(validationError.value).to.equal("Consumer street address is mandatory");
+      });
     });
 
     describe("Street address 2", function() {
@@ -298,6 +334,18 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
           expect(validationError.value).to.equal("Consumer street address 2 is not URL encoded");
         }
+      });
+      it("should fail with all spaces", function() {
+        consumer.streetAddress2 = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer street address 2");
+        expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
+        expect(validationError.elementName).to.equal("consumer[streetAddress2]");
+        expect(validationError.value).to.equal("Consumer street address 2 is mandatory");
       });
     });
 
@@ -362,6 +410,18 @@
           expect(validationError.value).to.equal("Consumer postal code is not URL encoded");
         }
       });
+      it("should fail with all spaces", function() {
+        consumer.postalCode = "      ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer postal code");
+        expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
+        expect(validationError.elementName).to.equal("consumer[postalCode]");
+        expect(validationError.value).to.equal("Consumer postal code is mandatory");
+      });
     });
 
     describe("City", function() {
@@ -425,6 +485,18 @@
           expect(validationError.value).to.equal("Consumer city is not URL encoded");
         }
       });
+      it("should fail with all spaces", function() {
+        consumer.city = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer city");
+        expect(validationError.translationKey).to.equal("invalid.consumer.city");
+        expect(validationError.elementName).to.equal("consumer[city]");
+        expect(validationError.value).to.equal("Consumer city is mandatory");
+      });
     });
 
     describe("State or province", function() {
@@ -487,6 +559,18 @@
           expect(validationError.value).to.equal("Consumer state or province is not URL encoded");
         }
       });
+      it("should fail with all spaces", function() {
+        consumer.stateOrProvince = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer state or province");
+        expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
+        expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
+        expect(validationError.value).to.equal("Consumer state or province is mandatory");
+      });
     });
 
     describe("Country code", function() {
@@ -536,6 +620,18 @@
         expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
         expect(validationError.elementName).to.equal("consumer[countryCode]");
         expect(validationError.value).to.equal("Consumer country code is not valid");
+      });
+      it("should fail with all spaces", function() {
+        consumer.countryCode = "  ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer country code");
+        expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
+        expect(validationError.elementName).to.equal("consumer[countryCode]");
+        expect(validationError.value).to.equal("Consumer country code is mandatory");
       });
     });
 
@@ -610,6 +706,18 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal("Consumer locale is not URL encoded");
         }
+      });
+      it("should fail with all spaces", function() {
+        consumer.locale = "     ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer locale");
+        expect(validationError.translationKey).to.equal("invalid.consumer.locale");
+        expect(validationError.elementName).to.equal("consumer[locale]");
+        expect(validationError.value).to.equal("Consumer locale is mandatory");
       });
     });
 
@@ -690,7 +798,7 @@
         expect(validationError.message).to.equal("Invalid consumer mobile phone number");
         expect(validationError.translationKey).to.equal("invalid.consumer.mobilePhoneNumber");
         expect(validationError.elementName).to.equal("consumer[mobilePhoneNumber]");
-        expect(validationError.value).to.equal("Consumer mobile phone number format is wrong");
+        expect(validationError.value).to.equal("Consumer mobile phone number is mandatory");
       });
     });
 
@@ -752,6 +860,18 @@
           expect(validationError.elementName).to.equal("consumer[email]");
           expect(validationError.value).to.equal("Consumer email is not URL encoded");
         }
+      });
+      it("should fail with all spaces", function() {
+        consumer.email = "               ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer email");
+        expect(validationError.translationKey).to.equal("invalid.consumer.email");
+        expect(validationError.elementName).to.equal("consumer[email]");
+        expect(validationError.value).to.equal("Consumer email is mandatory");
       });
     });
 
