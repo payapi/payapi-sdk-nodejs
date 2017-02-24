@@ -8,11 +8,13 @@
   const moment = require("moment");
   const jwt = require("jwt-simple");
   const jsonwebtoken = require("jsonwebtoken");
+  const BLACKLISTED_CHARACTERS = ["'", ";", "`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var PayapiClient = require("../lib/index");
   var InputDataValidator = require("../lib/validators");
   var ProductValidator = require("../lib/product.validator");
   var paymentObject;
+  var optionalFields = [];
   var paymentToken;
   var apiKey;
 
@@ -76,6 +78,9 @@
         success: "https://staging-api.loverocksshop.com/v1/returnUrl-success",
         cancel: "https://staging-api.loverocksshop.com/v1/returnUrl-cancel",
         failed: "https://staging-api.loverocksshop.com/v1/returnUrl-failed",
+      },
+      extra: {
+        foo: "bar"
       }
     };
     paymentToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXltZW50Ijp7ImlwIjoiOC44LjguOCIsImNhcmRIb2xkZXJFbWFpbCI6Im5vc3VjaGVtYWlsYWRkcmVzc0BwYXlhcGkuaW8iLCJjYXJkSG9sZGVyTmFtZSI6ImNhcmQgaG9sZGVyIG5hbWUiLCJwYXltZW50TWV0aG9kIjoidmlzYSIsImNyZWRpdENhcmROdW1iZXIiOiI0MjQyIDQyNDIgNDI0MiA0MjQyIiwiY2N2IjoiMTIzIiwiZXhwaXJlc01vbnRoIjoiNSIsImV4cGlyZXNZZWFyIjoiMjAxNiJ9LCJjb25zdW1lciI6eyJuYW1lIjoiY29uc3VtZXIgbmFtZSIsImxvY2FsZSI6ImVuLVVTIiwiY28iOiJDYXJlIG9mIHNvbWVvbmUiLCJzdHJlZXRBZGRyZXNzIjoiTWFubmVyaGVpbWludGllIDEyIiwic3RyZWV0QWRkcmVzczIiOiJBIDEyMyIsInBvc3RhbENvZGUiOiIwMDEwMCIsImNpdHkiOiJIZWxzaW5raSIsInN0YXRlT3JQcm92aW5jZSI6IlV1c2ltYWEiLCJjb3VudHJ5Q29kZSI6IkZJIn0sIm9yZGVyIjp7InN1bUluQ2VudHNJbmNWYXQiOjEsInN1bUluQ2VudHNFeGNWYXQiOjEsInZhdEluQ2VudHMiOjEsInJlZmVyZW5jZUlkIjoieCIsImN1cnJlbmN5IjoiRVVSIn0sInByb2R1Y3RzIjpbeyJwcmljZUluQ2VudHNJbmNWYXQiOjEsInByaWNlSW5DZW50c0V4Y1ZhdCI6MSwidmF0SW5DZW50cyI6MSwidmF0UGVyY2VudGFnZSI6MjIuNSwicXVhbnRpdHkiOjF9XX0.hJN7HDQnPoNM40tpD-Fkja_GjTLpNiPODuoFScmfyCGIYwG4tJjBkuBu1P0uSqVJZl1zhOu6f8jzs7P9TUtKPw";
@@ -111,6 +116,47 @@
       });
 
     });
+
+    describe("extra", function() {
+      it("can be optional", function() {
+        delete paymentObject.extra;
+        paymentObject.optionalFields = ["extra"];
+        return expect(
+          new InputDataValidator(paymentObject).validate()
+        ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete paymentObject.extra;
+        var validationError = new InputDataValidator(paymentObject).validate()[0];
+        expect(validationError.message).to.equal("Invalid extra");
+        expect(validationError.translationKey).to.equal("invalid.extra");
+        expect(validationError.value).to.equal("Extra is mandatory");
+      });
+      it("keys cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          paymentObject.extra = {
+          };
+          paymentObject.extra["key" + BLACKLISTED_CHARACTERS[i]] = "foo";
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid extra");
+          expect(validationError.translationKey).to.equal("invalid.extra");
+          expect(validationError.value).to.contain("Extra is not URL encoded");
+          expect(validationError.value).to.contain("key");
+        }
+      });
+      it("values cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          paymentObject.extra = {
+          };
+          paymentObject.extra.key = "foo" + BLACKLISTED_CHARACTERS[i];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid extra");
+          expect(validationError.translationKey).to.equal("invalid.extra");
+          expect(validationError.value).to.contain("Extra is not URL encoded");
+          expect(validationError.value).to.contain("key");
+        }
+      });
+    }); // extra
 
 //    describe("Seller", function() {
 //      describe("companyName", function() {
@@ -259,6 +305,9 @@
           "success": "https://staging-api.loverocksshop.com/v1/returnUrl-success",
           "cancel": "https://staging-api.loverocksshop.com/v1/returnUrl-cancel",
           "failed": "https://staging-api.loverocksshop.com/v1/returnUrl-failed",
+        },
+        "extra": {
+          "foo": "bar"
         }
       };
       it("should succeed", function() {
@@ -356,6 +405,9 @@
             "success": "https://staging-api.loverocksshop.com/v1/returnUrl-success",
             "cancel": "https://staging-api.loverocksshop.com/v1/returnUrl-cancel",
             "failed": "https://staging-api.loverocksshop.com/v1/returnUrl-failed",
+          },
+          "extra": {
+            "foo": "bar"
           }
         };
 
@@ -825,7 +877,13 @@
           "payment.expiresMonth",
           "payment.expiresYear",
           "payment.paymentMethod",
+<<<<<<< HEAD
           "consumer"
+=======
+          "extra",
+          "consumer",
+          "consumer.countryCode"
+>>>>>>> 3a0f4218e603a4726001ecf6b44bc32ee67a973f
         ]
       };
       return expect(
@@ -904,6 +962,7 @@
      "products.extraData",
      "order.tosUrl",
      "consumer",
+     "consumer.countryCode",
      "callbacks",
      "returnUrls",
      "payment",
@@ -917,6 +976,7 @@
      "payment.expiresYear",
      "payment.paymentMethod",
      "payment.locale",
+     "extra",
     ]
 };
       return expect(
