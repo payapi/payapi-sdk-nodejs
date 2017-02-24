@@ -453,6 +453,46 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+      it("can be mandatory", function() {
+        delete payment.ccv;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ccv");
+        expect(validationError.elementName).to.equal("payment[ccv]");
+        expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+        expect(validationError.value).to.equal("Payment ccv is mandatory");
+      });
+
+      it("should fail with all spaces", function() {
+        payment.ccv = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ccv");
+        expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+        expect(validationError.elementName).to.equal("payment[ccv]");
+        expect(validationError.value).to.equal("Payment ccv is mandatory");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.ccv = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+          expect(validationError.elementName).to.equal("payment[ccv]");
+          expect(validationError.value).to.equal("Payment ccv is not URL encoded");
+        }
+      });
       it("should fail with an invalid ccv number of 2 integers", function() {
         payment.ccv = "12";
         var params = {
