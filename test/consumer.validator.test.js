@@ -78,7 +78,7 @@
       });
       it("should succeed with a chinese name", function() {
         consumer.name = "王 秀英";
-        consumer.locale = "zh_CN";
+        consumer.locale = "zh-CN";
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -365,14 +365,26 @@
     describe("City", function() {
       it("can be optional", function() {
         delete consumer.city;
+        optionalFields = ["city"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
-        optionalFields = ["city"];
         return expect(
           new ConsumerValidator(params).validate()
         ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.city;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer city");
+        expect(validationError.translationKey).to.equal("invalid.consumer.city");
+        expect(validationError.elementName).to.equal("consumer[city]");
+        expect(validationError.value).to.equal("Consumer city is mandatory");
       });
       it("should fail if not optional but is empty", function() {
         consumer.city = "";
@@ -384,7 +396,7 @@
         expect(validationError.message).to.equal("Invalid consumer city");
         expect(validationError.translationKey).to.equal("invalid.consumer.city");
         expect(validationError.elementName).to.equal("consumer[city]");
-        expect(validationError.value).to.equal(consumer.city);
+        expect(validationError.value).to.equal("Consumer city is mandatory");
       });
       it("should fail with city longer than 53 characters", function() {
         consumer.city = "123456789012345678901234567890123456789012345678901234";
@@ -396,25 +408,50 @@
         expect(validationError.message).to.equal("Invalid consumer city");
         expect(validationError.translationKey).to.equal("invalid.consumer.city");
         expect(validationError.elementName).to.equal("consumer[city]");
-        expect(validationError.value).to.equal(consumer.city);
+        expect(validationError.value).to.equal("Consumer city must be between 2 and 53 characters");
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.city = "< diiba";
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.city = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer city");
+          expect(validationError.translationKey).to.equal("invalid.consumer.city");
+          expect(validationError.value).to.equal("Consumer city is not URL encoded");
+        }
+      });
+    });
+
+    describe("State or province", function() {
+      it("can be optional", function() {
+        delete consumer.stateOrProvince;
+        optionalFields = ["stateOrProvince"];
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ConsumerValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.stateOrProvince;
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
         var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer city");
-        expect(validationError.translationKey).to.equal("invalid.consumer.city");
-        expect(validationError.elementName).to.equal("consumer[city]");
-        expect(validationError.value).to.equal(consumer.city);
+        expect(validationError.message).to.equal("Invalid consumer state or province");
+        expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
+        expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
+        expect(validationError.value).to.equal("Consumer state or province is mandatory");
       });
-    });
-
-    describe("State or province", function() {
       it("should succeed when left empty", function() {
-        delete consumer.stateOrProvince;
+        consumer.stateOrProvince = "";
+        optionalFields = ["stateOrProvince"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -433,19 +470,20 @@
         expect(validationError.message).to.equal("Invalid consumer state or province");
         expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
         expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
-        expect(validationError.value).to.equal(consumer.stateOrProvince);
+        expect(validationError.value).to.equal("Consumer state or province must be between 2 and 52 characters");
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.stateOrProvince = "< diiba";
-        var params = {
-          consumer: consumer,
-          optionalFields: optionalFields
-        };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer state or province");
-        expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
-        expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
-        expect(validationError.value).to.equal(consumer.stateOrProvince);
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.stateOrProvince = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer state or province");
+          expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
+          expect(validationError.value).to.equal("Consumer state or province is not URL encoded");
+        }
       });
     });
 
@@ -461,6 +499,18 @@
           new ConsumerValidator(params).validate()
         ).to.be.empty;
       });
+      it("can be mandatory", function() {
+        delete consumer.countryCode;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer country code");
+        expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
+        expect(validationError.elementName).to.equal("consumer[countryCode]");
+        expect(validationError.value).to.equal("Consumer country code is mandatory");
+      });
       it("should fail if not optional but is empty", function() {
         consumer.countryCode = "";
         var params = {
@@ -471,7 +521,7 @@
         expect(validationError.message).to.equal("Invalid consumer country code");
         expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
         expect(validationError.elementName).to.equal("consumer[countryCode]");
-        expect(validationError.value).to.equal(consumer.countryCode);
+        expect(validationError.value).to.equal("Consumer country code is mandatory");
       });
       it("should fail if it doesn't exist in list of country codes", function() {
         consumer.countryCode = "foo";
@@ -483,13 +533,14 @@
         expect(validationError.message).to.equal("Invalid consumer country code");
         expect(validationError.translationKey).to.equal("invalid.consumer.countryCode");
         expect(validationError.elementName).to.equal("consumer[countryCode]");
-        expect(validationError.value).to.equal(consumer.countryCode);
+        expect(validationError.value).to.equal("Consumer country code is not valid");
       });
     });
 
     describe("Locale", function() {
-      it("should fall back to en-US when left empty", function() {
+      it("can be optional", function() {
         delete consumer.locale;
+        optionalFields = ["locale"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -498,8 +549,8 @@
           new ConsumerValidator(params).validate()
         ).to.be.empty;
       });
-      it("should fail with blacklisted characters", function() {
-        consumer.locale = "<iiba";
+      it("can be mandatory", function() {
+        delete consumer.locale;
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -508,10 +559,21 @@
         expect(validationError.message).to.equal("Invalid consumer locale");
         expect(validationError.translationKey).to.equal("invalid.consumer.locale");
         expect(validationError.elementName).to.equal("consumer[locale]");
-        expect(validationError.value).to.equal(consumer.locale);
+        expect(validationError.value).to.equal("Consumer locale is mandatory");
       });
-      it("should fail when being under 2 characters long", function() {
-        consumer.locale = "F";
+      it("should fall back to en-US when left empty", function() {
+        delete consumer.locale;
+        optionalFields = ["locale"];
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ConsumerValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should fail when being under 5 characters long", function() {
+        consumer.locale = "FI";
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
@@ -520,9 +582,9 @@
         expect(validationError.message).to.equal("Invalid consumer locale");
         expect(validationError.elementName).to.equal("consumer[locale]");
         expect(validationError.translationKey).to.equal("invalid.consumer.locale");
-        expect(validationError.value).to.equal(consumer.locale);
+        expect(validationError.value).to.equal("Consumer locale must be 5 characters");
       });
-      it("should fail when being over 7 characters long", function() {
+      it("should fail when being over 5 characters long", function() {
         consumer.locale = "12345678";
         var params = {
           consumer: consumer,
@@ -532,7 +594,20 @@
         expect(validationError.message).to.equal("Invalid consumer locale");
         expect(validationError.elementName).to.equal("consumer[locale]");
         expect(validationError.translationKey).to.equal("invalid.consumer.locale");
-        expect(validationError.value).to.equal(consumer.locale);
+        expect(validationError.value).to.equal("Consumer locale must be 5 characters");
+      });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.locale = "es" + BLACKLISTED_CHARACTERS[i] + "ES";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer locale");
+          expect(validationError.translationKey).to.equal("invalid.consumer.locale");
+          expect(validationError.value).to.equal("Consumer locale is not URL encoded");
+        }
       });
     });
 

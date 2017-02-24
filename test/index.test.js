@@ -247,7 +247,8 @@
             "stateOrProvince": "Malaga",
             "countryCode": "ES",
             "consumerId": "happy88",
-            "email": "happyconsumer@example.com"
+            "email": "happyconsumer@example.com",
+            "locale": "es-ES"
           },
           "callbacks": {
             "processing": "https://staging-api.example.com/v1/callback-processing",

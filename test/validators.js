@@ -185,7 +185,7 @@
         "consumer": {
           "consumerId": "diiba69",
           "email": "diiba69@example.com",
-          "locale": "en_US",
+          "locale": "en-US",
           "co": "Jane Doe",
           "streetAddress": "Calle Andalucia 32",
           "streetAddress2": "Los Boliches",
@@ -286,7 +286,7 @@
             "streetAddress2": "Escalera 2",
             "postalCode": "90210",
             "city": "Fuengirola",
-            "stateOrProvince": "",
+            "stateOrProvince": "Málaga",
             "countryCode": "ES",
             "locale": "en-US",
             "phoneNumber": ""
@@ -751,7 +751,7 @@
     });
   });
 
-  describe("One-click problem with v0.9.4", function() {
+  describe("One-click problem with v0<w.9.4", function() {
     it("should be fixed", function() {
       var payload = {
         "publicId": "multimerchantshop",
@@ -801,7 +801,10 @@
           "streetAddress": "Kiwi street",
           "streetAddress2": "Main avenue",
           "postalCode": "29260",
-          "locale": "en",
+          "city": "Fuengirola",
+          "stateOrProvince": "Málaga",
+          "countryCode": "FI",
+          "locale": "en-US",
           "email": "",
           "consumerId": ""
         },
@@ -875,7 +878,10 @@
       streetAddress: "Calle andalucía nº 32",
       streetAddress2: "Escalera 1",
       postalCode: "29640",
-      locale: "en_US",
+      city: "Fuengirola",
+      stateOrProvince: "Málaga",
+      countryCode: "ES",
+      locale: "en-US",
       email: "",
       consumerId: ""
     },
