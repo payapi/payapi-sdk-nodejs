@@ -22,7 +22,8 @@
       creditCardNumber: "4242 4242 4242 4242",
       ccv: "123",
       expiresMonth: moment().month() + 1 + "",
-      expiresYear: moment().year() + ""
+      expiresYear: moment().year() + "",
+      locale: "en-US"
     };
     optionalFields = [];
   });
@@ -410,6 +411,106 @@
         }
       });
     });
+
+    describe("locale", function() {
+      it("should be valid with a valid locale number of 3 integers", function() {
+        // note: american express: 4 digits, everyone else: 3 digits
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+      it("can be optional", function() {
+        optionalFields = ["locale"];
+        delete payment.locale;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete payment.locale;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale is mandatory");
+      });
+
+      it("should fail with all spaces", function() {
+        payment.locale = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.value).to.equal("Payment locale is mandatory");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.locale = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment locale");
+          expect(validationError.translationKey).to.equal("invalid.payment.locale");
+          expect(validationError.elementName).to.equal("payment[locale]");
+          expect(validationError.value).to.equal("Payment locale is not URL encoded");
+        }
+      });
+      it("should fail with an invalid locale number of 2 integers", function() {
+        payment.locale = "12";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale must be 5 characters");
+      });
+      it("should fail with an invalid locale number of 5 integers", function() {
+        payment.locale = "12345";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale must be 5 characters");
+      });
+      it("should fail with an invalid locale other than integers", function() {
+        payment.locale = "12a";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale must be 5 characters");
+      });
+    }); // locale
 
     describe("ccv", function() {
       it("should be valid with a valid ccv number of 3 integers", function() {
