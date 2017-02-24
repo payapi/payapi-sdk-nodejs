@@ -35,7 +35,10 @@
         postalCode: "00100",
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
-        countryCode: "FI"
+        countryCode: "FI",
+        mobilePhoneNumber: "34615341892",
+        email: "happyconsumer@example.com",
+        consumerId: "happyConsujea31"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -248,7 +251,8 @@
             "countryCode": "ES",
             "consumerId": "happy88",
             "email": "happyconsumer@example.com",
-            "locale": "es-ES"
+            "locale": "es-ES",
+            "mobilePhoneNumber": "34615321523"
           },
           "callbacks": {
             "processing": "https://staging-api.example.com/v1/callback-processing",

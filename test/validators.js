@@ -41,7 +41,9 @@
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
-        phoneNumber: "34615344819"
+        mobilePhoneNumber: "34615344819",
+        email: "happyconsumer@example.com",
+        consumerId: "happyConsumer23"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -240,7 +242,7 @@
           "stateOrProvince": "Malaga",
           "countryCode": "ES",
           "name": "John Doe",
-          "phoneNumber": "34615344814"
+          "mobilePhoneNumber": "34615344814"
         },
         "order": {
           "sumInCentsIncVat": 322,
@@ -330,6 +332,7 @@
           },
           "consumer": {
             "name": "Marko",
+            "consumerId":"happyConsumer-as3",
             "co": "co",
             "streetAddress": "Calle Andalucia 32",
             "streetAddress2": "Escalera 2",
@@ -338,7 +341,8 @@
             "stateOrProvince": "Málaga",
             "countryCode": "ES",
             "locale": "en-US",
-            "phoneNumber": ""
+            "mobilePhoneNumber": "34615349123",
+            "email": "happyconsumer@example.com"
           },
           "order": {
             "sumInCentsIncVat": 322,
@@ -777,7 +781,9 @@
         "consumer.city",
         "consumer.stateOrProvince",
         "consumer.countryCode",
-        "consumer.phoneNumber",
+        "consumer.mobilePhoneNumber",
+        "consumer.email",
+        "consumer.consumerId",
         "consumer",
         "order.sumInCentsExcVat",
         "order.vatInCents",
@@ -857,8 +863,9 @@
           "stateOrProvince": "Málaga",
           "countryCode": "FI",
           "locale": "en-US",
-          "email": "",
-          "consumerId": ""
+          "consumerId": "diiba69",
+          "mobilePhoneNumber": "34615238123",
+          "email": "happyconsumer@example.com"
         },
         "optionalFields": [
           "payment.ip",
@@ -870,9 +877,9 @@
           "payment.expiresMonth",
           "payment.expiresYear",
           "payment.paymentMethod",
-          "extra",
           "consumer",
-          "consumer.countryCode"
+          "consumer.countryCode",
+          "extra"
         ]
       };
       return expect(
@@ -936,8 +943,9 @@
       stateOrProvince: "Málaga",
       countryCode: "ES",
       locale: "en-US",
-      email: "",
-      consumerId: ""
+      consumerId: "happyConsumer231",
+      mobilePhoneNumber: "+34615341239",
+      email: "happyconsumer@example.com"
     },
   url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
   scrapeMoment: "2017-02-20T10:54:47.716Z",
@@ -950,6 +958,7 @@
      "products.extraData",
      "order.tosUrl",
      "consumer",
+     "consumer.countryCode",
      "callbacks",
      "returnUrls",
      "payment",
@@ -963,9 +972,8 @@
      "payment.expiresYear",
      "payment.paymentMethod",
      "payment.locale",
-     "extra",
-     "consumer",
-     "consumer.countryCode" ]
+     "extra"
+    ]
 };
       return expect(
           new InputDataValidator(payload).validate()
