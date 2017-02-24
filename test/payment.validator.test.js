@@ -368,6 +368,20 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+
+      it("can be mandatory", function() {
+        delete payment.creditCardNumber;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment creditCardNumber");
+        expect(validationError.elementName).to.equal("payment[creditCardNumber]");
+        expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
+        expect(validationError.value).to.equal("Payment creditCardNumber is mandatory");
+      });
+
       it("should fail with an invalid cc number of 15 integers", function() {
         payment.creditCardNumber = "123456789012345";
         var params = {
@@ -375,10 +389,25 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment credit card number");
+        expect(validationError.message).to.equal("Invalid payment creditCardNumber");
         expect(validationError.elementName).to.equal("payment[creditCardNumber]");
         expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
         expect(validationError.value).to.equal(payment.creditCardNumber);
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.creditCardNumber = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment creditCardNumber");
+          expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
+          expect(validationError.elementName).to.equal("payment[creditCardNumber]");
+          expect(validationError.value).to.equal("Payment creditCardNumber is not URL encoded");
+        }
       });
     });
 
