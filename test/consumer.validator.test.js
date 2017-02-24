@@ -25,7 +25,7 @@
       city: "Helsinki",
       stateOrProvince: "Uusimaa",
       countryCode: "FI",
-      phoneNumber: "34615344819"
+      mobilePhoneNumber: "34615344819"
     };
     optionalFields = [];
   });
@@ -611,37 +611,72 @@
       });
     });
 
-    describe("Phone number", function() {
-
-      it("should succeed with a valid phone number", function() {
-        consumer.phoneNumber = "34615344819";
+    describe("Mobile phone number", function() {
+      it("can be optional", function() {
+        delete consumer.mobilePhoneNumber;
+        optionalFields = ["mobilePhoneNumber"];
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
-        return expect(new ConsumerValidator(params).validate()).to.be.empty;
+        return expect(
+          new ConsumerValidator(params).validate()
+        ).to.be.empty;
       });
-
-      it("should fail with an invalid phone number (wrong format)", function() {
-        consumer.phoneNumber = "634341232";
+      it("can be mandatory", function() {
+        delete consumer.mobilePhoneNumber;
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
         var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid phone number");
-        expect(validationError.elementName).to.equal("consumer[phoneNumber]");
-        expect(validationError.translationKey).to.equal("invalid.consumer.phoneNumber");
-        expect(validationError.value).to.equal(consumer.phoneNumber);
+        expect(validationError.message).to.equal("Invalid consumer mobile phone number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.mobilePhoneNumber");
+        expect(validationError.elementName).to.equal("consumer[mobilePhoneNumber]");
+        expect(validationError.value).to.equal("Consumer mobile phone number is mandatory");
       });
-
-      it("should success with a valid phone number if '+' included ", function () {
-        consumer.phoneNumber= "+34615344810";
+      it("should succeed with a valid mobile phone number", function() {
+        consumer.mobilePhoneNumber = "34615344819";
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
         return expect(new ConsumerValidator(params).validate()).to.be.empty;
+      });
+
+      it("should fail with an invalid mobile phone number (wrong format)", function() {
+        consumer.mobilePhoneNumber = "1234567890";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer mobile phone number");
+        expect(validationError.elementName).to.equal("consumer[mobilePhoneNumber]");
+        expect(validationError.translationKey).to.equal("invalid.consumer.mobilePhoneNumber");
+        expect(validationError.value).to.equal("Consumer mobile phone number format is wrong");
+      });
+
+      it("should success with a valid phone number if '+' included ", function () {
+        consumer.mobilePhoneNumber= "34615344810";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(new ConsumerValidator(params).validate()).to.be.empty;
+      });
+      it("cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.mobilePhoneNumber = "63445 " + BLACKLISTED_CHARACTERS[i] + " 3393";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer mobile phone number");
+          expect(validationError.translationKey).to.equal("invalid.consumer.mobilePhoneNumber");
+          expect(validationError.value).to.equal("Consumer mobile phone number is not URL encoded");
+        }
       });
     });
   });

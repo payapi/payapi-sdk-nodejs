@@ -39,7 +39,7 @@
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
-        phoneNumber: "34615344819"
+        mobilePhoneNumber: "34615344819"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -193,7 +193,7 @@
           "stateOrProvince": "Malaga",
           "countryCode": "ES",
           "name": "John Doe",
-          "phoneNumber": "34615344814"
+          "mobilePhoneNumber": "34615344814"
         },
         "order": {
           "sumInCentsIncVat": 322,
@@ -288,7 +288,7 @@
             "stateOrProvince": "Málaga",
             "countryCode": "ES",
             "locale": "en-US",
-            "phoneNumber": ""
+            "mobilePhoneNumber": "34615349123"
           },
           "order": {
             "sumInCentsIncVat": 322,
@@ -724,7 +724,7 @@
         "consumer.city",
         "consumer.stateOrProvince",
         "consumer.countryCode",
-        "consumer.phoneNumber",
+        "consumer.mobilePhoneNumber",
         "consumer",
         "order.sumInCentsExcVat",
         "order.vatInCents",
@@ -805,7 +805,8 @@
           "countryCode": "FI",
           "locale": "en-US",
           "email": "",
-          "consumerId": ""
+          "consumerId": "",
+          "mobilePhoneNumber": "34615238123"
         },
         "optionalFields": [
           "payment.ip",
@@ -881,7 +882,8 @@
       countryCode: "ES",
       locale: "en-US",
       email: "",
-      consumerId: ""
+      consumerId: "",
+      mobilePhoneNumber: "+34615341239"
     },
   url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
   scrapeMoment: "2017-02-20T10:54:47.716Z",
