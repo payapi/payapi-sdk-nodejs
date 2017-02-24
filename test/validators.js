@@ -751,7 +751,7 @@
     });
   });
 
-  describe("One-click problem with v0<w.9.4", function() {
+  describe("One-click problem with v0.9.4", function() {
     it("should be fixed", function() {
       var payload = {
         "publicId": "multimerchantshop",
