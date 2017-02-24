@@ -678,6 +678,18 @@
           expect(validationError.value).to.equal("Consumer mobile phone number is not URL encoded");
         }
       });
+      it("should fail with all spaces", function() {
+        consumer.mobilePhoneNumber = "               ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer mobile phone number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.mobilePhoneNumber");
+        expect(validationError.elementName).to.equal("consumer[mobilePhoneNumber]");
+        expect(validationError.value).to.equal("Consumer mobile phone number format is wrong");
+      });
     });
   });
 }());
