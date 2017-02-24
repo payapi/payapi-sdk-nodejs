@@ -877,13 +877,9 @@
           "payment.expiresMonth",
           "payment.expiresYear",
           "payment.paymentMethod",
-<<<<<<< HEAD
-          "consumer"
-=======
-          "extra",
           "consumer",
-          "consumer.countryCode"
->>>>>>> 3a0f4218e603a4726001ecf6b44bc32ee67a973f
+          "consumer.countryCode",
+          "extra"
         ]
       };
       return expect(
@@ -976,7 +972,7 @@
      "payment.expiresYear",
      "payment.paymentMethod",
      "payment.locale",
-     "extra",
+     "extra"
     ]
 };
       return expect(
