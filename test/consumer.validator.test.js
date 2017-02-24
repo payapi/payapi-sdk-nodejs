@@ -16,6 +16,7 @@
 
   beforeEach(function() {
     consumer = {
+      consumerId: "happyConsumer623",
       name: "consumer name",
       locale: "en-US",
       co: "Care of someone",
@@ -664,7 +665,6 @@
           consumer: consumer,
           optionalFields: optionalFields
         };
-        console.log(new ConsumerValidator(params).validate());
         return expect(new ConsumerValidator(params).validate()).to.be.empty;
       });
       it("cannot contain blacklisted characters", function() {
@@ -702,9 +702,20 @@
           consumer: consumer,
           optionalFields: optionalFields
         };
-        console.log(new ConsumerValidator(params).validate());
         return expect(new ConsumerValidator(params).validate())
           .to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.email;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer email");
+        expect(validationError.translationKey).to.equal("invalid.consumer.email");
+        expect(validationError.elementName).to.equal("consumer[email]");
+        expect(validationError.value).to.equal("Consumer email is mandatory");
       });
       it("should succeed with email nosuchemailaddress@payapi.io", function() {
         consumer.email = "nosuchemailaddress@payapi.io";
@@ -740,6 +751,66 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.email");
           expect(validationError.elementName).to.equal("consumer[email]");
           expect(validationError.value).to.equal("Consumer email is not URL encoded");
+        }
+      });
+    });
+
+    describe("consumer id", function() {
+      it("can be optional", function() {
+        delete consumer.consumerId;
+        optionalFields = ["consumerId"];
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(new ConsumerValidator(params).validate())
+          .to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.consumerId;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer consumerId");
+        expect(validationError.translationKey).to.equal("invalid.consumer.consumerId");
+        expect(validationError.elementName).to.equal("consumer[consumerId]");
+        expect(validationError.value).to.equal("Consumer consumerId is mandatory");
+      });
+      it("should succeed with consumerId happyConsumer63", function() {
+        consumer.consumerId = "happyConsumer63";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect( new ConsumerValidator(params).validate())
+          .to.be.empty;
+      });
+      it("should fail with consumerId longer than 52 characters", function() {
+        consumer.consumerId = "123456789012345678901234567890123456789012345678901234";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer consumerId");
+        expect(validationError.translationKey).to.equal("invalid.consumer.consumerId");
+        expect(validationError.elementName).to.equal("consumer[consumerId]");
+        expect(validationError.value).to.equal("Consumer consumerId must be between 2 and 52 characters");
+      });
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.consumerId = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer consumerId");
+          expect(validationError.translationKey).to.equal("invalid.consumer.consumerId");
+          expect(validationError.elementName).to.equal("consumer[consumerId]");
+          expect(validationError.value).to.equal("Consumer consumerId is not URL encoded");
         }
       });
     });

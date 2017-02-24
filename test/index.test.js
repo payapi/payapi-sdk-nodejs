@@ -37,7 +37,8 @@
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
         mobilePhoneNumber: "34615341892",
-        email: "happyconsumer@example.com"
+        email: "happyconsumer@example.com",
+        consumerId: "happyConsujea31"
       },
       order: {
         sumInCentsIncVat: 1,

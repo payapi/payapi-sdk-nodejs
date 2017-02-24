@@ -40,7 +40,8 @@
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
         mobilePhoneNumber: "34615344819",
-        email: "happyconsumer@example.com"
+        email: "happyconsumer@example.com",
+        consumerId: "happyConsumer23"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -282,6 +283,7 @@
           },
           "consumer": {
             "name": "Marko",
+            "consumerId":"happyConsumer-as3",
             "co": "co",
             "streetAddress": "Calle Andalucia 32",
             "streetAddress2": "Escalera 2",
@@ -729,6 +731,7 @@
         "consumer.countryCode",
         "consumer.mobilePhoneNumber",
         "consumer.email",
+        "consumer.consumerId",
         "consumer",
         "order.sumInCentsExcVat",
         "order.vatInCents",
@@ -808,7 +811,7 @@
           "stateOrProvince": "Málaga",
           "countryCode": "FI",
           "locale": "en-US",
-          "consumerId": "",
+          "consumerId": "diiba69",
           "mobilePhoneNumber": "34615238123",
           "email": "happyconsumer@example.com"
         },
@@ -886,7 +889,7 @@
       stateOrProvince: "Málaga",
       countryCode: "ES",
       locale: "en-US",
-      consumerId: "",
+      consumerId: "happyConsumer231",
       mobilePhoneNumber: "+34615341239",
       email: "happyconsumer@example.com"
     },
