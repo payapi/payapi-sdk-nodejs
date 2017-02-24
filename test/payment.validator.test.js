@@ -105,6 +105,19 @@
             ).to.be.empty;
       });
 
+      it("can be mandatory", function() {
+        delete payment.ip;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
+        expect(validationError.elementName).to.equal("payment[ip]");
+        expect(validationError.value).to.equal("Payment ip is mandatory");
+      });
+
       it("should fail with ip ::1:127.0.0.1.ö", function() {
         payment.ip = "::1:127.0.0.1.ö";
         var params = {
@@ -112,8 +125,8 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment IP address");
-        expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
         expect(validationError.elementName).to.equal("payment[ip]");
         expect(validationError.value).to.equal(payment.ip);
       });
@@ -125,8 +138,8 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment IP address");
-        expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
         expect(validationError.elementName).to.equal("payment[ip]");
         expect(validationError.value).to.equal(payment.ip);
       });
@@ -138,10 +151,23 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment IP address");
-        expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
         expect(validationError.elementName).to.equal("payment[ip]");
-        expect(validationError.value).to.equal(payment.ip);
+        expect(validationError.value).to.equal("Payment ip is not URL encoded");
+      });
+
+      it("should fail with all spaces", function() {
+        payment.ip = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
+        expect(validationError.elementName).to.equal("payment[ip]");
+        expect(validationError.value).to.equal("Payment ip is mandatory");
       });
 
       it("should succeed with ip ::1:127.0.0.1", function() {

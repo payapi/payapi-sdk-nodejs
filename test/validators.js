@@ -912,7 +912,6 @@
      "consumer",
      "consumer.countryCode" ]
 };
-          console.log(new InputDataValidator(payload).validate())
       return expect(
           new InputDataValidator(payload).validate()
           ).to.be.empty;
