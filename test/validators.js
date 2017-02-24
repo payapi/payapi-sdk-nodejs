@@ -903,6 +903,7 @@
      "consumer",
      "callbacks",
      "returnUrls",
+     "payment",
      "payment.ip",
      "payment.cardHolderEmail",
      "payment.cardHolderName",
@@ -915,7 +916,6 @@
      "payment.locale",
     ]
 };
-          console.log(new InputDataValidator(payload).validate())
       return expect(
           new InputDataValidator(payload).validate()
           ).to.be.empty;

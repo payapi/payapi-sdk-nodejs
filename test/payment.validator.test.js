@@ -105,6 +105,19 @@
             ).to.be.empty;
       });
 
+      it("can be mandatory", function() {
+        delete payment.ip;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
+        expect(validationError.elementName).to.equal("payment[ip]");
+        expect(validationError.value).to.equal("Payment ip is mandatory");
+      });
+
       it("should fail with ip ::1:127.0.0.1.ö", function() {
         payment.ip = "::1:127.0.0.1.ö";
         var params = {
@@ -112,8 +125,8 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment IP address");
-        expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
         expect(validationError.elementName).to.equal("payment[ip]");
         expect(validationError.value).to.equal(payment.ip);
       });
@@ -125,8 +138,8 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment IP address");
-        expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
         expect(validationError.elementName).to.equal("payment[ip]");
         expect(validationError.value).to.equal(payment.ip);
       });
@@ -138,10 +151,23 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment IP address");
-        expect(validationError.translationKey).to.equal("invalid.payment.ip.address");
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
         expect(validationError.elementName).to.equal("payment[ip]");
-        expect(validationError.value).to.equal(payment.ip);
+        expect(validationError.value).to.equal("Payment ip is not URL encoded");
+      });
+
+      it("should fail with all spaces", function() {
+        payment.ip = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ip");
+        expect(validationError.translationKey).to.equal("invalid.payment.ip");
+        expect(validationError.elementName).to.equal("payment[ip]");
+        expect(validationError.value).to.equal("Payment ip is mandatory");
       });
 
       it("should succeed with ip ::1:127.0.0.1", function() {
@@ -653,6 +679,18 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+      it("can be mandatory", function() {
+        delete payment.expiresMonth;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment expiresMonth");
+        expect(validationError.elementName).to.equal("payment[expiresMonth]");
+        expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+        expect(validationError.value).to.equal("Payment expiresMonth is mandatory");
+      });
       it("should be invalid with a zero month", function() {
         payment.expiresMonth = "0";
         var params = {
@@ -660,7 +698,7 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment expires month");
+        expect(validationError.message).to.equal("Invalid payment expiresMonth");
         expect(validationError.elementName).to.equal("payment[expiresMonth]");
         expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
         expect(validationError.value).to.equal(payment.expiresMonth);
@@ -672,7 +710,7 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment expires month");
+        expect(validationError.message).to.equal("Invalid payment expiresMonth");
         expect(validationError.elementName).to.equal("payment[expiresMonth]");
         expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
         expect(validationError.value).to.equal(payment.expiresMonth);
@@ -684,10 +722,25 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment expires month");
+        expect(validationError.message).to.equal("Invalid payment expiresMonth");
         expect(validationError.elementName).to.equal("payment[expiresMonth]");
         expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
-        expect(validationError.value).to.equal(payment.expiresMonth);
+        expect(validationError.value).to.equal("NaN");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.expiresMonth = "1" + BLACKLISTED_CHARACTERS[i];
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expiresMonth");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresMonth");
+          expect(validationError.elementName).to.equal("payment[expiresMonth]");
+          expect(validationError.value).to.equal("Payment expiresMonth is not URL encoded");
+        }
       });
     });
 
@@ -712,6 +765,18 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+      it("can be mandatory", function() {
+        delete payment.expiresYear;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment expiresYear");
+        expect(validationError.elementName).to.equal("payment[expiresYear]");
+        expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+        expect(validationError.value).to.equal("Payment expiresYear is mandatory");
+      });
       it("should be invalid with a year smaller than current", function() {
         payment.expiresYear = moment().year() - 1;
         var params = {
@@ -719,9 +784,9 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment expires year");
+        expect(validationError.message).to.equal("Invalid payment expiresYear");
         expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
-        expect(validationError.value).to.equal(payment.expiresYear);
+        expect(validationError.value).to.equal("" + payment.expiresYear);
       });
       it("should be invalid with a non numeric", function() {
         payment.expiresYear = "diiba";
@@ -730,9 +795,24 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment expires year");
+        expect(validationError.message).to.equal("Invalid payment expiresYear");
         expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
-        expect(validationError.value).to.equal(payment.expiresYear);
+        expect(validationError.value).to.equal("NaN");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.expiresYear = "1" + BLACKLISTED_CHARACTERS[i];
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment expiresYear");
+          expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
+          expect(validationError.elementName).to.equal("payment[expiresYear]");
+          expect(validationError.value).to.equal("Payment expiresYear is not URL encoded");
+        }
       });
     });
 
@@ -751,7 +831,7 @@
           expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
           expect(validationError.value).to.equal(payment.expiresMonth + "/" + payment.expiresYear);
         } else {
-          expect(validationError.message).to.equal("Invalid payment expires year");
+          expect(validationError.message).to.equal("Invalid payment expiresYear");
           expect(validationError.translationKey).to.equal("invalid.payment.expiresYear");
           expect(validationError.value).to.equal(payment.expiresYear);
         }
