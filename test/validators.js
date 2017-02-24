@@ -39,7 +39,8 @@
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
-        mobilePhoneNumber: "34615344819"
+        mobilePhoneNumber: "34615344819",
+        email: "happyconsumer@example.com"
       },
       order: {
         sumInCentsIncVat: 1,
@@ -289,7 +290,8 @@
             "stateOrProvince": "Málaga",
             "countryCode": "ES",
             "locale": "en-US",
-            "mobilePhoneNumber": "34615349123"
+            "mobilePhoneNumber": "34615349123",
+            "email": "happyconsumer@example.com"
           },
           "order": {
             "sumInCentsIncVat": 322,
@@ -726,6 +728,7 @@
         "consumer.stateOrProvince",
         "consumer.countryCode",
         "consumer.mobilePhoneNumber",
+        "consumer.email",
         "consumer",
         "order.sumInCentsExcVat",
         "order.vatInCents",
@@ -805,9 +808,9 @@
           "stateOrProvince": "Málaga",
           "countryCode": "FI",
           "locale": "en-US",
-          "email": "",
           "consumerId": "",
-          "mobilePhoneNumber": "34615238123"
+          "mobilePhoneNumber": "34615238123",
+          "email": "happyconsumer@example.com"
         },
         "optionalFields": [
           "payment.ip",
@@ -819,8 +822,7 @@
           "payment.expiresMonth",
           "payment.expiresYear",
           "payment.paymentMethod",
-          "consumer",
-          "consumer.countryCode"
+          "consumer"
         ]
       };
       return expect(
@@ -884,9 +886,9 @@
       stateOrProvince: "Málaga",
       countryCode: "ES",
       locale: "en-US",
-      email: "",
       consumerId: "",
-      mobilePhoneNumber: "+34615341239"
+      mobilePhoneNumber: "+34615341239",
+      email: "happyconsumer@example.com"
     },
   url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
   scrapeMoment: "2017-02-20T10:54:47.716Z",
@@ -911,8 +913,7 @@
      "payment.expiresYear",
      "payment.paymentMethod",
      "payment.locale",
-     "consumer",
-     "consumer.countryCode" ]
+    ]
 };
           console.log(new InputDataValidator(payload).validate())
       return expect(

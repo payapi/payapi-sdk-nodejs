@@ -25,7 +25,8 @@
       city: "Helsinki",
       stateOrProvince: "Uusimaa",
       countryCode: "FI",
-      mobilePhoneNumber: "34615344819"
+      mobilePhoneNumber: "34615344819",
+      email: "happyconsumer@example.com"
     };
     optionalFields = [];
   });
@@ -658,11 +659,12 @@
       });
 
       it("should success with a valid phone number if '+' included ", function () {
-        consumer.mobilePhoneNumber= "34615344810";
+        consumer.mobilePhoneNumber = "+34615344810";
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
+        console.log(new ConsumerValidator(params).validate());
         return expect(new ConsumerValidator(params).validate()).to.be.empty;
       });
       it("cannot contain blacklisted characters", function() {
@@ -691,6 +693,57 @@
         expect(validationError.value).to.equal("Consumer mobile phone number format is wrong");
       });
     });
+
+    describe("Email address", function() {
+      it("can be optional", function() {
+        delete consumer.email;
+        optionalFields = ["email"];
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        console.log(new ConsumerValidator(params).validate());
+        return expect(new ConsumerValidator(params).validate())
+          .to.be.empty;
+      });
+      it("should succeed with email nosuchemailaddress@payapi.io", function() {
+        consumer.email = "nosuchemailaddress@payapi.io";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect( new ConsumerValidator(params).validate())
+          .to.be.empty;
+      });
+      it("should fail with email diiba", function() {
+        consumer.email = "diiba";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer email");
+        expect(validationError.translationKey).to.equal("invalid.consumer.email");
+        expect(validationError.elementName).to.equal("consumer[email]");
+        expect(validationError.value).to.equal("Consumer email is not valid");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          consumer.email = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            consumer: consumer,
+            optionalFields: optionalFields
+          };
+          var validationError = new ConsumerValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid consumer email");
+          expect(validationError.translationKey).to.equal("invalid.consumer.email");
+          expect(validationError.elementName).to.equal("consumer[email]");
+          expect(validationError.value).to.equal("Consumer email is not URL encoded");
+        }
+      });
+    });
+
   });
 }());
 

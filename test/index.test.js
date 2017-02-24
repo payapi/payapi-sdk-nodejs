@@ -36,7 +36,8 @@
         city: "Helsinki",
         stateOrProvince: "Uusimaa",
         countryCode: "FI",
-        mobilePhoneNumber: "34615341892"
+        mobilePhoneNumber: "34615341892",
+        email: "happyconsumer@example.com"
       },
       order: {
         sumInCentsIncVat: 1,
