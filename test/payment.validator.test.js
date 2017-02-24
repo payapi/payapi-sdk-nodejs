@@ -22,7 +22,8 @@
       creditCardNumber: "4242 4242 4242 4242",
       ccv: "123",
       expiresMonth: moment().month() + 1 + "",
-      expiresYear: moment().year() + ""
+      expiresYear: moment().year() + "",
+      locale: "en-US"
     };
     optionalFields = [];
   });
@@ -59,23 +60,25 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment card holder email");
+        expect(validationError.message).to.equal("Invalid payment cardHolderEmail");
         expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
         expect(validationError.elementName).to.equal("payment[cardHolderEmail]");
         expect(validationError.value).to.equal(payment.cardHolderEmail);
       });
 
       it("should fail with blacklisted characters", function() {
-        payment.cardHolderEmail = "diiba;@example.com";
-        var params = {
-          payment: payment,
-          optionalFields: optionalFields
-        };
-        var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment card holder email");
-        expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
-        expect(validationError.elementName).to.equal("payment[cardHolderEmail]");
-        expect(validationError.value).to.equal(payment.cardHolderEmail);
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.cardHolderEmail = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderEmail");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderEmail");
+          expect(validationError.elementName).to.equal("payment[cardHolderEmail]");
+          expect(validationError.value).to.equal("Payment cardHolderEmail is not URL encoded");
+        }
       });
     });
 
@@ -92,7 +95,7 @@
 
       it("can be optional", function() {
         delete payment.ip;
-        optionalFields = ['ip'];
+        optionalFields = ["ip"];
         var params = {
           payment: payment,
           optionalFields: optionalFields
@@ -201,7 +204,7 @@
         expect(validationError.value).to.equal("Payment cardHolderName is mandatory");
       });
 
-      it("should fail with all spaces cardHolderName", function() {
+      it("should fail with all spaces", function() {
         payment.cardHolderName = "                ";
         var params = {
           payment: payment,
@@ -215,17 +218,20 @@
       });
 
       it("should fail with blacklisted characters", function() {
-        payment.cardHolderName = "< diiba";
-        var params = {
-          payment: payment,
-          optionalFields: optionalFields
-        };
-        var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment cardHolderName");
-        expect(validationError.elementName).to.equal("payment[cardHolderName]");
-        expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
-        expect(validationError.value).to.equal("Payment cardHolderName is not URL encoded");
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.cardHolderName = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment cardHolderName");
+          expect(validationError.translationKey).to.equal("invalid.payment.cardHolderName");
+          expect(validationError.elementName).to.equal("payment[cardHolderName]");
+          expect(validationError.value).to.equal("Payment cardHolderName is not URL encoded");
+        }
       });
+
       it("should fail with cardHolderName shorter than 2 characters", function() {
         payment.cardHolderName = "x";
         var params = {
@@ -275,6 +281,31 @@
             ).to.be.empty;
       });
 
+      it("can be optional", function() {
+        delete payment.paymentMethod;
+        optionalFields = ["paymentMethod"];
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+
+      it("can be mandatory", function() {
+        delete payment.paymentMethod;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment paymentMethod");
+        expect(validationError.elementName).to.equal("payment[paymentMethod]");
+        expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
+        expect(validationError.value).to.equal("Payment paymentMethod is mandatory");
+      });
+
       it("should fail with numeric characters", function() {
         payment.paymentMethod = "visa2";
         var params = {
@@ -282,10 +313,38 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment method");
+        expect(validationError.message).to.equal("Invalid payment paymentMethod");
         expect(validationError.elementName).to.equal("payment[paymentMethod]");
         expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
         expect(validationError.value).to.equal(payment.paymentMethod);
+      });
+
+      it("should fail with all spaces", function() {
+        payment.paymentMethod = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment paymentMethod");
+        expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
+        expect(validationError.elementName).to.equal("payment[paymentMethod]");
+        expect(validationError.value).to.equal("Payment paymentMethod is mandatory");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.paymentMethod = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment paymentMethod");
+          expect(validationError.translationKey).to.equal("invalid.payment.paymentMethod");
+          expect(validationError.elementName).to.equal("payment[paymentMethod]");
+          expect(validationError.value).to.equal("Payment paymentMethod is not URL encoded");
+        }
       });
     });
 
@@ -310,6 +369,20 @@
             new PaymentValidator(params).validate()
             ).to.be.empty;
       });
+
+      it("can be mandatory", function() {
+        delete payment.creditCardNumber;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment creditCardNumber");
+        expect(validationError.elementName).to.equal("payment[creditCardNumber]");
+        expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
+        expect(validationError.value).to.equal("Payment creditCardNumber is mandatory");
+      });
+
       it("should fail with an invalid cc number of 15 integers", function() {
         payment.creditCardNumber = "123456789012345";
         var params = {
@@ -317,12 +390,127 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid payment credit card number");
+        expect(validationError.message).to.equal("Invalid payment creditCardNumber");
         expect(validationError.elementName).to.equal("payment[creditCardNumber]");
         expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
         expect(validationError.value).to.equal(payment.creditCardNumber);
       });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.creditCardNumber = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment creditCardNumber");
+          expect(validationError.translationKey).to.equal("invalid.payment.creditCardNumber");
+          expect(validationError.elementName).to.equal("payment[creditCardNumber]");
+          expect(validationError.value).to.equal("Payment creditCardNumber is not URL encoded");
+        }
+      });
     });
+
+    describe("locale", function() {
+      it("should be valid with a valid locale number of 3 integers", function() {
+        // note: american express: 4 digits, everyone else: 3 digits
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+      it("can be optional", function() {
+        optionalFields = ["locale"];
+        delete payment.locale;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        return expect(
+            new PaymentValidator(params).validate()
+            ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete payment.locale;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale is mandatory");
+      });
+
+      it("should fail with all spaces", function() {
+        payment.locale = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.value).to.equal("Payment locale is mandatory");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.locale = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment locale");
+          expect(validationError.translationKey).to.equal("invalid.payment.locale");
+          expect(validationError.elementName).to.equal("payment[locale]");
+          expect(validationError.value).to.equal("Payment locale is not URL encoded");
+        }
+      });
+      it("should fail with an invalid locale number of 2 integers", function() {
+        payment.locale = "12";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale must be 5 characters");
+      });
+      it("should fail with an invalid locale number of 5 integers", function() {
+        payment.locale = "12345";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale must be 5 characters");
+      });
+      it("should fail with an invalid locale other than integers", function() {
+        payment.locale = "12a";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment locale");
+        expect(validationError.elementName).to.equal("payment[locale]");
+        expect(validationError.translationKey).to.equal("invalid.payment.locale");
+        expect(validationError.value).to.equal("Payment locale must be 5 characters");
+      });
+    }); // locale
 
     describe("ccv", function() {
       it("should be valid with a valid ccv number of 3 integers", function() {
@@ -365,6 +553,46 @@
         return expect(
             new PaymentValidator(params).validate()
             ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete payment.ccv;
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ccv");
+        expect(validationError.elementName).to.equal("payment[ccv]");
+        expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+        expect(validationError.value).to.equal("Payment ccv is mandatory");
+      });
+
+      it("should fail with all spaces", function() {
+        payment.ccv = "                ";
+        var params = {
+          payment: payment,
+          optionalFields: optionalFields
+        };
+        var validationError = new PaymentValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid payment ccv");
+        expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+        expect(validationError.elementName).to.equal("payment[ccv]");
+        expect(validationError.value).to.equal("Payment ccv is mandatory");
+      });
+
+      it("should fail with blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          payment.ccv = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
+          var params = {
+            payment: payment,
+            optionalFields: optionalFields
+          };
+          var validationError = new PaymentValidator(params).validate()[0];
+          expect(validationError.message).to.equal("Invalid payment ccv");
+          expect(validationError.translationKey).to.equal("invalid.payment.ccv");
+          expect(validationError.elementName).to.equal("payment[ccv]");
+          expect(validationError.value).to.equal("Payment ccv is not URL encoded");
+        }
       });
       it("should fail with an invalid ccv number of 2 integers", function() {
         payment.ccv = "12";

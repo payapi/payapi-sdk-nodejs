@@ -179,7 +179,8 @@
       var errorPayload = {
         "payment": {
           "ip": "::1",
-          "cardHolderEmail": "diiba69@example.com"
+          "cardHolderEmail": "diiba69@example.com",
+          "paymentMethod": "mastercard"
         },
         "consumer": {
           "consumerId": "diiba69",
@@ -750,7 +751,7 @@
     });
   });
 
-  describe("One-click problem with v0<w.9.4", function() {
+  describe("One-click problem with v0.9.4", function() {
     it("should be fixed", function() {
       var payload = {
         "publicId": "multimerchantshop",
@@ -817,6 +818,7 @@
           "payment.ccv",
           "payment.expiresMonth",
           "payment.expiresYear",
+          "payment.paymentMethod",
           "consumer",
           "consumer.countryCode"
         ]
@@ -826,6 +828,7 @@
           ).to.be.empty;
     });
   });
+
   describe("Product.imageUrl problem with v1.2.5", function() {
     it("is not a client issue", function() {
       var payload =
@@ -906,9 +909,12 @@
      "payment.ccv",
      "payment.expiresMonth",
      "payment.expiresYear",
+     "payment.paymentMethod",
+     "payment.locale",
      "consumer",
      "consumer.countryCode" ]
 };
+          console.log(new InputDataValidator(payload).validate())
       return expect(
           new InputDataValidator(payload).validate()
           ).to.be.empty;
