@@ -40,6 +40,16 @@
         email: "happyconsumer@example.com",
         consumerId: "happyConsujea31"
       },
+      shippingAddress: {
+        recipientName: "John Doe",
+        co: "Jane Doe",
+        streetAddress: "Calle Estados Unidos",
+        streetAddress2: "Apartment 1122",
+        postalCode: "90210",
+        city: "Fuengirola",
+        stateOrProvince: "Malaga",
+        countryCode: "ES"
+      },
       order: {
         sumInCentsIncVat: 1,
         sumInCentsExcVat: 1,
@@ -85,7 +95,19 @@
           apiKey: apiKey
         };
 
+
         var token = new PayapiClient(params).encodePaymentToken();
+
+        console.log(token);
+        console.log(apiKey);
+        new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken()
+          .then(function() {
+
+          })
+          .catch(function(err){
+            console.log(err);
+          });
+
         return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
@@ -254,6 +276,16 @@
             "locale": "es-ES",
             "mobilePhoneNumber": "34615321523"
           },
+          "shippingAddress": {
+            "recipientName": "John Doe",
+            "co": "Jane Doe",
+            "streetAddress": "Calle Estados Unidos",
+            "streetAddress2": "Apartment 1122",
+            "postalCode": "90210",
+            "city": "Fuengirola",
+            "stateOrProvince": "Malaga",
+            "countryCode": "ES"
+          },
           "callbacks": {
             "processing": "https://staging-api.example.com/v1/callback-processing",
             "success": "https://staging-api.example.com/v1/callback-success",
@@ -273,6 +305,7 @@
           'product.category',
           'product.extraData',
           'consumer',
+          'shippingAddress',
           'callbacks',
           'returnUrls',
           'payment.ip',

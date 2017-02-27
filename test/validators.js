@@ -45,6 +45,16 @@
         email: "happyconsumer@example.com",
         consumerId: "happyConsumer23"
       },
+      shippingAddress: {
+        recipientName: "Peter",
+        co: "co",
+        streetAddress: "Calle andalucía nº 32",
+        streetAddress2: "Escalera 1",
+        postalCode: "29640",
+        city: "Fuengirola",
+        stateOrProvince: "Málaga",
+        countryCode: "ES",
+      },
       order: {
         sumInCentsIncVat: 1,
         sumInCentsExcVat: 1,
@@ -244,6 +254,16 @@
           "name": "John Doe",
           "mobilePhoneNumber": "34615344814"
         },
+        "shippingAddress": {
+          "recipientName": "Peter",
+          "co": "co",
+          "streetAddress": "Calle andalucía nº 32",
+          "streetAddress2": "Escalera 1",
+          "postalCode": "29640",
+          "city": "Fuengirola",
+          "stateOrProvince": "Málaga",
+          "countryCode": "ES",
+        },
         "order": {
           "sumInCentsIncVat": 322,
           "sumInCentsExcVat": 300,
@@ -299,7 +319,8 @@
           "payment.creditCardNumber",
           "payment.ccv",
           "payment.expiresMonth",
-          "payment.expiresYear"
+          "payment.expiresYear",
+          "shippingAddress"
         ],
         "returnUrls": {
           "success": "https://staging-api.loverocksshop.com/v1/returnUrl-success",
@@ -343,6 +364,16 @@
             "locale": "en-US",
             "mobilePhoneNumber": "34615349123",
             "email": "happyconsumer@example.com"
+          },
+          "shippingAddress": {
+            "recipientName": "Peter",
+            "co": "co",
+            "streetAddress": "Calle andalucía nº 32",
+            "streetAddress2": "Escalera 1",
+            "postalCode": "29640",
+            "city": "Fuengirola",
+            "stateOrProvince": "Málaga",
+            "countryCode": "ES",
           },
           "order": {
             "sumInCentsIncVat": 322,
@@ -785,6 +816,7 @@
         "consumer.email",
         "consumer.consumerId",
         "consumer",
+        "shippingAddress",
         "order.sumInCentsExcVat",
         "order.vatInCents",
         "order.tosUrl",
@@ -867,6 +899,16 @@
           "mobilePhoneNumber": "34615238123",
           "email": "happyconsumer@example.com"
         },
+        "shippingAddress": {
+          "recipientName": "Peter",
+          "co": "co",
+          "streetAddress": "Calle andalucía nº 32",
+          "streetAddress2": "Escalera 1",
+          "postalCode": "29640",
+          "city": "Fuengirola",
+          "stateOrProvince": "Málaga",
+          "countryCode": "ES",
+        },
         "optionalFields": [
           "payment.ip",
           "payment.cardHolderName",
@@ -879,6 +921,7 @@
           "payment.paymentMethod",
           "consumer",
           "consumer.countryCode",
+          "shippingAddress",
           "extra"
         ]
       };
@@ -947,6 +990,16 @@
       mobilePhoneNumber: "+34615341239",
       email: "happyconsumer@example.com"
     },
+    shippingAddress: {
+      recipientName: "Peter",
+      co: "co",
+      streetAddress: "Calle andalucía nº 32",
+      streetAddress2: "Escalera 1",
+      postalCode: "29640",
+      city: "Fuengirola",
+      stateOrProvince: "Málaga",
+      countryCode: "ES",
+    },
   url: "https://nets.multimerchantshop.xyz/sony-vaio&locale=en_US&ip=83.61.237.13",
   scrapeMoment: "2017-02-20T10:54:47.716Z",
   optionalFields:
@@ -972,9 +1025,11 @@
      "payment.expiresYear",
      "payment.paymentMethod",
      "payment.locale",
+     "shippingAddress",
      "extra"
     ]
 };
+console.log(new InputDataValidator(payload).validate());
       return expect(
           new InputDataValidator(payload).validate()
           ).to.be.empty;
