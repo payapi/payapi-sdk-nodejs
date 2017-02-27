@@ -95,19 +95,7 @@
           apiKey: apiKey
         };
 
-
         var token = new PayapiClient(params).encodePaymentToken();
-
-        console.log(token);
-        console.log(apiKey);
-        new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken()
-          .then(function() {
-
-          })
-          .catch(function(err){
-            console.log(err);
-          });
-
         return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
