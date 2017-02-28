@@ -24,9 +24,7 @@
       category: "category",
       model: "model",
       imageUrl: "https://example.com/doge.jpg",
-      extraData: {
-        foo: "bar"
-      }
+      extraData: "foo=bar&diiba=daaba&11=1"
     };
     optionalFields = [];
   });
@@ -521,38 +519,6 @@
         expect(validationError.message).to.equal("Invalid product extraData");
         expect(validationError.translationKey).to.equal("invalid.product.extraData");
         expect(validationError.value).to.equal("Product extraData is mandatory");
-      });
-      it("keys cannot contain blacklisted characters", function() {
-        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
-          product.extraData = {
-          };
-          product.extraData["key" + BLACKLISTED_CHARACTERS[i]] = "foo";
-          var params = {
-            product: product,
-            optionalFields: optionalFields
-          };
-          var validationError = new ProductValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid product extraData");
-          expect(validationError.translationKey).to.equal("invalid.product.extraData");
-          expect(validationError.value).to.contain("Product extraData is not URL encoded");
-          expect(validationError.value).to.contain("key");
-        }
-      });
-      it("values cannot contain blacklisted characters", function() {
-        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
-          product.extraData = {
-          };
-          product.extraData.key = "foo" + BLACKLISTED_CHARACTERS[i];
-          var params = {
-            product: product,
-            optionalFields: optionalFields
-          };
-          var validationError = new ProductValidator(params).validate()[0];
-          expect(validationError.message).to.equal("Invalid product extraData");
-          expect(validationError.translationKey).to.equal("invalid.product.extraData");
-          expect(validationError.value).to.contain("Product extraData is not URL encoded");
-          expect(validationError.value).to.contain("key");
-        }
       });
     }); // extraData
   });
