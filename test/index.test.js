@@ -144,6 +144,27 @@
           });
       });
 
+      it("should delete keys that have undefined values in extra", function() {
+        paymentObject.extra = {
+          "diiba ": "daaba ",
+          "daaba": undefined
+        };
+        var params = {
+          apiKey: apiKey,
+          payload: paymentObject
+        };
+        //var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        var corruptPaymentObject = new PayapiClient(params).encodePaymentToken();
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.extra.daaba).to.equal(undefined);
+            for(var key in decodedPaymentToken.extra) {
+              expect(key).to.not.equal("daaba");
+            }
+          });
+      });
+
       it("should convert Product vatPercentage to a number", function() {
         paymentObject.products[0].vatPercentage = "12.12345";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
