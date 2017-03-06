@@ -381,9 +381,6 @@
             "vatInCents": 22,
             "currency": "EUR",
             "referenceId": "ref123",
-            "sumIncludingVat": "€3.22",
-            "sumExcludingVat": "€3.00",
-            "vat": "€0.22",
             "tosUrl": "https://payapi.io/terms"
           },
           "products": [
@@ -399,9 +396,6 @@
               "priceInCentsExcVat": 100,
               "vatInCents": 22,
               "vatPercentage": 22.5,
-              "priceIncludingVat": "€1.22",
-              "priceExcludingVat": "€1.00",
-              "vat": "€0.22",
               "extraData": {
                 "foo": "bar"
               }
@@ -418,9 +412,6 @@
               "priceInCentsExcVat": 200,
               "vatInCents": 22,
               "vatPercentage": 22.5,
-              "priceIncludingVat": "€2.22",
-              "priceExcludingVat": "€2.00",
-              "vat": "€0.22",
               "extraData": {
                 "foo": "bar"
               }
