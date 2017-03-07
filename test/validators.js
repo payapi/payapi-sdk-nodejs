@@ -166,6 +166,20 @@
           expect(validationError.value).to.contain("key");
         }
       });
+      it("Object values cannot contain blacklisted characters", function() {
+        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
+          paymentObject.extra = {
+            extraInputData: {}
+          };
+          paymentObject.extra.extraInputData.key = "foo" + BLACKLISTED_CHARACTERS[i];
+          var validationError = new InputDataValidator(paymentObject).validate()[0];
+          expect(validationError.message).to.equal("Invalid extra");
+          expect(validationError.translationKey).to.equal("invalid.extra");
+          expect(validationError.value).to.contain("Extra is not URL encoded");
+          expect(validationError.value).to.contain("key");
+        }
+      });
+
     }); // extra
 
 //    describe("Seller", function() {
