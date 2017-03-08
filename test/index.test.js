@@ -132,7 +132,7 @@
           });
       });
 
-      it("should encode payload extra fields", function() {
+    /*  it("should encode payload extra fields", function() {
         paymentObject.extra = {
           "diiba ": "daaba "
         };
@@ -142,7 +142,7 @@
           .then(function(decodedPaymentToken) {
             expect(decodedPaymentToken.extra["diiba%20"]).to.equal("daaba%20");
           });
-      });
+      });*/
 
       it("should delete keys that have undefined values in extra", function() {
         paymentObject.extra = {
