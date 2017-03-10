@@ -378,7 +378,7 @@
       });
     }); // imageUrl
 
-    describe("description", function() {
+  /*  describe("description", function() {
       it("can be optional", function() {
         delete product.description;
         optionalFields = ["description"];
@@ -403,9 +403,9 @@
           expect(validationError.value).to.equal("Product description is not URL encoded");
         }
       });
-    }); // description
+    }); // description */
 
-    describe("title", function() {
+   /* describe("title", function() {
       it("can be optional", function() {
         delete product.title;
         optionalFields = ["title"];
@@ -430,7 +430,7 @@
           expect(validationError.value).to.equal("Product title is not URL encoded");
         }
       });
-    }); // title
+    }); // title */
 
     describe("category", function() {
       it("can be optional", function() {
