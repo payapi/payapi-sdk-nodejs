@@ -916,6 +916,18 @@
         return expect( new ConsumerValidator(params).validate())
           .to.be.empty;
       });
+      it("should fail with consumerId 101 char", function() {
+        consumer.consumerId = new Array(102).join("x");
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer consumerId");
+        expect(validationError.translationKey).to.equal("invalid.consumer.consumerId");
+        expect(validationError.elementName).to.equal("consumer[consumerId]");
+        expect(validationError.value).to.equal("Consumer consumerId must be between 1 and 100 characters");
+      });
       it("should fail with blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.consumerId = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
