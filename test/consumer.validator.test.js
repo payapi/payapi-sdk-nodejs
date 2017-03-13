@@ -907,17 +907,14 @@
         return expect( new ConsumerValidator(params).validate())
           .to.be.empty;
       });
-      it("should fail with consumerId longer than 52 characters", function() {
-        consumer.consumerId = "123456789012345678901234567890123456789012345678901234";
+      it("should not fail with consumerId 1 char", function() {
+        consumer.consumerId = "3";
         var params = {
           consumer: consumer,
           optionalFields: optionalFields
         };
-        var validationError = new ConsumerValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid consumer consumerId");
-        expect(validationError.translationKey).to.equal("invalid.consumer.consumerId");
-        expect(validationError.elementName).to.equal("consumer[consumerId]");
-        expect(validationError.value).to.equal("Consumer consumerId must be between 2 and 52 characters");
+        return expect( new ConsumerValidator(params).validate())
+          .to.be.empty;
       });
       it("should fail with blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
