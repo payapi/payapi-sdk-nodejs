@@ -145,7 +145,7 @@
       });
 
       it("should fail with ip that contains blacklisted characters", function() {
-        payment.ip = "::1;:127.0.0.1";
+        payment.ip = "::1{:127.0.0.1";
         var params = {
           payment: payment,
           optionalFields: optionalFields
