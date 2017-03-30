@@ -8,7 +8,7 @@
   const moment = require("moment");
   const jwt = require("jwt-simple");
   const jsonwebtoken = require("jsonwebtoken");
-  const BLACKLISTED_CHARACTERS = ["'", ";", "`", "´", "\"", "{", "}", "<", ">"];
+  const BLACKLISTED_CHARACTERS = ["'", "`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var PayapiClient = require("../lib/index");
   var InputDataValidator = require("../lib/validators");

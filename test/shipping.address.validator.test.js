@@ -7,7 +7,7 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
-  const BLACKLISTED_CHARACTERS = [";", "`", "´", "\"", "{", "}", "<", ">"];
+  const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
 
   chai.use(chaiAsPromised);
   var ShippingAddressValidator = require("../lib/shipping.address.validator");

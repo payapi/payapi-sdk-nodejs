@@ -6,7 +6,7 @@
   const chaiAsPromised = require("chai-as-promised");
   const expect = chai.expect;
   const jwt = require("jwt-simple");
-  const BLACKLISTED_CHARACTERS = [";", "`", "´", "\"", "{", "}", "<", ">"];
+  const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var ProductValidator = require("../lib/product.validator");
   var product;
