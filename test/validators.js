@@ -74,9 +74,8 @@
         category: "category",
         model: "model",
         imageUrl: "https://example.com/doge.jpg",
-        extraData: {
-          foo: "bar"
-        }
+        extraData: "manufacturer=Bling Bling&origin=China",
+        options: ["size=1","color=blue"]
       }],
       callbacks: {
         processing: "https://staging-api.loverocksshop.com/v1/callback-processing",
@@ -299,9 +298,8 @@
           "priceInCentsExcVat": 100,
           "vatInCents": 22,
           "vatPercentage": 22,
-          "extraData": {
-            "foo": "bar"
-          }
+          "extraData": "manufacturer=Bling Bling&origin=China",
+          "options": ["size=1","color=blue"]
         },
         {
           "id": "pbc123456",
@@ -315,9 +313,8 @@
           "priceInCentsExcVat": 200,
           "vatInCents": 22,
           "vatPercentage": 22,
-          "extraData": {
-            "foo": "bar"
-          }
+          "extraData": "manufacturer=Bling Bling&origin=China",
+          "options": ["size=1","color=red"]
         }
         ],
         "callbacks": {
@@ -410,9 +407,8 @@
               "priceInCentsExcVat": 100,
               "vatInCents": 22,
               "vatPercentage": 22.5,
-              "extraData": {
-                "foo": "bar"
-              }
+              "extraData": "manufacturer=Bling Bling&origin=China",
+              "options": ["size=1","color=blue"]
             },
             {
               "id": "pbc123456",
@@ -426,9 +422,8 @@
               "priceInCentsExcVat": 200,
               "vatInCents": 22,
               "vatPercentage": 22.5,
-              "extraData": {
-                "foo": "bar"
-              }
+              "extraData": "manufacturer=Bling Bling&origin=China",
+              "options": ["size=1","color=red"]
             }
           ],
           "callbacks": {
@@ -871,12 +866,8 @@
           "description": "Canon's press material for the EOS 5D states that it 'defines (a) new D-SLR category', while we'r..",
           "imageUrl": "https://store.multimerchantshop.com/image/e3fdad58ef62a70bf356e0042d2e4e51/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
           "category": "Desktops,Cameras",
-          "extraData": {
-            "quantity": "1",
-            "consumerId": "",
-            "email": "",
-            "Select": "15"
-          }
+          "extraData": "quantity=1&consumerId=&email=&Select=15",
+          "options": []
         }
         ],
         "returnUrls": {
@@ -1014,6 +1005,7 @@
      "products.category",
      "products.model",
      "products.extraData",
+     "products.options",
      "order.tosUrl",
      "consumer",
      "consumer.countryCode",

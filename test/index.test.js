@@ -69,9 +69,8 @@
         category: "category",
         model: "model",
         imageUrl: "https://example.com/doge.jpg",
-        extraData: {
-          foo: "bar"
-        }
+        extraData: "manufacturer=Bling Bling&origin=China",
+        options: ["size=1","color=blue"]
       }],
       callbacks: {
         success: "https://store.multimerchantshop.com/index.php?route=payment/payapi_payments/callback",
@@ -250,9 +249,8 @@
             "priceInCentsExcVat": 100,
             "vatInCents": 22,
             "vatPercentage": 22,
-            "extraData": {
-              foo: "bar"
-            }
+            "extraData": "manufacturer=Bling Bling&origin=China",
+            "options": ["size=1","color=blue"]
           },
           {
             "id": "pbc123456",
@@ -266,9 +264,8 @@
             "priceInCentsExcVat": 200,
             "vatInCents": 22,
             "vatPercentage": 22,
-            "extraData": {
-              foo: "bar"
-            }
+            "extraData": "manufacturer=Bling Bling&origin=China",
+            "options": ["size=1","color=red"]
           }
           ],
           "consumer": {
@@ -313,6 +310,7 @@
           'product.imageUrl',
           'product.category',
           'product.extraData',
+          'product.options',
           'consumer',
           'shippingAddress',
           'callbacks',

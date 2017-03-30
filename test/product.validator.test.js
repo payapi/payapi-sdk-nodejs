@@ -24,7 +24,8 @@
       category: "category",
       model: "model",
       imageUrl: "https://example.com/doge.jpg",
-      extraData: "foo=bar&diiba=daaba&11=1"
+      extraData: "foo=bar&diiba=daaba&11=1",
+      options: ["size=1","color=blue"]
     };
     optionalFields = [];
   });
@@ -521,5 +522,30 @@
         expect(validationError.value).to.equal("Product extraData is mandatory");
       });
     }); // extraData
+
+    describe("options", function() {
+      it("can be optional", function() {
+        delete product.options;
+        optionalFields = ["options"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete product.options;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        var validationError = new ProductValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid product options");
+        expect(validationError.translationKey).to.equal("invalid.product.options");
+        expect(validationError.value).to.equal("Product options is mandatory");
+      });
+    }); // options
   });
 }());
