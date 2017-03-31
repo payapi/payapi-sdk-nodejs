@@ -7,7 +7,7 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
-  const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
+  //const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
 
   chai.use(chaiAsPromised);
   var OrderValidator = require("../lib/order.validator");
@@ -301,7 +301,7 @@
         expect(validationError.value).to.equal(order.referenceId);
       });
 
-      it("should fail when it contains blacklisted characters", function() {
+      /*it("should fail when it contains blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           order.referenceId = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -314,7 +314,7 @@
           expect(validationError.elementName).to.equal("order[referenceId]");
           expect(validationError.value).to.equal("Order referenceId is not URL encoded");
         }
-      });
+      });*/
     }); // describe referenceId
 
     describe("currency", function() {

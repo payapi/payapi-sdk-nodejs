@@ -7,7 +7,7 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
-  const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
+  //const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
 
   chai.use(chaiAsPromised);
   var ShippingAddressValidator = require("../lib/shipping.address.validator");
@@ -85,7 +85,7 @@
           new ShippingAddressValidator(params).validate()
         ).to.be.empty;
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.recipientName = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -97,7 +97,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.recipientName");
           expect(validationError.value).to.equal("ShippingAddress recipientName is not URL encoded");
         }
-      });
+      });*/
       it("should fail with recipient name shorter than 2 characters", function() {
         shippingAddress.recipientName = "x";
         var params = {
@@ -180,7 +180,7 @@
         expect(validationError.elementName).to.equal("shippingAddress[co]");
         expect(validationError.value).to.equal("ShippingAddress c/o must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.co = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -192,7 +192,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.co");
           expect(validationError.value).to.equal("ShippingAddress c/o is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         shippingAddress.co = "     ";
         var params = {
@@ -255,7 +255,7 @@
         expect(validationError.elementName).to.equal("shippingAddress[streetAddress]");
         expect(validationError.value).to.equal("ShippingAddress street address must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+     /* it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.streetAddress = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -267,7 +267,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.streetAddress");
           expect(validationError.value).to.equal("ShippingAddress street address is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         shippingAddress.streetAddress = "     ";
         var params = {
@@ -318,7 +318,7 @@
         expect(validationError.elementName).to.equal("shippingAddress[streetAddress2]");
         expect(validationError.value).to.equal("ShippingAddress street address 2 must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.streetAddress2 = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -330,7 +330,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.streetAddress2");
           expect(validationError.value).to.equal("ShippingAddress street address 2 is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         shippingAddress.streetAddress2 = "     ";
         var params = {
@@ -393,7 +393,7 @@
         expect(validationError.elementName).to.equal("shippingAddress[postalCode]");
         expect(validationError.value).to.equal("ShippingAddress postal code is mandatory");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.postalCode = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -405,7 +405,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.postalCode");
           expect(validationError.value).to.equal("ShippingAddress postal code is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         shippingAddress.postalCode = "      ";
         var params = {
@@ -468,7 +468,7 @@
         expect(validationError.elementName).to.equal("shippingAddress[city]");
         expect(validationError.value).to.equal("ShippingAddress city must be between 2 and 53 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.city = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -480,7 +480,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.city");
           expect(validationError.value).to.equal("ShippingAddress city is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         shippingAddress.city = "     ";
         var params = {
@@ -542,7 +542,7 @@
         expect(validationError.elementName).to.equal("shippingAddress[stateOrProvince]");
         expect(validationError.value).to.equal("ShippingAddress state or province must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           shippingAddress.stateOrProvince = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -554,7 +554,7 @@
           expect(validationError.translationKey).to.equal("invalid.shippingAddress.stateOrProvince");
           expect(validationError.value).to.equal("ShippingAddress state or province is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         shippingAddress.stateOrProvince = "     ";
         var params = {

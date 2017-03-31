@@ -8,7 +8,7 @@
   const moment = require("moment");
   const jwt = require("jwt-simple");
   const jsonwebtoken = require("jsonwebtoken");
-  const BLACKLISTED_CHARACTERS = ["'", "`", "´", "\"", "{", "}", "<", ">"];
+  //const BLACKLISTED_CHARACTERS = ["'", "`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var PayapiClient = require("../lib/index");
   var InputDataValidator = require("../lib/validators");
@@ -141,7 +141,7 @@
         expect(validationError.translationKey).to.equal("invalid.extra");
         expect(validationError.value).to.equal("Extra is mandatory");
       });
-      it("keys cannot contain blacklisted characters", function() {
+      /*it("keys cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           paymentObject.extra = {
           };
@@ -152,8 +152,8 @@
           expect(validationError.value).to.contain("Extra is not URL encoded");
           expect(validationError.value).to.contain("key");
         }
-      });
-      it("values cannot contain blacklisted characters", function() {
+      });*/
+      /*it("values cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           paymentObject.extra = {
           };
@@ -164,8 +164,8 @@
           expect(validationError.value).to.contain("Extra is not URL encoded");
           expect(validationError.value).to.contain("key");
         }
-      });
-      it("Object values cannot contain blacklisted characters", function() {
+      });*/
+      /*it("Object values cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           paymentObject.extra = {
             extraInputData: {}
@@ -177,7 +177,7 @@
           expect(validationError.value).to.contain("Extra is not URL encoded");
           expect(validationError.value).to.contain("key");
         }
-      });
+      });*/
 
     }); // extra
 

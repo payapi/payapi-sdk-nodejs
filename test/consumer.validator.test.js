@@ -7,7 +7,6 @@
   const expect = chai.expect;
   const jwt = require("jwt-simple");
   const moment = require("moment");
-  const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
 
   chai.use(chaiAsPromised);
   var ConsumerValidator = require("../lib/consumer.validator");
@@ -89,7 +88,7 @@
           new ConsumerValidator(params).validate()
         ).to.be.empty;
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.name = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -101,7 +100,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.name");
           expect(validationError.value).to.equal("Consumer name is not URL encoded");
         }
-      });
+      });*/
       it("should fail with name shorter than 2 characters", function() {
         consumer.name = "x";
         var params = {
@@ -184,7 +183,7 @@
         expect(validationError.elementName).to.equal("consumer[co]");
         expect(validationError.value).to.equal("Consumer c/o must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+     /* it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.co = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -196,7 +195,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.co");
           expect(validationError.value).to.equal("Consumer c/o is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.co = "     ";
         var params = {
@@ -259,7 +258,7 @@
         expect(validationError.elementName).to.equal("consumer[streetAddress]");
         expect(validationError.value).to.equal("Consumer street address must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.streetAddress = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -271,7 +270,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress");
           expect(validationError.value).to.equal("Consumer street address is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.streetAddress = "     ";
         var params = {
@@ -322,7 +321,7 @@
         expect(validationError.elementName).to.equal("consumer[streetAddress2]");
         expect(validationError.value).to.equal("Consumer street address 2 must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.streetAddress2 = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -334,7 +333,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.streetAddress2");
           expect(validationError.value).to.equal("Consumer street address 2 is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.streetAddress2 = "     ";
         var params = {
@@ -397,7 +396,7 @@
         expect(validationError.elementName).to.equal("consumer[postalCode]");
         expect(validationError.value).to.equal("Consumer postal code is mandatory");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.postalCode = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -409,7 +408,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.postalCode");
           expect(validationError.value).to.equal("Consumer postal code is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.postalCode = "      ";
         var params = {
@@ -472,7 +471,7 @@
         expect(validationError.elementName).to.equal("consumer[city]");
         expect(validationError.value).to.equal("Consumer city must be between 2 and 53 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.city = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -484,7 +483,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.city");
           expect(validationError.value).to.equal("Consumer city is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.city = "     ";
         var params = {
@@ -546,7 +545,7 @@
         expect(validationError.elementName).to.equal("consumer[stateOrProvince]");
         expect(validationError.value).to.equal("Consumer state or province must be between 2 and 52 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.stateOrProvince = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -558,7 +557,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.stateOrProvince");
           expect(validationError.value).to.equal("Consumer state or province is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.stateOrProvince = "     ";
         var params = {
@@ -694,7 +693,7 @@
         expect(validationError.translationKey).to.equal("invalid.consumer.locale");
         expect(validationError.value).to.equal("Consumer locale must be 5 characters");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.locale = "es" + BLACKLISTED_CHARACTERS[i] + "ES";
           var params = {
@@ -706,7 +705,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.locale");
           expect(validationError.value).to.equal("Consumer locale is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.locale = "     ";
         var params = {
@@ -775,7 +774,7 @@
         };
         return expect(new ConsumerValidator(params).validate()).to.be.empty;
       });
-      it("cannot contain blacklisted characters", function() {
+      /* it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.mobilePhoneNumber = "63445 " + BLACKLISTED_CHARACTERS[i] + " 3393";
           var params = {
@@ -787,7 +786,7 @@
           expect(validationError.translationKey).to.equal("invalid.consumer.mobilePhoneNumber");
           expect(validationError.value).to.equal("Consumer mobile phone number is not URL encoded");
         }
-      });
+      }); */
       it("should fail with all spaces", function() {
         consumer.mobilePhoneNumber = "               ";
         var params = {
@@ -847,7 +846,7 @@
         expect(validationError.value).to.equal("Consumer email is not valid");
       });
 
-      it("should fail with blacklisted characters", function() {
+     /* it("should fail with blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.email = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -860,7 +859,7 @@
           expect(validationError.elementName).to.equal("consumer[email]");
           expect(validationError.value).to.equal("Consumer email is not URL encoded");
         }
-      });
+      });*/
       it("should fail with all spaces", function() {
         consumer.email = "               ";
         var params = {
@@ -928,7 +927,7 @@
         expect(validationError.elementName).to.equal("consumer[consumerId]");
         expect(validationError.value).to.equal("Consumer consumerId must be between 1 and 100 characters");
       });
-      it("should fail with blacklisted characters", function() {
+      /*it("should fail with blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.consumerId = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -941,7 +940,7 @@
           expect(validationError.elementName).to.equal("consumer[consumerId]");
           expect(validationError.value).to.equal("Consumer consumerId is not URL encoded");
         }
-      });
+      });*/
     });
 
   });

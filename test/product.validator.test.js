@@ -6,7 +6,7 @@
   const chaiAsPromised = require("chai-as-promised");
   const expect = chai.expect;
   const jwt = require("jwt-simple");
-  const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
+  //const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var ProductValidator = require("../lib/product.validator");
   var product;
@@ -375,7 +375,7 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           product.imageUrl = "https://store.mult" + BLACKLISTED_CHARACTERS[i] + "imerchantshop.xyz/media/983ab1519a8b553ec58125a13bf09471/image/cache/catalog/hp_1-228x228.jpg";
           var params = {
@@ -387,7 +387,7 @@
           expect(validationError.translationKey).to.equal("invalid.product.imageUrl");
           expect(validationError.value).to.equal("Product imageUrl is not URL encoded");
         }
-      });
+      });*/
     }); // imageUrl
 
   /*  describe("description", function() {
@@ -456,7 +456,7 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           product.category = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -468,7 +468,7 @@
           expect(validationError.translationKey).to.equal("invalid.product.category");
           expect(validationError.value).to.equal("Product category is not URL encoded");
         }
-      });
+      });*/
     }); // category
 
     describe("model", function() {
@@ -494,7 +494,7 @@
         expect(validationError.translationKey).to.equal("invalid.product.model");
         expect(validationError.value).to.equal("Product model is mandatory");
       });
-      it("cannot contain blacklisted characters", function() {
+      /*it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           product.model = "abc " + BLACKLISTED_CHARACTERS[i] + " xyz";
           var params = {
@@ -506,7 +506,7 @@
           expect(validationError.translationKey).to.equal("invalid.product.model");
           expect(validationError.value).to.equal("Product model is not URL encoded");
         }
-      });
+      });*/
     }); // model
 
     describe("extraData", function() {
