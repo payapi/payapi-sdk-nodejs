@@ -11,7 +11,7 @@
   var url;
 
   beforeEach(function() {
-    url = "https://payapi.io/terms"
+    url = "https://payapi.io/terms";
   });
 
   describe("URL", function() {
@@ -46,6 +46,12 @@
     });
     it("should be invalid undefined", function() {
       url = null;
+      return expect(
+          new UrlValidator({ url: url }).validate()
+          ).to.be.false;
+    });
+    it("should be valid with a relative image url", function() {
+      url = "/img/teta.jpg";
       return expect(
           new UrlValidator({ url: url }).validate()
           ).to.be.false;

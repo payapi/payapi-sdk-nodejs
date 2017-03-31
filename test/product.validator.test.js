@@ -364,6 +364,17 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
+      it("can be null if optional", function() {
+        product.imageUrl = null;
+        optionalFields = ["imageUrl"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
       it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           product.imageUrl = "https://store.mult" + BLACKLISTED_CHARACTERS[i] + "imerchantshop.xyz/media/983ab1519a8b553ec58125a13bf09471/image/cache/catalog/hp_1-228x228.jpg";
