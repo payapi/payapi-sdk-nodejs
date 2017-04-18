@@ -12,9 +12,13 @@
   var PayapiClient = require("../lib/index");
   var paymentObject;
   var apiKey;
+  var secret;
 
   beforeEach(function() {
+    process.env.NODE_ENV = "test";
+    delete process.env.NODE_TLS_REJECT_UNAUTHORIZED;
     apiKey = "abc123";
+    secret = "very secret";
     paymentObject = {
       payment: {
         ip: "8.8.8.8",
@@ -87,6 +91,55 @@
   });
 
   describe("PayapiClient", function() {
+    describe("NODE_TLS_REJECT_UNAUTHORIZED", function() {
+      it("is not allowed in production", function() {
+        var params = {
+          payload: paymentObject,
+          apiKey: apiKey
+        };
+
+        var token = new PayapiClient(params).encodePaymentToken();
+        process.env.NODE_ENV = "production";
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).call())
+          .to.eventually.be.rejected
+          .then(function(err) {
+            return expect(err.message).to.equal("NODE_TLS_REJECT_UNAUTHORIZED is not allowed in environment 'production'");
+          });
+      });
+      it("is not allowed in staging", function() {
+        var params = {
+          payload: paymentObject,
+          apiKey: apiKey
+        };
+
+        var token = new PayapiClient(params).encodePaymentToken();
+        process.env.NODE_ENV = "staging";
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        return expect(new PayapiClient({paymentToken: token, apiKey: apiKey}).call())
+          .to.eventually.be.rejected
+          .then(function(err) {
+            return expect(err.message).to.equal("NODE_TLS_REJECT_UNAUTHORIZED is not allowed in environment 'staging'");
+          });
+      });
+      it("is allowed in test", function() {
+        var params = {
+          payload: paymentObject,
+          apiKey: apiKey,
+          secret: secret
+        };
+
+        process.env.NODE_ENV = "test";
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+        return expect(new PayapiClient(params).call())
+          .to.eventually.be.rejected
+          .then(function(result) {
+            // can't think of a good way to verify this.
+            // it will break when validations are added/removed
+            return expect(result.length).to.equal(13);
+          });
+      });
+    });
     describe("CreditCardNumber", function() {
       it("is sanitized", function() {
         var params = {
@@ -305,24 +358,24 @@
           }
         };
         var paymentToken = jwt.encode(fakeDataObject, apiKey, "HS512");
-        var optionalFields = [ 'product.id',
-          'product.description',
-          'product.imageUrl',
-          'product.category',
-          'product.extraData',
-          'product.options',
-          'consumer',
-          'shippingAddress',
-          'callbacks',
-          'returnUrls',
-          'payment.ip',
-          'payment.cardHolderEmail',
-          'payment.cardHolderName',
-          'payment.creditCardNumber',
-          'payment.paymentMethod',
-          'payment.ccv',
-          'payment.expiresMonth',
-          'payment.expiresYear'
+        var optionalFields = [ "product.id",
+          "product.description",
+          "product.imageUrl",
+          "product.category",
+          "product.extraData",
+          "product.options",
+          "consumer",
+          "shippingAddress",
+          "callbacks",
+          "returnUrls",
+          "payment.ip",
+          "payment.cardHolderEmail",
+          "payment.cardHolderName",
+          "payment.creditCardNumber",
+          "payment.paymentMethod",
+          "payment.ccv",
+          "payment.expiresMonth",
+          "payment.expiresYear"
         ];
         var clientParams = {
           paymentToken: paymentToken,
