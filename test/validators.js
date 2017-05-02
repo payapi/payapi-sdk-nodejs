@@ -623,6 +623,15 @@
         expect(validationError.translationKey).to.equal("invalid.callbacks.success");
         expect(validationError.value).to.equal(paymentObject.callbacks.success);
       });
+
+      it("should fail when URL is not a string (boolean 'false')", function() {
+        paymentObject.callbacks.success = false;
+        paymentObject.optionalFields = ["callbacks.success"];
+        var validationError = new InputDataValidator(paymentObject).validate()[0];
+        expect(validationError.message).to.equal("Invalid callbacks success url. Make sure you are using https protocol.");
+        expect(validationError.translationKey).to.equal("invalid.callbacks.success");
+        expect(validationError.value).to.equal(paymentObject.callbacks.success);
+      });
     }); // describe success
 
     describe("failed", function() {
