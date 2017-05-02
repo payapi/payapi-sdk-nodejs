@@ -623,6 +623,15 @@
         expect(validationError.translationKey).to.equal("invalid.callbacks.success");
         expect(validationError.value).to.equal(paymentObject.callbacks.success);
       });
+
+      it("should fail when URL is not a string (boolean 'false')", function() {
+        paymentObject.callbacks.success = false;
+        paymentObject.optionalFields = ["callbacks.success"];
+        var validationError = new InputDataValidator(paymentObject).validate()[0];
+        expect(validationError.message).to.equal("Invalid callbacks success url. Make sure you are using https protocol.");
+        expect(validationError.translationKey).to.equal("invalid.callbacks.success");
+        expect(validationError.value).to.equal(paymentObject.callbacks.success);
+      });
     }); // describe success
 
     describe("failed", function() {
@@ -787,6 +796,41 @@
         expect(function() {
           new PayapiClient(params).decodePaymentToken()
         }).to.throw("Only HS256, HS384, HS512 and RS256 algorithms are supported for JWT.");
+      });
+
+      it("should fail with an invalid JSON object", function() {
+        var paymentToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.IntcInByb2R1Y3RzXCI6W3tcImlkXCI6XCI0MFwiLFwicXVhbnRpdHlcIjpcIjFcIixcInRpdGxlXCI6XCJpUGhvbmVcIixcImRlc2NyaXB0aW9uXCI6XCJcXHJcXG5cXHRpUGhvbmUgaXMgYSByZXZvbHV0aW9uYXJ5IG5ldyBtb2JpbGUgcGhvbmUgdGhhdCBhbGxvd3MgeW91IHRvIG1ha2UgYSBjYWxsIGJ5IHNpbXBseSB0YXBwaW5nIGEgbmFcIixcImltYWdlVXJsXCI6XCJodHRwJTNBJTJGJTJGb2MucGF5YXBpLnh5eiUyRmltYWdlJTJGY2FjaGUlMkZjYXRhbG9nJTJGZGVtbyUyRmlwaG9uZV8xLTI1NngyNTYuanBnXCIsXCJjYXRlZ29yeVwiOlwiRGVza3RvcHNcIixcIm9wdGlvbnNcIjpcIlwiLFwibW9kZWxcIjpcInByb2R1Y3QgMTFcIixcInByaWNlSW5DZW50c0luY1ZhdFwiOjEyMzIwLFwicHJpY2VJbkNlbnRzRXhjVmF0XCI6MTAxMDAsXCJ2YXRJbkNlbnRzXCI6MjIyMCxcInZhdFBlcmNlbnRhZ2VcIjoyMixcImV4dHJhRGF0YVwiOlwiXCJ9XSxcInNoaXBwaW5nQWRkcmVzc1wiOntcInJlY2lwaWVudE5hbWVcIjpcIlwiLFwiY29cIjpcIlwiLFwic3RyZWV0QWRkcmVzc1wiOlwiXCIsXCJzdHJlZXRBZGRyZXNzMlwiOlwiXCIsXCJwb3N0YWxDb2RlXCI6XCJcIixcImNpdHlcIjpcIlwiLFwic3RhdGVPclByb3ZpbmNlXCI6XCJcIixcImNvdW50cnlDb2RlXCI6XCJFU1wifSxcImNvbnN1bWVyXCI6e1wiY29uc3VtZXJJZFwiOlwiMVwiLFwiZW1haWxcIjpcImNvbnRhY3RAam9zZWJhbWlyZW5hLmNvbVwiLFwibG9jYWxlXCI6XCJlbi1HQlwiLFwibW9iaWxlUGhvbmVOdW1iZXJcIjpcIlwifSxcImNhbGxiYWNrc1wiOntcInByb2Nlc3NpbmdcIjpcImh0dHBzJTNBJTJGJTJGb2MucGF5YXBpLnh5eiUyRmluZGV4LnBocCUzRnJvdXRlJTNEcGF5YXBpJTJGY2FsbGJhY2tcIixcInN1Y2Nlc3NcIjpcImh0dHBzJTNBJTJGJTJGb2MucGF5YXBpLnh5eiUyRmluZGV4LnBocCUzRnJvdXRlJTNEcGF5YXBpJTJGY2FsbGJhY2tcIixcImZhaWxlZFwiOlwiaHR0cHMlM0ElMkYlMkZvYy5wYXlhcGkueHl6JTJGaW5kZXgucGhwJTNGcm91dGUlM0RwYXlhcGklMkZjYWxsYmFja1wiLFwiY2hhcmdlYmFja1wiOlwiaHR0cHMlM0ElMkYlMkZvYy5wYXlhcGkueHl6JTJGaW5kZXgucGhwJTNGcm91dGUlM0RwYXlhcGklMkZjYWxsYmFja1wifSxcInJldHVyblVybHNcIjp7XCJzdWNjZXNzXCI6XCJodHRwcyUzQSUyRiUyRm9jLnBheWFwaS54eXolMkZpbmRleC5waHAlM0Zyb3V0ZSUzRHBheWFwaSUyRnJldHVybiUyRnN1Y2Nlc3NcIixcImNhbmNlbFwiOlwiaHR0cHMlM0ElMkYlMkZvYy5wYXlhcGkueHl6JTJGaW5kZXgucGhwJTNGcm91dGUlM0RwYXlhcGklMkZyZXR1cm4lMkZjYW5jZWxcIixcImZhaWxlZFwiOlwiaHR0cHMlM0ElMkYlMkZvYy5wYXlhcGkueHl6JTJGaW5kZXgucGhwJTNGcm91dGUlM0RwYXlhcGklMkZyZXR1cm4lMkZmYWlsXCJ9LFwib3JkZXJcIjp7XCJzdW1JbkNlbnRzSW5jVmF0XCI6MTIzMjAsXCJzdW1JbkNlbnRzRXhjVmF0XCI6MTAxMDAsXCJ2YXRJbkNlbnRzXCI6MjIyMCxcImN1cnJlbmN5XCI6XCJFVVJcIixcInJlZmVyZW5jZUlkXCI6XCI2OFwiLFwidG9zVXJsXCI6XCJodHRwJTNBJTJGJTJGb2MucGF5YXBpLnh5eiUyRmluZGV4LnBocCUzRnJvdXRlJTNEaW5mb3JtYXRpb24lMkZpbmZvcm1hdGlvbiUyNmluZm9ybWF0aW9uX2lkJTNENVwifX0i.ry3E-0pVe1nuW2LKoA0-BcAA3T9fGcBM0Hnb3TV-k3s';
+        var optionalFields = [ 'product.id',
+          'product.description',
+          'product.imageUrl',
+          'product.category',
+          'product.extraData',
+          'product.options',
+          'consumer',
+          'shippingAddress',
+          'callbacks',
+          'returnUrls',
+          'payment.ip',
+          'payment.cardHolderEmail',
+          'payment.cardHolderName',
+          'payment.creditCardNumber',
+          'payment.paymentMethod',
+          'payment.ccv',
+          'payment.expiresMonth',
+          'payment.expiresYear'
+        ];
+        var clientParams = {
+          paymentToken: paymentToken,
+          apiKey: "qETkgXpgkhNKYeFKfxxqKhgdahcxEFc9",
+          optionalFields: optionalFields
+        };
+
+        expect(function() {
+          new PayapiClient(clientParams).decodePaymentToken()
+        }).to.throw(Array).to.include({
+          'message': 'JSON is not a valid Object',
+          'translationKey': 'invalid.json'
+        });
       });
 
     });

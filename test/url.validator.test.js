@@ -56,5 +56,11 @@
           new UrlValidator({ url: url }).validate()
           ).to.be.false;
     });
+    it("should fail with a no string URL('false' boolean)", function() {
+      url = false;
+      return expect(
+        new UrlValidator({ url: url }).validate()
+        ).to.be.false;
+    });
   });
 }());
