@@ -268,6 +268,26 @@
           });
       });
 
+      it("should convert Product vatInCents to a number", function() {
+        paymentObject.products[0].vatInCents = "113";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.products[0].vatInCents).to.equal(113);
+          });
+      });
+
+      it("should convert Order vatInCents to a number", function() {
+        paymentObject.order.vatInCents = "0";
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.order.vatInCents).to.equal(0);
+          });
+      });
+
       it("should contain Order", function() {
         var paymentToken = jwt.encode(paymentObject, apiKey, "HS512");
         return expect(new PayapiClient({paymentToken: paymentToken, apiKey: apiKey}).decodePaymentToken())
