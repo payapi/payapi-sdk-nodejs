@@ -26,7 +26,8 @@
       stateOrProvince: "Uusimaa",
       countryCode: "FI",
       mobilePhoneNumber: "34615344819",
-      email: "happyconsumer@example.com"
+      email: "happyconsumer@example.com",
+      ssn: "071259-999M"
     };
     optionalFields = [];
   });
@@ -941,6 +942,103 @@
           expect(validationError.value).to.equal("Consumer consumerId is not URL encoded");
         }
       });*/
+    });
+
+    describe("Social security number", function() {
+      it("can be optional", function() {
+        delete consumer.ssn;
+        optionalFields = ["ssn"];
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ConsumerValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("can be mandatory", function() {
+        delete consumer.ssn;
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer social security number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.ssn");
+        expect(validationError.elementName).to.equal("consumer[ssn]");
+        expect(validationError.value).to.equal("Consumer social security number is mandatory");
+      });
+      it("should fail with social security number longer than 11 characters", function() {
+        consumer.ssn = "123456789012";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer social security number");
+        expect(validationError.elementName).to.equal("consumer[ssn]");
+        expect(validationError.translationKey).to.equal("invalid.consumer.ssn");
+        expect(validationError.value).to.equal("Consumer social security number is not valid");
+      });
+      it("should fail if not optional but is empty", function() {
+        consumer.ssn = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer social security number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.ssn");
+        expect(validationError.elementName).to.equal("consumer[ssn]");
+        expect(validationError.value).to.equal("Consumer social security number is mandatory");
+      });
+      it("should fail with all spaces", function() {
+        consumer.ssn = "          ";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer social security number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.ssn");
+        expect(validationError.elementName).to.equal("consumer[ssn]");
+        expect(validationError.value).to.equal("Consumer social security number is mandatory");
+      });
+      it("should succeed with social security number 071259-999M", function() {
+        consumer.ssn = "071259-999M";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect( new ConsumerValidator(params).validate())
+          .to.be.empty;
+      });
+      it("should fail with social security number 071259999M and countryCode FI", function() {
+        consumer.ssn = "071259999M";
+        consumer.countryCode = "FI";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer social security number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.ssn");
+        expect(validationError.elementName).to.equal("consumer[ssn]");
+        expect(validationError.value).to.equal("Consumer social security number is not valid");
+      });
+      it("should fail with social security number 071399-999M and countryCode FI", function() {
+        consumer.ssn = "071399-999M";
+        consumer.countryCode = "FI";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer social security number");
+        expect(validationError.translationKey).to.equal("invalid.consumer.ssn");
+        expect(validationError.elementName).to.equal("consumer[ssn]");
+        expect(validationError.value).to.equal("Consumer social security number is not valid");
+      });
     });
 
   });

@@ -43,7 +43,8 @@
         countryCode: "FI",
         mobilePhoneNumber: "34615344819",
         email: "happyconsumer@example.com",
-        consumerId: "happyConsumer23"
+        consumerId: "happyConsumer23",
+        ssn: "071259-999M"
       },
       shippingAddress: {
         recipientName: "Peter",
@@ -265,7 +266,8 @@
           "stateOrProvince": "Malaga",
           "countryCode": "ES",
           "name": "John Doe",
-          "mobilePhoneNumber": "34615344814"
+          "mobilePhoneNumber": "34615344814",
+          "ssn": "071259-999M"
         },
         "shippingAddress": {
           "recipientName": "Peter",
@@ -374,7 +376,8 @@
             "countryCode": "ES",
             "locale": "en-US",
             "mobilePhoneNumber": "34615349123",
-            "email": "happyconsumer@example.com"
+            "email": "happyconsumer@example.com",
+            "ssn": "071259-999M"
           },
           "shippingAddress": {
             "recipientName": "Peter",
@@ -859,6 +862,7 @@
         "consumer.mobilePhoneNumber",
         "consumer.email",
         "consumer.consumerId",
+        "consumer.ssn",
         "consumer",
         "shippingAddress",
         "order.sumInCentsExcVat",
@@ -937,7 +941,8 @@
           "locale": "en-US",
           "consumerId": "diiba69",
           "mobilePhoneNumber": "34615238123",
-          "email": "happyconsumer@example.com"
+          "email": "happyconsumer@example.com",
+          "ssn": "071259-999M"
         },
         "shippingAddress": {
           "recipientName": "Peter",
@@ -1028,7 +1033,8 @@
       locale: "en-US",
       consumerId: "happyConsumer231",
       mobilePhoneNumber: "+34615341239",
-      email: "happyconsumer@example.com"
+      email: "happyconsumer@example.com",
+      ssn: "071259-999M"
     },
     shippingAddress: {
       recipientName: "Peter",

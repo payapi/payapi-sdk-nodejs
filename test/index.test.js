@@ -42,7 +42,8 @@
         countryCode: "FI",
         mobilePhoneNumber: "34615341892",
         email: "happyconsumer@example.com",
-        consumerId: "happyConsujea31"
+        consumerId: "happyConsujea31",
+        ssn: "071259-999M"
       },
       shippingAddress: {
         recipientName: "John Doe",
@@ -353,7 +354,8 @@
             "consumerId": "happy88",
             "email": "happyconsumer@example.com",
             "locale": "es-ES",
-            "mobilePhoneNumber": "34615321523"
+            "mobilePhoneNumber": "34615321523",
+            "ssn": "071259-999M"
           },
           "shippingAddress": {
             "recipientName": "John Doe",
