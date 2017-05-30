@@ -5,7 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "gulp mocha",
-    "postpublish": "node tools/slack/slack.sender newClientPublished"
+    "postpublish": "node tools/slack/slack.sender newClientPublished",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -31,11 +33,12 @@
     "google-libphonenumber": "2.0.6",
     "jwt-simple": "0.5.0",
     "moment": "2.15.2",
-    "payapi-debug": "2.6.5",
+    "payapi-debug": "2.6.7",
     "promise": "7.1.1",
     "request-promise": "2.0.0",
     "url": "0.11.0",
-    "validator": "6.2.1"
+    "validator": "6.2.1",
+    "snyk": "1.27.0"
   },
   "devDependencies": {
     "chai": "3.5.0",
@@ -58,5 +61,6 @@
     "mocha-jenkins-reporter": "0.3.1",
     "should": "11.1.0",
     "slack-node": "0.1.8"
-  }
+  },
+  "snyk": true
 }
