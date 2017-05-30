@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/payapi/nodejs#README",
   "dependencies": {
+    "finnish-ssn-util": "1.0.3",
     "google-libphonenumber": "2.0.6",
     "jwt-simple": "0.5.0",
     "moment": "2.15.2",
