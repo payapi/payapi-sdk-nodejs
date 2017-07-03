@@ -412,6 +412,21 @@
             expect(decodedPaymentToken.optionalFields).to.equal(optionalFields);
           });
       });
+
+      it("should work with invalid consumer mobilePhoneNumber if fillableFields is sent", function() {
+        paymentObject.consumer.mobilePhoneNumber = "615123456";
+        var paymentToken = jwt.encode(paymentObject, apiKey, "HS512");
+        var clientParams = {
+          paymentToken: paymentToken,
+          apiKey: apiKey,
+          fillableFields: ["consumer.mobilePhoneNumber"]
+        };
+        return expect(new PayapiClient(clientParams).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(decodedPaymentToken.consumer.mobilePhoneNumber).to.be.equal("615123456");
+          });
+      });
     });
   });
 }());
