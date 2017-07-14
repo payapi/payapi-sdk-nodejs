@@ -28,7 +28,8 @@
         creditCardNumber: "4242 4242 4242 4242",
         ccv: "123",
         expiresMonth: moment().month() + 1 + "",
-        expiresYear: moment().year() + ""
+        expiresYear: moment().year() + "",
+        numberOfInstallments: 3
       },
       consumer: {
         name: "consumer name",
@@ -137,7 +138,7 @@
           .then(function(result) {
             // can't think of a good way to verify this.
             // it will break when validations are added/removed
-            return expect(result.length).to.equal(13);
+            return expect(result.length).to.equal(14);
           });
       });
     });
@@ -397,7 +398,8 @@
           "payment.paymentMethod",
           "payment.ccv",
           "payment.expiresMonth",
-          "payment.expiresYear"
+          "payment.expiresYear",
+          "payment.numberOfInstallments"
         ];
         var clientParams = {
           paymentToken: paymentToken,

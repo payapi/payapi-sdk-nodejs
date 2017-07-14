@@ -29,7 +29,8 @@
         creditCardNumber: "4242 4242 4242 4242",
         ccv: "123",
         expiresMonth: moment().month() + 1 + "",
-        expiresYear: moment().year() + ""
+        expiresYear: moment().year() + "",
+        numberOfInstallments: 6
       },
       consumer: {
         name: "consumer name",
@@ -142,110 +143,7 @@
         expect(validationError.translationKey).to.equal("invalid.extra");
         expect(validationError.value).to.equal("Extra is mandatory");
       });
-      /*it("keys cannot contain blacklisted characters", function() {
-        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
-          paymentObject.extra = {
-          };
-          paymentObject.extra["key" + BLACKLISTED_CHARACTERS[i]] = "foo";
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid extra");
-          expect(validationError.translationKey).to.equal("invalid.extra");
-          expect(validationError.value).to.contain("Extra is not URL encoded");
-          expect(validationError.value).to.contain("key");
-        }
-      });*/
-      /*it("values cannot contain blacklisted characters", function() {
-        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
-          paymentObject.extra = {
-          };
-          paymentObject.extra.key = "foo" + BLACKLISTED_CHARACTERS[i];
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid extra");
-          expect(validationError.translationKey).to.equal("invalid.extra");
-          expect(validationError.value).to.contain("Extra is not URL encoded");
-          expect(validationError.value).to.contain("key");
-        }
-      });*/
-      /*it("Object values cannot contain blacklisted characters", function() {
-        for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
-          paymentObject.extra = {
-            extraInputData: {}
-          };
-          paymentObject.extra.extraInputData.key = "foo" + BLACKLISTED_CHARACTERS[i];
-          var validationError = new InputDataValidator(paymentObject).validate()[0];
-          expect(validationError.message).to.equal("Invalid extra");
-          expect(validationError.translationKey).to.equal("invalid.extra");
-          expect(validationError.value).to.contain("Extra is not URL encoded");
-          expect(validationError.value).to.contain("key");
-        }
-      });*/
-
     }); // extra
-
-//    describe("Seller", function() {
-//      describe("companyName", function() {
-//        it("should ", function() {
-//          console.log("TBD companyName");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//
-//      describe("streetAddress", function() {
-//        it("should ", function() {
-//          console.log("TBD streetAddress");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//
-//      describe("streetAddress2", function() {
-//        it("should ", function() {
-//          console.log("TBD streetAddress2");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//
-//      describe("postalCode", function() {
-//        it("should ", function() {
-//          console.log("TBD postalCode");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//
-//      describe("city", function() {
-//        it("should ", function() {
-//          console.log("TBD city");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//
-//      describe("country", function() {
-//        it("should ", function() {
-//          console.log("TBD country");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//
-//      describe("businessVatId", function() {
-//        it("should ", function() {
-//          console.log("TBD businessVatId");
-//          return expect(
-//            new InputDataValidator(paymentObject).validate()
-//          ).to.be.empty;
-//        });
-//      });
-//    });
 
     describe("Error payload", function() {
       var errorPayload = {
@@ -333,6 +231,7 @@
           "payment.ccv",
           "payment.expiresMonth",
           "payment.expiresYear",
+          "payment.numberOfInstallments",
           "shippingAddress"
         ],
         "returnUrls": {
@@ -362,7 +261,8 @@
             "ccv": "1234",
             "expiresMonth": "2",
             "expiresYear": "3016",
-            "ip": "::ffff:127.0.0.1"
+            "ip": "::ffff:127.0.0.1",
+            "numberOfInstallments": "6"
           },
           "consumer": {
             "name": "Marko",
@@ -820,7 +720,8 @@
           'payment.paymentMethod',
           'payment.ccv',
           'payment.expiresMonth',
-          'payment.expiresYear'
+          'payment.expiresYear',
+          'payment.numberOfInstallments'
         ];
         var clientParams = {
           paymentToken: paymentToken,
@@ -851,6 +752,7 @@
         "payment.expiresMonth",
         "payment.expiresYear",
         "payment.payDataId",
+        "payment.numberOfInstallments",
         "consumer.name",
         "consumer.co",
         "consumer.streetAddress",
@@ -964,6 +866,7 @@
           "payment.expiresMonth",
           "payment.expiresYear",
           "payment.paymentMethod",
+          "payment.numberOfInstallments",
           "consumer",
           "consumer.countryCode",
           "shippingAddress",
@@ -1072,6 +975,7 @@
      "payment.expiresYear",
      "payment.paymentMethod",
      "payment.locale",
+     "payment.numberOfInstallments",
      "shippingAddress",
      "extra"
     ]
