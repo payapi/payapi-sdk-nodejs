@@ -4,7 +4,7 @@
   "description": "NodeJS client for PayApi.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "gulp mocha",
+    "test": "snyk test && gulp mocha",
     "postpublish": "node tools/slack/slack.sender newClientPublished",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
