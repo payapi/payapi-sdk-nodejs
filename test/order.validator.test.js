@@ -27,6 +27,23 @@
   });
 
   describe("Order", function() {
+    describe("cryptocurrencies", function() {
+      it("should not collide with fiat currencies", function() {
+        var params = {
+          order: order,
+          optionalFields: optionalFields
+        };
+        new OrderValidator(params).cryptoCurrencies.forEach(function(cryptoCurrency){
+          if(new OrderValidator(params).fiatCurrencies.indexOf(cryptoCurrency) != -1) {
+            throw new Error(cryptoCurrency);
+          }
+          return expect(
+            new OrderValidator(params).fiatCurrencies.indexOf(cryptoCurrency)
+            ).to.eql(-1);
+          });
+      });
+    });
+
     describe("sumInCentsIncVat", function() {
       it("can be optional", function() {
         delete order.sumInCentsIncVat;
