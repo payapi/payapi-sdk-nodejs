@@ -1,12 +1,12 @@
 (function () {
   "use strict";
 
-  const should = require("should");
-  const chai = require("chai");
-  const chaiAsPromised = require("chai-as-promised");
-  const expect = chai.expect;
-  const jwt = require("jwt-simple");
-  const moment = require("moment");
+  var should = require("should");
+  var chai = require("chai");
+  var chaiAsPromised = require("chai-as-promised");
+  var expect = chai.expect;
+  var jwt = require("jwt-simple");
+  var moment = require("moment");
   //const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
 
   chai.use(chaiAsPromised);
@@ -30,7 +30,7 @@
     describe("sumInCentsIncVat", function() {
       it("can be optional", function() {
         delete order.sumInCentsIncVat;
-        optionalFields = ['sumInCentsIncVat'];
+        optionalFields = ["sumInCentsIncVat"];
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -101,7 +101,7 @@
     describe("sumInCentsExcVat", function() {
       it("can be optional", function() {
         delete order.sumInCentsExcVat;
-        optionalFields = ['sumInCentsExcVat'];
+        optionalFields = ["sumInCentsExcVat"];
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -320,7 +320,7 @@
     describe("currency", function() {
       it("cannot be optional", function() {
         delete order.currency;
-        optionalFields = ['currency'];
+        optionalFields = ["currency"];
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -341,6 +341,19 @@
             ).to.be.empty;
       });
 
+      it("should succeed with ['BTC', 'BCH', 'LTC', 'ETH', 'XRP', 'XEM', 'DASH', 'NEO', 'ETC', 'XMR']", function() {
+        ["BTC", "BCH", "LTC", "ETH", "XRP", "XEM", "DASH", "NEO", "ETC", "XMR"].forEach(function(cryptoCoin) {
+          order.currency = cryptoCoin;
+          var params = {
+            order: order,
+            optionalFields: optionalFields
+          };
+          return expect(
+              new OrderValidator(params).validate()
+              ).to.be.empty;
+        });
+      });
+
       it("should fail when not found in currencies list", function() {
         order.currency = "DIIBA";
         var params = {
@@ -357,7 +370,7 @@
     describe("tosUrl", function() {
       it("can be optional", function() {
         delete order.tosUrl;
-        optionalFields = ['tosUrl'];
+        optionalFields = ["tosUrl"];
         var params = {
           order: order,
           optionalFields: optionalFields
@@ -393,7 +406,7 @@
 
       it("must be a valid url", function() {
         order.tosUrl = "hokkus pokkus, filiokkus";
-        optionalFields = ['tosUrl'];
+        optionalFields = ["tosUrl"];
         var params = {
           order: order,
           optionalFields: optionalFields
