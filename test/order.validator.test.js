@@ -21,7 +21,11 @@
       vatInCents: 1,
       referenceId: "x",
       currency: "EUR",
-      tosUrl: "https://payapi.io/terms"
+      tosUrl: "https://payapi.io/terms",
+      // TBD: convert fiat currencies to use the fields below
+      sumIncVat: 3.14159265,
+      sumExcVat: 2.53354246,
+      vat:       0.60805019
     };
     optionalFields = [];
   });
@@ -359,8 +363,8 @@
       });
 
       it("should succeed with ['BTC', 'BCH', 'LTC', 'ETH', 'XRP', 'XEM', 'DASH', 'NEO', 'ETC', 'XMR']", function() {
-        ["BTC", "BCH", "LTC", "ETH", "XRP", "XEM", "DASH", "NEO", "ETC", "XMR"].forEach(function(cryptoCoin) {
-          order.currency = cryptoCoin;
+        ["BTC", "BCH", "LTC", "ETH", "XRP", "XEM", "DASH", "NEO", "ETC", "XMR"].forEach(function(cryptoCoinCurrency) {
+          order.currency = cryptoCoinCurrency;
           var params = {
             order: order,
             optionalFields: optionalFields

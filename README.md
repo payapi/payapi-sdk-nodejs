@@ -2,11 +2,7 @@
 
 [![Known Vulnerabilities](https://snyk.io/test/npm/payapi-client/badge.svg)](https://snyk.io/test/npm/payapi-client)
 
-A node.js client library for https://payapi.io/. Runtime depends on
-
-* https://www.npmjs.com/package/request-promise
-* https://www.npmjs.com/package/jwt-simple
-* https://www.npmjs.com/package/validator
+A node.js client library for https://payapi.io/.
 
 ## Promise
 
