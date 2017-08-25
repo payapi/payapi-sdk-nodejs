@@ -1,13 +1,13 @@
 (function () {
   "use strict";
 
-  const should = require("should");
-  const chai = require("chai");
-  const chaiAsPromised = require("chai-as-promised");
-  const expect = chai.expect;
-  const moment = require("moment");
-  const jwt = require("jwt-simple");
-  const jsonwebtoken = require("jsonwebtoken");
+  var should = require("should");
+  var chai = require("chai");
+  var chaiAsPromised = require("chai-as-promised");
+  var expect = chai.expect;
+  var moment = require("moment");
+  var jwt = require("jwt-simple");
+  var jsonwebtoken = require("jsonwebtoken");
   //const BLACKLISTED_CHARACTERS = ["'", "`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var PayapiClient = require("../lib/index");
@@ -58,6 +58,9 @@
         countryCode: "ES",
       },
       order: {
+        sumIncVat: 1,
+        sumExcVat: 1,
+        vat: 1,
         sumInCentsIncVat: 1,
         sumInCentsExcVat: 1,
         vatInCents: 1,
@@ -66,6 +69,9 @@
         tosUrl: "https://payapi.io/terms"
       },
       products: [{
+        priceIncVat: 1,
+        priceExcVat: 1,
+        vat: 1,
         priceInCentsIncVat: 1,
         priceInCentsExcVat: 1,
         vatInCents: 1,
@@ -178,6 +184,9 @@
           "countryCode": "ES",
         },
         "order": {
+          "sumIncVat": 322,
+          "sumExcVat": 300,
+          "vat": 22,
           "sumInCentsIncVat": 322,
           "sumInCentsExcVat": 300,
           "vatInCents": 22,
@@ -194,6 +203,9 @@
           "imageUrl": "https://blingcaps.org/black_bling_cap.png",
           "category": "Caps and hats",
           "model": "xyz",
+          "priceIncVat": 122,
+          "priceExcVat": 100,
+          "vat": 22,
           "priceInCentsIncVat": 122,
           "priceInCentsExcVat": 100,
           "vatInCents": 22,
@@ -209,6 +221,9 @@
           "imageUrl": "https://blingcaps.org/pink_bling_cap.png",
           "category": "Caps and hats",
           "model": "abc",
+          "priceIncVat": 222,
+          "priceExcVat": 200,
+          "vat": 22,
           "priceInCentsIncVat": 222,
           "priceInCentsExcVat": 200,
           "vatInCents": 22,
@@ -290,6 +305,9 @@
             "countryCode": "ES",
           },
           "order": {
+            "sumIncVat": 322,
+            "sumExcVat": 300,
+            "vat": 22,
             "sumInCentsIncVat": 322,
             "sumInCentsExcVat": 300,
             "vatInCents": 22,
@@ -306,6 +324,9 @@
               "imageUrl": "https://blingcaps.org/black_bling_cap.png",
               "category": "Caps and hats",
               "model": "Pimped with gold bling",
+              "priceIncVat": 122,
+              "priceExcVat": 100,
+              "vat": 22,
               "priceInCentsIncVat": 122,
               "priceInCentsExcVat": 100,
               "vatInCents": 22,
@@ -321,6 +342,9 @@
               "imageUrl": "https://blingcaps.org/pink_bling_cap.png",
               "category": "Caps and hats",
               "model": "Pimped with diamong bling",
+              "priceIncVat": 222,
+              "priceExcVat": 200,
+              "vat": 22,
               "priceInCentsIncVat": 222,
               "priceInCentsExcVat": 200,
               "vatInCents": 22,
@@ -767,6 +791,10 @@
         "consumer.ssn",
         "consumer",
         "shippingAddress",
+        "order.sumIncVat",
+        "order.sumExcVat",
+        "order.vat",
+        "order.tosUrl",
         "order.sumInCentsExcVat",
         "order.vatInCents",
         "order.tosUrl",
@@ -805,6 +833,9 @@
         },
         "products": [
         {
+          "priceIncVat": 18200,
+          "priceExcVat": 15000,
+          "vat": 3200,
           "priceInCentsIncVat": 18200,
           "priceInCentsExcVat": 15000,
           "vatInCents": 3200,
@@ -888,6 +919,9 @@
      tosUrl: "https://nets.multimerchantshop.xyz/terms",
      shippingHandlingFeeInCentsIncVat: 0,
      shippingHandlingFeeInCentsExcVat: 0,
+     sumIncVat: 150000,
+     sumExcVat: 150000,
+     vat: 0,
      sumInCentsIncVat: 150000,
      sumInCentsExcVat: 150000,
      vatInCents: 0,
@@ -896,6 +930,9 @@
    [ { priceInCentsIncVat: 150000,
        priceInCentsExcVat: 150000,
        vatInCents: 0,
+       priceIncVat: 150000,
+       priceExcVat: 150000,
+       vat: 0,
        vatPercentage: 0,
        id: "46",
        quantity: "1",
@@ -908,6 +945,9 @@
      { priceInCentsIncVat: 0,
        priceInCentsExcVat: 0,
        vatInCents: 0,
+       priceIncVat: 0,
+       priceExcVat: 0,
+       vat: 0,
        vatPercentage: 0,
        id: "shipping_and_handling",
        quantity: 1,

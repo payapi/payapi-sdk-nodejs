@@ -1,11 +1,11 @@
 (function () {
   "use strict";
 
-  const should = require("should");
-  const chai = require("chai");
-  const chaiAsPromised = require("chai-as-promised");
-  const expect = chai.expect;
-  const jwt = require("jwt-simple");
+  var should = require("should");
+  var chai = require("chai");
+  var chaiAsPromised = require("chai-as-promised");
+  var expect = chai.expect;
+  var jwt = require("jwt-simple");
   //const BLACKLISTED_CHARACTERS = ["`", "´", "\"", "{", "}", "<", ">"];
   chai.use(chaiAsPromised);
   var ProductValidator = require("../lib/product.validator");
@@ -14,6 +14,9 @@
 
   beforeEach(function() {
     product = {
+      priceIncVat: 1,
+      priceExcVat: 1,
+      vat: 1,
       priceInCentsIncVat: 1,
       priceInCentsExcVat: 1,
       vatInCents: 1,
@@ -31,6 +34,90 @@
   });
 
   describe("Product", function() {
+    describe("priceIncVat", function() {
+      it("can be optional", function() {
+        delete product.priceIncVat;
+        optionalFields = ["priceIncVat"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("can be optional but must be valid anyway", function() {
+        product.priceIncVat = "diiba";
+        optionalFields = ["priceIncVat"];
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        var validationError = new ProductValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid product price including VAT");
+        expect(validationError.translationKey).to.equal("invalid.product.priceIncVat");
+        expect(validationError.value).to.equal("diiba");
+      });
+      it("should succeed with integer 1", function() {
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string '1'", function() {
+        product.priceIncVat = "1";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with integer 0", function() {
+        product.priceIncVat = 0;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with string '0'", function() {
+        product.priceIncVat = "0";
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with 150000", function() {
+        product.priceIncVat = 150000;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+      it("should succeed with fractional 0.1", function() {
+        product.priceIncVat = 0.1;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
+      });
+    });
     describe("priceInCentsIncVat", function() {
       it("can be optional", function() {
         delete product.priceInCentsIncVat;

@@ -1,13 +1,13 @@
 (function () {
   "use strict";
 
-  const should = require("should");
-  const chai = require("chai");
-  const chaiAsPromised = require("chai-as-promised");
-  const expect = chai.expect;
-  const moment = require("moment");
-  const jwt = require("jwt-simple");
-  const jsonwebtoken = require("jsonwebtoken");
+  var should = require("should");
+  var chai = require("chai");
+  var chaiAsPromised = require("chai-as-promised");
+  var expect = chai.expect;
+  var moment = require("moment");
+  var jwt = require("jwt-simple");
+  var jsonwebtoken = require("jsonwebtoken");
   chai.use(chaiAsPromised);
   var PayapiClient = require("../lib/index");
   var paymentObject;
@@ -65,6 +65,9 @@
         tosUrl: "https://payapi.io/terms"
       },
       products: [{
+        priceIncVat: 1,
+        priceExcVat: 1,
+        vat: 1,
         priceInCentsIncVat: 1,
         priceInCentsExcVat: 1,
         vatInCents: 1,
@@ -304,6 +307,9 @@
         // NOTE: in secure form the shipping address fields are merged into consumer.
         var fakeDataObject = {
           "order": {
+            "sumIncVat": 344,
+            "sumExcVat": 300,
+            "vat": 22,
             "sumInCentsIncVat": 344,
             "sumInCentsExcVat": 300,
             "vatInCents": 22,
@@ -320,6 +326,9 @@
             "imageUrl": "https://staging-store.example.com/image/c526e8973ba519c35bf391e63fae44db/cache/catalog/demo/canon_eos_5d_1-228x228.jpg",
             "category": "Caps and hats",
             "model": "xyz",
+            "priceIncVat": 122,
+            "priceExcVat": 100,
+            "vat": 22,
             "priceInCentsIncVat": 122,
             "priceInCentsExcVat": 100,
             "vatInCents": 22,
@@ -335,6 +344,9 @@
             "imageUrl": "https://staging-store.example.com/image/c526e8973ba519c35bf391e63fae44db/cache/catalog/demo/iphone_1-500x500.jpg",
             "category": "Caps and hats",
             "model": "xyz",
+            "priceIncVat": 222,
+            "priceExcVat": 200,
+            "vat": 22,
             "priceInCentsIncVat": 222,
             "priceInCentsExcVat": 200,
             "vatInCents": 22,
