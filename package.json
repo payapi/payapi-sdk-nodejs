@@ -1,13 +1,13 @@
 {
   "name": "payapi-client",
-  "version": "1.3.5-SECURITY",
+  "version": "1.3.6-SECURITY",
   "description": "NodeJS client for PayApi.",
   "main": "lib/index.js",
   "scripts": {
     "test": "snyk test && gulp mocha",
     "postpublish": "node tools/slack/slack.sender newClientPublished",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "./snyk-protect.sh"
   },
   "repository": {
     "type": "git",
