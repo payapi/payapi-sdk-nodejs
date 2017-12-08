@@ -1,6 +1,6 @@
 {
   "name": "payapi-client",
-  "version": "1.3.6-SECURITY",
+  "version": "1.3.7-SECURITY",
   "description": "NodeJS client for PayApi.",
   "main": "lib/index.js",
   "scripts": {
@@ -32,7 +32,7 @@
     "finnish-ssn-util": "1.0.4",
     "google-libphonenumber": "2.0.6",
     "jwt-simple": "0.5.0",
-    "moment": "2.15.2",
+    "moment": "2.19.3",
     "payapi-debug": "2.6.7",
     "promise": "7.1.1",
     "request-promise": "2.0.0",
