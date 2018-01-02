@@ -7,7 +7,7 @@
     "test": "snyk test && gulp mocha",
     "postpublish": "node tools/slack/slack.sender newClientPublished",
     "snyk-protect": "snyk protect",
-    "prepublish": "./snyk-protect.sh"
+    "prepare": "./snyk-protect.sh"
   },
   "repository": {
     "type": "git",
