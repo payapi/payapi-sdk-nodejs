@@ -774,8 +774,8 @@
     describe("Expiration month and year", function() {
       it("should be current month or later", function() {
         var expiredDate = moment().subtract(1, "month");
-        payment.expiresMonth = expiredDate.month() + 1;
-        payment.expiresYear = expiredDate.year();
+        payment.expiresMonth = expiredDate.month() + 1 + "";
+        payment.expiresYear = expiredDate.year() + "";
         var params = {
           payment: payment,
           optionalFields: optionalFields
