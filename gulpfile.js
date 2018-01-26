@@ -23,7 +23,9 @@ fs.readdirSync(models_path).forEach(function (file) {
 gulp.task("pre-mocha", ["tabpreventer"], function() {
   process.env.NODE_ENV = "test";
   return gulp.src(["lib/**/*.js"])
-    .pipe(istanbul())
+    .pipe(istanbul({
+      includeUntested: true
+    }))
     .pipe(istanbul.hookRequire());
 });
 
