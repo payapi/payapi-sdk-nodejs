@@ -781,7 +781,7 @@
           optionalFields: optionalFields
         };
         var validationError = new PaymentValidator(params).validate()[0];
-        if(payment.expiresYear === moment().year()) {
+        if(payment.expiresYear === moment().year() + "") {
           expect(validationError.message).to.equal("Card has expired");
           expect(validationError.translationKey).to.equal("invalid.payment.cardHasExpired");
           expect(validationError.value).to.equal(payment.expiresMonth + "/" + payment.expiresYear);
