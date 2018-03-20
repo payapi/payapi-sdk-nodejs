@@ -180,12 +180,16 @@
         paymentObject.products[0].imageUrl = "https://www.example.com/media/3901fe62872146838fdcafc0b673dbf6/image/cache/catalog/ZALE SS17/9215_11 copy-600x800.jpg";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
 
-        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+        return expect(new PayapiClient({ paymentToken: corruptPaymentObject, apiKey: apiKey }).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].imageUrl).to.equal(
-              "https://www.example.com/media/3901fe62872146838fdcafc0b673dbf6/image/cache/catalog/ZALE%20SS17/9215_11%20copy-600x800.jpg"
-            );
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].imageUrl).to.equal(
+                  "https://www.example.com/media/3901fe62872146838fdcafc0b673dbf6/image/cache/catalog/ZALE%20SS17/9215_11%20copy-600x800.jpg"
+                );
+              });
           });
       });
 
@@ -226,10 +230,14 @@
         paymentObject.products[0].vatPercentage = "12.12345";
         var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
 
-        return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
+        return expect(new PayapiClient({ paymentToken: corruptPaymentObject, apiKey: apiKey }).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].vatPercentage).to.equal(12.12345);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].vatPercentage).to.equal(12.12345);
+              });
           });
       });
 
@@ -239,7 +247,11 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].quantity).to.equal(3);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].quantity).to.equal(3);
+              });
           });
       });
 
@@ -249,7 +261,11 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].id).to.be.a("string");
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].id).to.be.a("string");
+              });
           });
       });
 
@@ -259,7 +275,11 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].priceInCentsIncVat).to.equal(235);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].priceInCentsIncVat).to.equal(235);
+              });
           });
       });
 
@@ -269,7 +289,11 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].priceInCentsExcVat).to.equal(235);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].priceInCentsExcVat).to.equal(235);
+              });
           });
       });
 
@@ -279,7 +303,11 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.products[0].vatInCents).to.equal(113);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentPaymentToken.products[0].vatInCents).to.equal(113);
+              });
           });
       });
 
@@ -289,7 +317,11 @@
         return expect(new PayapiClient({paymentToken: corruptPaymentObject, apiKey: apiKey}).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.order.vatInCents).to.equal(0);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.order.vatInCents).to.equal(0);
+              });
           });
       });
 
@@ -418,12 +450,17 @@
           apiKey: apiKey,
           optionalFields: optionalFields
         };
+
         return expect(new PayapiClient(clientParams).decodePaymentToken())
           .to.eventually.be.fulfilled
           .then(function(decodedPaymentToken) {
-            expect(decodedPaymentToken.order).to.not.be.null;
-            expect(decodedPaymentToken.order.currency).to.equal("EUR");
-            expect(decodedPaymentToken.optionalFields).to.equal(optionalFields);
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.order).to.not.be.null;
+                expect(validatedPaymentToken.order.currency).to.equal("EUR");
+                expect(validatedPaymentToken.optionalFields).to.equal(optionalFields);
+              });
           });
       });
 
