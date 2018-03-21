@@ -31,6 +31,15 @@
   });
 
   describe("Order", function() {
+    it("should succed for valid order object without optionalFields", function() {
+      var params = {
+        order: order
+      };
+      return expect(
+        new OrderValidator(params).validate()
+      ).to.be.empty;
+    });
+
     describe("cryptocurrencies", function() {
       it("should not collide with fiat currencies", function() {
         var params = {

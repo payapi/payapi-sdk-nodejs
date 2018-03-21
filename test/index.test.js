@@ -145,6 +145,23 @@
           });
       });
     });
+
+    describe("secret", function() {
+      it("should be included in params", function() {
+        var params = {
+          payload: paymentObject,
+          apiKey: apiKey
+        };
+
+        var token = new PayapiClient(params).encodePaymentToken();
+        return expect(new PayapiClient({ paymentToken: token, apiKey: apiKey }).call())
+          .to.eventually.be.rejected
+          .then(function(err) {
+            return expect(err).to.equal("secret must not be empty");
+          });
+      });
+    });
+
     describe("CreditCardNumber", function() {
       it("is sanitized", function() {
         var params = {
@@ -189,6 +206,21 @@
                 expect(validatedPaymentToken.products[0].imageUrl).to.equal(
                   "https://www.example.com/media/3901fe62872146838fdcafc0b673dbf6/image/cache/catalog/ZALE%20SS17/9215_11%20copy-600x800.jpg"
                 );
+              });
+          });
+      });
+
+      it("should work with a product without imageUrl", function() {
+        delete paymentObject.products[0].imageUrl;
+        var corruptPaymentObject = jwt.encode(paymentObject, apiKey, "HS512");
+
+        return expect(new PayapiClient({ paymentToken: corruptPaymentObject, apiKey: apiKey }).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.products[0].imageUrl).to.be.null;
               });
           });
       });

@@ -33,6 +33,16 @@
   });
 
   describe("Consumer", function() {
+
+    it("should succed for valid consumer object without optionalFields", function() {
+      var params = {
+        consumer: consumer
+      };
+      return expect(
+        new ConsumerValidator(params).validate()
+      ).to.be.empty;
+    });
+
     describe("Name", function() {
       it("can be optional", function() {
         delete consumer.name;
@@ -58,6 +68,18 @@
       });
       it("should fail if not optional but is empty", function() {
         consumer.name = "";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        var validationError = new ConsumerValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid consumer name");
+        expect(validationError.translationKey).to.equal("invalid.consumer.name");
+        expect(validationError.elementName).to.equal("consumer[name]");
+        expect(validationError.value).to.equal("Consumer name is mandatory");
+      });
+      it("should fail if not optional but is null", function() {
+        consumer.name = "null";
         var params = {
           consumer: consumer,
           optionalFields: optionalFields

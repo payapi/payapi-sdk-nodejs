@@ -29,6 +29,15 @@
   });
 
   describe("Payment", function() {
+    it("should succed for valid payment object without optionalFields", function() {
+      var params = {
+        payment: payment
+      };
+      return expect(
+        new PaymentValidator(params).validate()
+      ).to.be.empty;
+    });
+
     describe("Email address", function() {
       it("should succeed with email nosuchemailaddress@payapi.io", function() {
         payment.cardHolderEmail = "nosuchemailaddress@payapi.io";

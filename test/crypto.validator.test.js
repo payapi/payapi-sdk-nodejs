@@ -24,6 +24,15 @@
   });
 
   describe("Crypto", function() {
+    it("should succed for valid crypto object without optionalFields", function() {
+      var params = {
+        crypto: crypto,
+      };
+      return expect(
+        new CryptoValidator(params).validate()
+      ).to.be.empty;
+    });
+
     describe("sumIncVat", function() {
       it("can be optional", function() {
         delete crypto.sumIncVat;
