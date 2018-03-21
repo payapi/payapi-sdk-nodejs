@@ -526,6 +526,12 @@
         expect(validationError.value).to.equal(paymentObject.callbacks.success);
       });
 
+      it("must use https protocol", function() {
+        paymentObject.callbacks.success = "https://localhost:3000/v1/api/events/merchantCallback";
+        var validationError = new InputDataValidator(paymentObject).validate()[0];
+        expect(validationError).to.not.exist;
+      });
+
       it("must define a protocol", function() {
         paymentObject.callbacks.success = "payapi.io/success";
         var validationError = new InputDataValidator(paymentObject).validate()[0];

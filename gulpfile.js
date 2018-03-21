@@ -23,7 +23,9 @@ fs.readdirSync(models_path).forEach(function (file) {
 gulp.task("pre-mocha", ["tabpreventer"], function() {
   process.env.NODE_ENV = "test";
   return gulp.src(["lib/**/*.js"])
-    .pipe(istanbul())
+    .pipe(istanbul({
+      includeUntested: true
+    }))
     .pipe(istanbul.hookRequire());
 });
 
@@ -49,7 +51,7 @@ gulp.task("mocha", ["pre-mocha"], function() {
       }
     }))
     .pipe(istanbul.writeReports({reporters: ["cobertura"], reportOpts: { dir: "./reports" }}))
-    .pipe(istanbul.enforceThresholds({thresholds: {global: 70}}))
+    .pipe(istanbul.enforceThresholds({thresholds: {global: 88}}))
     .on("error", gutil.log);
 });
 
