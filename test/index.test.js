@@ -335,6 +335,23 @@
           });
       });
 
+      it("should work without order if it is optional", function() {
+        delete paymentObject.order;
+
+        var paymentToken = jwt.encode(paymentObject, apiKey, "HS512");
+        return expect(new PayapiClient({paymentToken: paymentToken, apiKey: apiKey}).decodePaymentToken())
+          .to.eventually.be.fulfilled
+          .then(function(decodedPaymentToken) {
+            decodedPaymentToken.optionalFields = [ "order" ];
+            expect(new PayapiClient(decodedPaymentToken).validate())
+              .to.eventually.be.fulfilled
+              .then(function(validatedPaymentToken) {
+                expect(validatedPaymentToken.order).to.be.null;
+                expect(decodedPaymentToken.payment.cardBin).to.equal("424242");
+              });
+          });
+      });
+
       it("should work with secure form's fake data object", function() {
         // NOTE: in secure form the shipping address fields are merged into consumer.
         var fakeDataObject = {
