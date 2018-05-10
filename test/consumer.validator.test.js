@@ -797,6 +797,15 @@
         };
         return expect(new ConsumerValidator(params).validate()).to.be.empty;
       });
+
+      it("should success with a valid phone number if init zeros included", function () {
+        consumer.mobilePhoneNumber = "034615344810";
+        var params = {
+          consumer: consumer,
+          optionalFields: optionalFields
+        };
+        return expect(new ConsumerValidator(params).validate()).to.be.empty;
+      });
       /* it("cannot contain blacklisted characters", function() {
         for(var i = 0; i < BLACKLISTED_CHARACTERS.length; i++) {
           consumer.mobilePhoneNumber = "63445 " + BLACKLISTED_CHARACTERS[i] + " 3393";
