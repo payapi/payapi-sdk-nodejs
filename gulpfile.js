@@ -51,7 +51,7 @@ gulp.task("mocha", ["pre-mocha"], function() {
       }
     }))
     .pipe(istanbul.writeReports({reporters: ["cobertura"], reportOpts: { dir: "./reports" }}))
-    .pipe(istanbul.enforceThresholds({thresholds: {global: 88}}))
+    .pipe(istanbul.enforceThresholds({thresholds: {global: 87}}))
     .on("error", gutil.log);
 });
 
