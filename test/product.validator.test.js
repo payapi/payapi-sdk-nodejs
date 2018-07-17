@@ -415,16 +415,15 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
-      it("should fail with fractional 0.1", function() {
+      it("should pass with fractional 0.1", function() {
         product.quantity = 0.1;
         var params = {
           product: product,
           optionalFields: optionalFields
         };
-        var validationError = new ProductValidator(params).validate()[0];
-        expect(validationError.message).to.equal("Invalid product quantity");
-        expect(validationError.translationKey).to.equal("invalid.product.quantity");
-        expect(validationError.value).to.equal("" + product.quantity);
+        return expect(
+          new ProductValidator(params).validate()
+        ).to.be.empty;
       });
     }); // quantity
 
