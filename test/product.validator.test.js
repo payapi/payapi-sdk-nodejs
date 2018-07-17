@@ -87,6 +87,16 @@
           new ProductValidator(params).validate()
         ).to.be.empty;
       });
+       it("should fail if priceIncVat empty", function() {
+        delete product.priceIncVat;
+        var params = {
+          product: product,
+          optionalFields: optionalFields
+        };
+        var validationError = new ProductValidator(params).validate()[0];
+        expect(validationError.message).to.equal("Invalid product price including VAT");
+        expect(validationError.translationKey).to.equal("invalid.product.priceIncVat");
+      });
       it("should succeed with string '0'", function() {
         product.priceIncVat = "0";
         var params = {
