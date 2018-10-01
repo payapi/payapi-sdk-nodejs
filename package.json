@@ -41,7 +41,7 @@
     "promise": "7.1.1",
     "request": "^2.84.0",
     "request-promise": "4.2.2",
-    "snyk": "^1.69.10",
+    "snyk": "1.99.1",
     "url": "0.11.0",
     "validator": "9.4.1"
   },
