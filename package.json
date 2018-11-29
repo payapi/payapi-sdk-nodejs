@@ -1,6 +1,6 @@
 {
   "name": "payapi-client",
-  "version": "2.0.1-SECURITY",
+  "version": "2.0.2-SECURITY",
   "description": "NodeJS client for PayApi.",
   "main": "lib/index.js",
   "scripts": {
